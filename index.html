@@ -247,22 +247,33 @@
       height: 26px;
       border-radius: 50%;
     }
-
-    /* 6일 숫자 보이고, 숫자 위에 하트 */
+    
+    /* 6일: 숫자를 감싸는 테두리 하트 */
     .heart-day {
       position: relative;
-      font-weight: 700;
-      color: var(--accent);
-      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;   /* 하트 전체 크기 */
+      height: 32px;
     }
-
+    
+    /* 숫자 6 */
+    .heart-day-number {
+      position: relative;
+      z-index: 1;         /* 숫자를 위로 */
+      font-weight: 600;
+      color: #e25b4e;
+    }
+    
+    /* 숫자 뒤에 큰 하트(♡)를 깔기 */
     .heart-day::before {
-      content: "❤";
+      content: "♡";
       position: absolute;
       left: 50%;
-      top: -12px;
-      transform: translateX(-50%);
-      font-size: 18px;
+      top: 50%;
+      transform: translate(-50%, -52%);
+      font-size: 28px;    /* 하트 크기 – 더 키우려면 30px 정도로 변경 */
       color: #e25b4e;
     }
 
@@ -501,10 +512,11 @@
     }
     
     .contact-card {
-      width: 48%;                     /* 두 카드 + 사이 여백이 100% 안에서 딱 맞게 */
+      width: 48%;
       background: var(--bg-card);
       border-radius: 26px;
-      padding: 16px 18px 18px;
+      padding: 24px 18px 24px;  /* 위아래 여백 ↑ */
+      min-height: 220px;        /* 박스 기본 높이 지정 */
       box-shadow: var(--shadow-soft);
       text-align: left;
       font-size: 11px;
@@ -519,7 +531,7 @@
 
     .contact-name {
       font-family: "Playfair Display", serif;
-      font-size: 20px;
+      font-size: 17px;
       font-weight: 600;
       text-align: center;
       margin-bottom: 12px;
