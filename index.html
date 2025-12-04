@@ -65,7 +65,7 @@
 
     /* SECTION BASE */
     main {
-      padding: 20px 0 36px;
+      padding: 0 0 36px; /* 메인 사진 바로 밑에 흰 박스 붙도록 */
     }
 
     .section {
@@ -147,18 +147,17 @@
       color: var(--text-muted);
     }
 
-    /* 아이콘만 보이게 (테두리 제거) */
+    /* 상단 캘린더 아이콘: 이모티콘만, 테두리 없음 */
     .info-pill-icon {
-      display: inline-flex;
+      display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 14px;
-      /* 네모 박스 없애기 */
       width: auto;
       height: auto;
       border: none;
       border-radius: 0;
-      padding: 0;
+      font-size: 14px;
+      color: var(--accent);
     }
 
     .info-pill-text {
@@ -249,20 +248,21 @@
       border-radius: 50%;
     }
 
-    /* 6일 숫자 보이게 + 위에 하트 */
+    /* 6일 숫자 보이고, 숫자 위에 하트 */
     .heart-day {
       position: relative;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--accent);
+      z-index: 1;
     }
 
     .heart-day::before {
-      content: "♥";
+      content: "❤";
       position: absolute;
-      top: -8px;
       left: 50%;
+      top: -12px;
       transform: translateX(-50%);
-      font-size: 14px;
+      font-size: 18px;
       color: #e25b4e;
     }
 
@@ -275,35 +275,38 @@
 
     /* COUNTDOWN */
     .countdown-row {
-      margin-top: 18px;
       display: flex;
-      justify-content: center;
-      gap: 10px;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 16px;
     }
 
-    .countdown-box {
-      min-width: 64px;
-      height: 66px; /* 예전 박스보다 약 1.5배 길게 */
+    /* 세로 길이 1.5배 정도 */
+    .count-box {
+      flex: 1;
       border-radius: 16px;
-      background: #fff7f0;
       border: 1px solid var(--border-soft);
+      background: #fff7f2;
+      text-align: center;
+      padding: 12px 4px;
+      min-height: 72px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
     }
 
-    .count-num {
-      font-size: 18px;
-      font-weight: 600;
+    .count-label {
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 4px;
     }
 
-    .count-label {
-      margin-top: 2px;
-      font-size: 10px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
+    .count-num {
+      font-family: "Playfair Display", serif;
+      font-size: 18px;
     }
 
     /* LOCATION */
@@ -473,31 +476,81 @@
     .contact-row {
       display: flex;
       justify-content: center;
-      gap: 12px; /* 간격 조금 줄이기 */
+      gap: 12px;
     }
 
     .contact-card {
-      flex: 1 1 0; /* 두 박스가 위 카드와 같은 너비 안에서 균등 분배 */
+      flex: 1;
       background: var(--bg-card);
-      border-radius: 22px;
-      padding: 12px 16px 14px;
+      border-radius: 26px;
+      padding: 16px 18px 18px;
       box-shadow: var(--shadow-soft);
-      text-align: center;
+      text-align: left;
       font-size: 11px;
     }
 
     .contact-role {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
+      font-size: 11px;
       color: var(--text-muted);
+      text-align: center;
       margin-bottom: 4px;
     }
 
     .contact-name {
       font-family: "Playfair Display", serif;
-      font-size: 15px;
+      font-size: 20px;
       font-weight: 600;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .contact-actions {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid #edd8c6;
+      background: #fff7f0;
+      font-size: 11px;
+      color: var(--text-main);
+      cursor: pointer;
+    }
+
+    .contact-btn-icon {
+      font-size: 12px;
+    }
+
+    .contact-divider {
+      height: 1px;
+      background: #e6d8c8;
+      margin: 6px 0 10px;
+    }
+
+    .contact-parents {
+      font-size: 11px;
+    }
+
+    .contact-parent-row {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 4px;
+    }
+
+    .contact-parent-row dt {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .contact-parent-row dd {
+      font-weight: 500;
     }
 
     /* FOOTER */
@@ -590,45 +643,64 @@
         </div>
       </section>
 
-      <!-- DATE -->
+      <!-- DATE & COUNTDOWN -->
       <section class="section">
         <h2 class="section-title">Date &amp; Countdown</h2>
 
         <div class="card calendar-card">
           <div class="calendar-title">June, 2026</div>
 
-          <table class="calendar-grid">
+          <table class="calendar-grid" aria-label="June 2026">
             <thead>
               <tr>
                 <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
               </tr>
             </thead>
-
             <tbody>
               <tr>
-                <td></td><td><span>1</span></td><td><span>2</span></td><td><span>3</span></td><td><span>4</span></td><td><span>5</span></td>
-                <td><span class="heart-day">6</span></td>
+                <td></td><td><span>1</span></td><td><span>2</span></td>
+                <td><span>3</span></td><td><span>4</span></td>
+                <td><span>5</span></td><td><span class="heart-day">6</span></td>
+              </tr>
+              <tr>
+                <td><span>7</span></td><td><span>8</span></td><td><span>9</span></td>
+                <td><span>10</span></td><td><span>11</span></td>
+                <td><span>12</span></td><td><span>13</span></td>
+              </tr>
+              <tr>
+                <td><span>14</span></td><td><span>15</span></td><td><span>16</span></td>
+                <td><span>17</span></td><td><span>18</span></td>
+                <td><span>19</span></td><td><span>20</span></td>
+              </tr>
+              <tr>
+                <td><span>21</span></td><td><span>22</span></td><td><span>23</span></td>
+                <td><span>24</span></td><td><span>25</span></td>
+                <td><span>26</span></td><td><span>27</span></td>
+              </tr>
+              <tr>
+                <td><span>28</span></td><td><span>29</span></td><td><span>30</span></td>
+                <td></td><td></td><td></td><td></td>
               </tr>
             </tbody>
           </table>
 
           <!-- COUNTDOWN BOXES -->
-          <div class="countdown-row" aria-label="Countdown to wedding day">
-            <div class="countdown-box">
-              <div class="count-num" id="cd-days">0</div>
+          <div class="countdown-row">
+            <div class="count-box">
               <div class="count-label">Days</div>
+              <div class="count-num" id="count-days">0</div>
             </div>
-            <div class="countdown-box">
-              <div class="count-num" id="cd-hours">0</div>
+            <div class="count-box">
               <div class="count-label">Hours</div>
+              <div class="count-num" id="count-hours">0</div>
             </div>
-            <div class="countdown-box">
-              <div class="count-num" id="cd-mins">0</div>
+            <div class="count-box">
               <div class="count-label">Minutes</div>
+              <div class="count-num" id="count-mins">0</div>
             </div>
-            <div class="countdown-box">
-              <div class="count-num" id="cd-secs">0</div>
+            <div class="count-box">
               <div class="count-label">Seconds</div>
+              <div class="count-num" id="count-secs">0</div>
             </div>
           </div>
 
@@ -702,14 +774,64 @@
         <h2 class="section-title">Contact</h2>
 
         <div class="contact-row">
+          <!-- Groom -->
           <div class="contact-card">
             <div class="contact-role">Groom</div>
             <div class="contact-name">Daniel Root</div>
+
+            <div class="contact-actions">
+              <button type="button" class="contact-btn">
+                <span class="contact-btn-icon">📞</span>
+                <span>Call</span>
+              </button>
+              <button type="button" class="contact-btn">
+                <span class="contact-btn-icon">💬</span>
+                <span>Message</span>
+              </button>
+            </div>
+
+            <div class="contact-divider"></div>
+
+            <dl class="contact-parents">
+              <div class="contact-parent-row">
+                <dt>Father</dt>
+                <dd>Gary Root</dd>
+              </div>
+              <div class="contact-parent-row">
+                <dt>Mother</dt>
+                <dd>Melita Root</dd>
+              </div>
+            </dl>
           </div>
 
+          <!-- Bride -->
           <div class="contact-card">
             <div class="contact-role">Bride</div>
             <div class="contact-name">Dahee Sung</div>
+
+            <div class="contact-actions">
+              <button type="button" class="contact-btn">
+                <span class="contact-btn-icon">📞</span>
+                <span>Call</span>
+              </button>
+              <button type="button" class="contact-btn">
+                <span class="contact-btn-icon">💬</span>
+                <span>Message</span>
+              </button>
+            </div>
+
+            <div class="contact-divider"></div>
+
+            <dl class="contact-parents">
+              <div class="contact-parent-row">
+                <dt>Father</dt>
+                <dd>Suyoung Sung</dd>
+              </div>
+              <div class="contact-parent-row">
+                <dt>Mother</dt>
+                <dd>Hyejin Jang</dd>
+              </div>
+            </dl>
           </div>
         </div>
       </section>
@@ -818,31 +940,39 @@
       });
     })();
 
-    // Countdown (KST 기준 2026-06-06)
+    // Countdown – 2026-06-06 13:00 KST
     (function () {
-      const daysEl = document.getElementById("cd-days");
-      const hoursEl = document.getElementById("cd-hours");
-      const minsEl = document.getElementById("cd-mins");
-      const secsEl = document.getElementById("cd-secs");
+      const target = new Date("2026-06-06T13:00:00+09:00");
+
+      const daysEl = document.getElementById("count-days");
+      const hoursEl = document.getElementById("count-hours");
+      const minsEl = document.getElementById("count-mins");
+      const secsEl = document.getElementById("count-secs");
 
       if (!daysEl || !hoursEl || !minsEl || !secsEl) return;
 
-      const target = new Date("2026-06-06T00:00:00+09:00").getTime();
-
       function updateCountdown() {
-        const now = Date.now();
-        let diff = Math.max(0, target - now);
+        const now = new Date();
+        const diff = target.getTime() - now.getTime();
 
-        const seconds = Math.floor(diff / 1000);
-        const d = Math.floor(seconds / (3600 * 24));
-        const h = Math.floor((seconds % (3600 * 24)) / 3600);
-        const m = Math.floor((seconds % 3600) / 60);
-        const s = seconds % 60;
+        if (diff <= 0) {
+          daysEl.textContent = "0";
+          hoursEl.textContent = "0";
+          minsEl.textContent = "0";
+          secsEl.textContent = "0";
+          return;
+        }
 
-        daysEl.textContent = d;
-        hoursEl.textContent = h.toString().padStart(2, "0");
-        minsEl.textContent = m.toString().padStart(2, "0");
-        secsEl.textContent = s.toString().padStart(2, "0");
+        const totalSeconds = Math.floor(diff / 1000);
+        const days = Math.floor(totalSeconds / (60 * 60 * 24));
+        const hours = Math.floor((totalSeconds % (60 * 60 * 24)) / (60 * 60));
+        const minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
+        const seconds = totalSeconds % 60;
+
+        daysEl.textContent = String(days);
+        hoursEl.textContent = String(hours);
+        minsEl.textContent = String(minutes);
+        secsEl.textContent = String(seconds);
       }
 
       updateCountdown();
