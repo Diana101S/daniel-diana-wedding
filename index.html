@@ -147,15 +147,16 @@
       color: var(--text-muted);
     }
 
+    /* 3. 캘린더 아이콘만, 테두리 제거 */
     .info-pill-icon {
-      width: 16px;
-      height: 16px;
-      border-radius: 4px;
-      border: 1.5px solid var(--accent);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 9px;
+      width: auto;
+      height: auto;
+      border: none;
+      border-radius: 0;
+      font-size: 14px;
       color: var(--accent);
     }
 
@@ -247,19 +248,21 @@
       border-radius: 50%;
     }
 
+    /* 2. 6일 숫자 보이게 + 위에 빨간 하트 */
     .heart-day {
       position: relative;
-      font-weight: 600;
-      color: #ffffff;
+      font-weight: 700;
+      color: var(--accent);
+      z-index: 1;
     }
 
     .heart-day::before {
       content: "❤";
       position: absolute;
       left: 50%;
-      top: 50%;
-      transform: translate(-50%, -56%);
-      font-size: 20px;
+      top: -12px;
+      transform: translateX(-50%);
+      font-size: 18px;
       color: #e25b4e;
       z-index: -1;
     }
@@ -269,6 +272,42 @@
       font-size: 11px;
       text-align: center;
       color: var(--text-muted);
+    }
+
+    /* COUNTDOWN */
+    .countdown-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    /* 2. 박스 세로 길이 1.5배 정도 길게 */
+    .count-box {
+      flex: 1;
+      border-radius: 16px;
+      border: 1px solid var(--border-soft);
+      background: #fff7f2;
+      text-align: center;
+      padding: 12px 4px;
+      min-height: 72px;          /* 세로 길이 확장 */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .count-label {
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .count-num {
+      font-family: "Playfair Display", serif;
+      font-size: 18px;
     }
 
     /* LOCATION */
@@ -438,11 +477,11 @@
     .contact-row {
       display: flex;
       justify-content: center;
-      gap: 18px;
+      gap: 6px; /* 1. 두 박스 사이 간격 조금 더 가깝게 */
     }
 
     .contact-card {
-      flex: 0 0 48%;
+      flex: 1; /* 위 카드와 같은 라인 안에서 균등 분배 */
       background: var(--bg-card);
       border-radius: 22px;
       padding: 12px 16px 14px;
@@ -555,27 +594,58 @@
         </div>
       </section>
 
-      <!-- DATE -->
+      <!-- DATE & COUNTDOWN -->
       <section class="section">
         <h2 class="section-title">Date &amp; Countdown</h2>
 
         <div class="card calendar-card">
           <div class="calendar-title">June, 2026</div>
 
-          <table class="calendar-grid">
+          <table class="calendar-grid" aria-label="June 2026">
             <thead>
               <tr>
                 <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
               </tr>
             </thead>
-
             <tbody>
               <tr>
                 <td></td><td><span>1</span></td><td><span>2</span></td><td><span>3</span></td><td><span>4</span></td><td><span>5</span></td>
                 <td><span class="heart-day">6</span></td>
               </tr>
+              <tr>
+                <td><span>7</span></td><td><span>8</span></td><td><span>9</span></td><td><span>10</span></td><td><span>11</span></td><td><span>12</span></td><td><span>13</span></td>
+              </tr>
+              <tr>
+                <td><span>14</span></td><td><span>15</span></td><td><span>16</span></td><td><span>17</span></td><td><span>18</span></td><td><span>19</span></td><td><span>20</span></td>
+              </tr>
+              <tr>
+                <td><span>21</span></td><td><span>22</span></td><td><span>23</span></td><td><span>24</span></td><td><span>25</span></td><td><span>26</span></td><td><span>27</span></td>
+              </tr>
+              <tr>
+                <td><span>28</span></td><td><span>29</span></td><td><span>30</span></td><td></td><td></td><td></td><td></td>
+              </tr>
             </tbody>
           </table>
+
+          <!-- COUNTDOWN BOXES -->
+          <div class="countdown-row">
+            <div class="count-box">
+              <div class="count-label">Days</div>
+              <div class="count-num" id="count-days">0</div>
+            </div>
+            <div class="count-box">
+              <div class="count-label">Hours</div>
+              <div class="count-num" id="count-hours">0</div>
+            </div>
+            <div class="count-box">
+              <div class="count-label">Minutes</div>
+              <div class="count-num" id="count-mins">0</div>
+            </div>
+            <div class="count-box">
+              <div class="count-label">Seconds</div>
+              <div class="count-num" id="count-secs">0</div>
+            </div>
+          </div>
 
           <p class="calendar-note">Time shown in Korea Standard Time (KST).</p>
         </div>
@@ -761,6 +831,45 @@
         }
         form.reset();
       });
+    })();
+
+    // Countdown – 2026-06-06 13:00 KST
+    (function () {
+      const target = new Date("2026-06-06T13:00:00+09:00");
+
+      const daysEl = document.getElementById("count-days");
+      const hoursEl = document.getElementById("count-hours");
+      const minsEl = document.getElementById("count-mins");
+      const secsEl = document.getElementById("count-secs");
+
+      if (!daysEl || !hoursEl || !minsEl || !secsEl) return;
+
+      function updateCountdown() {
+        const now = new Date();
+        const diff = target.getTime() - now.getTime();
+
+        if (diff <= 0) {
+          daysEl.textContent = "0";
+          hoursEl.textContent = "0";
+          minsEl.textContent = "0";
+          secsEl.textContent = "0";
+          return;
+        }
+
+        const totalSeconds = Math.floor(diff / 1000);
+        const days = Math.floor(totalSeconds / (60 * 60 * 24));
+        const hours = Math.floor((totalSeconds % (60 * 60 * 24)) / (60 * 60));
+        const minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
+        const seconds = totalSeconds % 60;
+
+        daysEl.textContent = String(days);
+        hoursEl.textContent = String(hours);
+        minsEl.textContent = String(minutes);
+        secsEl.textContent = String(seconds);
+      }
+
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
     })();
   </script>
 </body>
