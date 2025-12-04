@@ -50,36 +50,37 @@
     }
 
     /* HERO */
+    .hero {
+      position: relative;
+      width: 100%;
+    }
+
     .hero img {
       width: 100%;
       height: auto;
-      object-fit: cover;
+      object-fit: contain;
+      object-position: center center;
       display: block;
     }
 
-    .hero-overlay {
-      position: absolute;
-      inset: 0;
-      display: none; /* 이름 제거용 */
-    }
-
-    /* SECTION BASE */
+    /* 공통 섹션 */
     main {
-      padding: 20px 0 36px;
+      padding: 0 0 36px;
     }
 
     .section {
       padding: 0 18px;
-      margin-bottom: 45px;
+      margin-bottom: 45px; /* 섹션 간 여백 */
     }
 
     .card {
-      background: #ffffff;
+      background: var(--bg-card);
       border-radius: var(--radius-card);
       box-shadow: var(--shadow-soft);
       padding: 22px 22px;
     }
 
+    /* 섹션 타이틀 */
     .section-title {
       font-family: "Playfair Display", serif;
       font-size: 18px;
@@ -87,49 +88,56 @@
       margin-bottom: 12px;
     }
 
-    /* TOP INFO */
+    /* TOP INFO (Daniel & Diana 아래 흰 영역) */
+    .top-info-section {
+      background: #ffffff;
+      padding-top: 28px;
+      padding-bottom: 30px;
+      margin-bottom: 45px;
+    }
+
     .top-info-card {
       text-align: center;
       padding-top: 0;
       padding-bottom: 24px;
       border-radius: 0;
       box-shadow: none;
-      background: #ffffff;
+      background: transparent;
       margin-top: 0;
     }
 
     .top-divider-wrap {
-      position: relative;
-      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 32px 18px;
     }
 
     .top-divider-line {
-      border-top: 1px solid #e5d4c2;
-      margin: 0 28px;
+      flex: 1;
+      height: 1px;
+      background: #f2e3d6;
     }
 
     .top-divider-dot {
-      position: absolute;
-      top: -3px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: #f4e5d5;
-      box-shadow: 0 0 0 4px #f7f0e7;
+      width: 8px;
+      height: 8px;
+      border-radius: 3px;
+      background: #f9dfc1;
+      box-shadow: 0 0 0 3px #ffffff;
+      margin: 0 10px;
     }
 
     .top-names {
       font-family: "Playfair Display", serif;
-      font-size: 18px;
-      margin-bottom: 6px;
+      font-size: 24px;
+      margin-bottom: 10px;
     }
 
     .top-tagline {
-      font-size: 12px;
+      font-size: 14px;
       color: var(--text-muted);
-      margin-bottom: 10px;
+      margin-bottom: 14px;
     }
 
     .info-pill-row {
@@ -143,7 +151,7 @@
       align-items: center;
       gap: 6px;
       padding: 6px 0;
-      font-size: 12px;
+      font-size: 13px;
       color: var(--text-muted);
     }
 
@@ -163,7 +171,11 @@
       display: inline-block;
     }
 
-    /* INVITATION CARD */
+    /* INVITATION 카드 */
+    .invite-section-inner {
+      margin-top: 4px;
+    }
+
     .invite-symbol-wrap {
       text-align: center;
       margin-bottom: 8px;
@@ -180,6 +192,7 @@
       justify-content: center;
       color: var(--accent);
       font-size: 16px;
+      background: transparent;
     }
 
     .invite-card {
@@ -212,7 +225,7 @@
       margin-top: 2px;
     }
 
-    /* DATE & CALENDAR */
+    /* DATE & COUNTDOWN */
     .calendar-card {
       padding-top: 20px;
       padding-bottom: 18px;
@@ -238,6 +251,11 @@
       color: var(--text-muted);
     }
 
+    .calendar-grid td {
+      width: 14.285%;
+      height: 26px;
+    }
+
     .calendar-grid td span {
       display: inline-flex;
       align-items: center;
@@ -245,6 +263,10 @@
       width: 26px;
       height: 26px;
       border-radius: 50%;
+    }
+
+    .calendar-grid td.sun span {
+      color: #e25b4e;
     }
 
     .heart-day {
@@ -271,7 +293,36 @@
       color: var(--text-muted);
     }
 
-    /* LOCATION */
+    .countdown-row {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 16px;
+      gap: 8px;
+    }
+
+    .count-box {
+      flex: 1;
+      border-radius: 16px;
+      border: 1px solid var(--border-soft);
+      background: #fff7f2;
+      text-align: center;
+      padding: 8px 4px 8px;
+    }
+
+    .count-label {
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 3px;
+    }
+
+    .count-num {
+      font-family: "Playfair Display", serif;
+      font-size: 17px;
+    }
+
+    /* LOCATION & DIRECTIONS */
     .location-main-card {
       margin-bottom: 16px;
     }
@@ -320,6 +371,59 @@
       font-size: 14px;
     }
 
+    .map-btn-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .map-btn {
+      flex: 1;
+      border-radius: 999px;
+      padding: 10px 10px;
+      font-size: 13px;
+      text-align: center;
+      text-decoration: none;
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      cursor: pointer;
+    }
+
+    /* Getting There 카드 */
+    .getting-card {
+      background: #ffffff;
+      border-radius: 26px;
+      padding: 18px 18px 16px;
+      box-shadow: var(--shadow-soft);
+      margin-top: 12px;
+    }
+
+    .getting-title-main {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .getting-row {
+      font-size: 12px;
+      line-height: 1.7;
+      padding: 6px 0;
+    }
+
+    .getting-row-header {
+      margin-bottom: 2px;
+    }
+
+    .getting-row-emoji {
+      margin-right: 4px;
+    }
+
+    .getting-divider {
+      height: 1px;
+      background: #edd0b4;
+      margin: 6px 0;
+    }
+
     /* GALLERY */
     .gallery-card {
       padding-top: 18px;
@@ -338,10 +442,11 @@
       aspect-ratio: 1 / 1;
       object-fit: cover;
       border-radius: 6px;
+      display: block;
       cursor: pointer; /* 팝업 가능 표시 */
     }
 
-    /* IMAGE MODAL */
+    /* GALLERY MODAL */
     .image-modal {
       position: fixed;
       inset: 0;
@@ -389,7 +494,7 @@
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
     }
 
-    /* GUESTBOOK */
+    /* GUEST BOOK */
     .guest-card {
       padding-top: 18px;
       padding-bottom: 16px;
@@ -411,7 +516,7 @@
       padding: 9px 10px;
       font-size: 12px;
       font-family: inherit;
-      resize: none; /* 마우스로 늘릴 수 없도록 */
+      resize: none; /* ← 마우스로 크기 조절 불가 */
       min-height: 38px;
     }
 
@@ -434,7 +539,50 @@
       color: var(--text-muted);
     }
 
+    .guest-list {
+      border-top: 1px solid #f2dfd0;
+      margin-top: 10px;
+      padding-top: 6px;
+      font-size: 11px;
+    }
+
+    .guest-item {
+      padding: 7px 2px;
+      border-bottom: 1px solid #f4e3d6;
+    }
+
+    .guest-item:last-child {
+      border-bottom: none;
+    }
+
+    .guest-item-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2px;
+    }
+
+    .guest-item-name {
+      font-weight: 500;
+    }
+
+    .guest-item-date {
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .guest-item-msg {
+      font-size: 11px;
+      color: #5c4031;
+      line-height: 1.5;
+    }
+
     /* CONTACT */
+    .contact-card-outer {
+      background: none;
+      box-shadow: none;
+      padding: 0;
+    }
+
     .contact-row {
       display: flex;
       justify-content: center;
@@ -443,12 +591,13 @@
 
     .contact-card {
       flex: 0 0 48%;
+      max-width: 190px;
       background: var(--bg-card);
       border-radius: 22px;
       padding: 12px 16px 14px;
       box-shadow: var(--shadow-soft);
-      text-align: center;
       font-size: 11px;
+      text-align: center;
     }
 
     .contact-role {
@@ -463,6 +612,62 @@
       font-family: "Playfair Display", serif;
       font-size: 15px;
       font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .contact-actions {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .contact-btn {
+      flex: 0 0 auto;
+      min-width: 70px;
+      padding: 6px 0;
+      border-radius: 999px;
+      border: 1px solid #f0dfd0;
+      font-size: 10px;
+      text-decoration: none;
+      background: #ffffff;
+      color: var(--text-main);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .contact-btn.primary {
+      background: #fff8f4;
+    }
+
+    .contact-btn.secondary {
+      background: #ffffff;
+    }
+
+    .contact-btn-icon {
+      font-size: 11px;
+    }
+
+    .contact-parents {
+      margin-top: 4px;
+      text-align: left;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .contact-parent-row {
+      margin-bottom: 3px;
+    }
+
+    .contact-parent-label {
+      font-weight: 500;
+      margin-right: 4px;
+    }
+
+    .contact-parent-value {
+      color: var(--text-main);
     }
 
     /* FOOTER */
@@ -473,31 +678,52 @@
       color: var(--text-muted);
     }
 
+    .footer-heart {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 1px solid var(--accent-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 6px;
+      color: var(--accent);
+      font-size: 13px;
+    }
+
     .footer-names {
-      margin-top: 4px;
+      margin-top: 6px;
       font-family: "Playfair Display", serif;
       font-size: 12px;
       color: var(--text-main);
     }
+
+    @media (max-width: 360px) {
+      .section {
+        padding: 0 12px;
+      }
+      .card {
+        padding: 20px 16px;
+      }
+    }
   </style>
 </head>
-
 <body>
   <div class="wrapper">
-
     <!-- HERO -->
     <header class="hero">
-      <img src="images/thumbnail.png" alt="Daniel and Diana together" />
+      <img src="images/thumbnail.png" alt="Daniel and Diana together outdoors" />
     </header>
 
     <main>
-
       <!-- TOP INFO -->
-      <section class="section">
+      <section class="section top-info-section">
         <div class="top-info-card">
+          <!-- 위 장식 라인 -->
           <div class="top-divider-wrap">
-            <div class="top-divider-line"></div>
-            <div class="top-divider-dot"></div>
+            <span class="top-divider-line"></span>
+            <span class="top-divider-dot"></span>
+            <span class="top-divider-line"></span>
           </div>
 
           <div class="top-names">Daniel &amp; Diana</div>
@@ -510,19 +736,20 @@
             </div>
           </div>
 
-          <div class="top-divider-wrap" style="margin-top: 14px;">
-            <div class="top-divider-line"></div>
-            <div class="top-divider-dot"></div>
+          <!-- 아래 장식 라인 -->
+          <div class="top-divider-wrap" style="margin-bottom: 0;">
+            <span class="top-divider-line"></span>
+            <span class="top-divider-dot"></span>
+            <span class="top-divider-line"></span>
           </div>
         </div>
       </section>
 
-      <!-- INVITATION -->
+      <!-- INVITATION CARD -->
       <section class="section invite-section-inner">
         <div class="invite-symbol-wrap">
           <div class="invite-symbol">ꕥ</div>
         </div>
-
         <div class="card invite-card">
           <div class="invite-main-text">
             <p>
@@ -545,7 +772,6 @@
               <div class="invite-name-role">Son of</div>
               <div>Gary &amp; Melita</div>
             </div>
-
             <div class="invite-name-block">
               <div class="invite-name-main">Dahee Sung (Diana)</div>
               <div class="invite-name-role">Daughter of</div>
@@ -555,46 +781,82 @@
         </div>
       </section>
 
-      <!-- DATE -->
+      <!-- DATE & COUNTDOWN -->
       <section class="section">
         <h2 class="section-title">Date &amp; Countdown</h2>
-
         <div class="card calendar-card">
           <div class="calendar-title">June, 2026</div>
 
-          <table class="calendar-grid">
+          <table class="calendar-grid" aria-label="June 2026">
             <thead>
-              <tr>
-                <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
-              </tr>
+            <tr>
+              <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
+            </tr>
             </thead>
-
             <tbody>
-              <tr>
-                <td></td><td><span>1</span></td><td><span>2</span></td><td><span>3</span></td><td><span>4</span></td><td><span>5</span></td>
-                <td><span class="heart-day">6</span></td>
-              </tr>
+            <tr>
+              <td></td><td><span>1</span></td><td><span>2</span></td><td><span>3</span></td><td><span>4</span></td><td><span>5</span></td>
+              <td><span class="heart-day">6</span></td>
+            </tr>
+            <tr>
+              <td class="sun"><span>7</span></td><td><span>8</span></td><td><span>9</span></td>
+              <td><span>10</span></td><td><span>11</span></td><td><span>12</span></td><td><span>13</span></td>
+            </tr>
+            <tr>
+              <td class="sun"><span>14</span></td><td><span>15</span></td><td><span>16</span></td>
+              <td><span>17</span></td><td><span>18</span></td><td><span>19</span></td><td><span>20</span></td>
+            </tr>
+            <tr>
+              <td class="sun"><span>21</span></td><td><span>22</span></td><td><span>23</span></td>
+              <td><span>24</span></td><td><span>25</span></td><td><span>26</span></td><td><span>27</span></td>
+            </tr>
+            <tr>
+              <td class="sun"><span>28</span></td><td><span>29</span></td><td><span>30</span></td>
+              <td></td><td></td><td></td><td></td>
+            </tr>
             </tbody>
           </table>
 
-          <p class="calendar-note">Time shown in Korea Standard Time (KST).</p>
+          <div class="countdown-row">
+            <div class="count-box">
+              <div class="count-label">Days</div>
+              <div class="count-num" id="count-days">0</div>
+            </div>
+            <div class="count-box">
+              <div class="count-label">Hours</div>
+              <div class="count-num" id="count-hours">0</div>
+            </div>
+            <div class="count-box">
+              <div class="count-label">Minutes</div>
+              <div class="count-num" id="count-mins">0</div>
+            </div>
+            <div class="count-box">
+              <div class="count-label">Seconds</div>
+              <div class="count-num" id="count-secs">0</div>
+            </div>
+          </div>
+
+          <p class="calendar-note">
+            Time shown in Korea Standard Time (KST, UTC+9).
+          </p>
         </div>
       </section>
 
-      <!-- LOCATION -->
+      <!-- LOCATION & DIRECTIONS -->
       <section class="section">
         <h2 class="section-title">Location &amp; Directions</h2>
 
+        <!-- 상단 장소 카드 -->
         <div class="card location-main-card">
           <div class="location-header-row">
             <span class="location-pin">📍</span>
             <div>
-              <div class="location-name">GRAND BLANC Wedding Hall, Mirabelle Garden</div>
+              <div class="location-name">GRAND BLANC Wedding Hall, 8F “Mirabelle Garden”</div>
             </div>
           </div>
 
           <div class="location-meta" id="location-address-text">
-            25 Centum 1-ro, Haeundae-gu, Busan 48060<br />
+            25 Centum 1-ro, Haeundae-gu, Busan 48060, Republic of Korea<br />
             그랜드블랑 미라벨 가든
           </div>
 
@@ -602,13 +864,57 @@
             <span class="location-copy-icon">📋</span>
             <span>Copy Address</span>
           </button>
+
+          <div class="map-btn-row">
+            <a href="https://maps.google.com" target="_blank" rel="noopener" class="map-btn">
+              Google Maps
+            </a>
+            <a href="https://map.naver.com" target="_blank" rel="noopener" class="map-btn">
+              Naver Map
+            </a>
+          </div>
+        </div>
+
+        <!-- Getting There 카드 -->
+        <div class="getting-card">
+          <div class="getting-title-main">Getting There</div>
+
+          <div class="getting-row">
+            <div class="getting-row-header">
+              <span class="getting-row-emoji">🚗</span><strong>By Car</strong>
+            </div>
+            <div>
+              Parking is available in the building. On-site staff will guide you to the wedding hall floor.
+            </div>
+          </div>
+
+          <div class="getting-divider"></div>
+
+          <div class="getting-row">
+            <div class="getting-row-header">
+              <span class="getting-row-emoji">🚌</span><strong>By Bus</strong>
+            </div>
+            <div>
+              Nearby stops: Centum City area bus stops. Please check Google Maps or Naver Map for the best route on the day.
+            </div>
+          </div>
+
+          <div class="getting-divider"></div>
+
+          <div class="getting-row">
+            <div class="getting-row-header">
+              <span class="getting-row-emoji">🚇</span><strong>By Subway</strong>
+            </div>
+            <div>
+              Take Line 2 to <strong>Centum City Station</strong>. Use Exit 6 and walk about 5 minutes toward Grand Blanc Wedding Hall.
+            </div>
+          </div>
         </div>
       </section>
 
       <!-- GALLERY -->
       <section class="section">
         <h2 class="section-title">Gallery</h2>
-
         <div class="card gallery-card">
           <div class="gallery-grid">
             <img src="images/1.jpg" alt="Daniel and Diana photo 1" />
@@ -627,7 +933,6 @@
       <!-- GUEST BOOK -->
       <section class="section">
         <h2 class="section-title">Guest Book</h2>
-
         <div class="card guest-card">
           <form class="guest-form" id="guest-form">
             <div class="field">
@@ -639,31 +944,98 @@
             <button type="submit" class="btn-submit">Leave a message</button>
             <div class="guest-status" id="guest-status"></div>
           </form>
+
+          <div class="guest-list" id="guest-list">
+            <div class="guest-item">
+              <div class="guest-item-header">
+                <span class="guest-item-name">John Park</span>
+                <span class="guest-item-date">2025-02-28</span>
+              </div>
+              <div class="guest-item-msg">
+                Congratulations on your marriage! Wishing you a lifetime of happiness together. ❤️
+              </div>
+            </div>
+            <div class="guest-item">
+              <div class="guest-item-header">
+                <span class="guest-item-name">Sarah Johnson</span>
+                <span class="guest-item-date">2025-02-28</span>
+              </div>
+              <div class="guest-item-msg">
+                So happy for you both! Can’t wait to celebrate in Busan.
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       <!-- CONTACT -->
       <section class="section">
         <h2 class="section-title">Contact</h2>
+        <div class="contact-card-outer">
+          <div class="contact-row">
+            <div class="contact-card">
+              <div class="contact-role">Groom</div>
+              <div class="contact-name">Daniel Root</div>
 
-        <div class="contact-row">
-          <div class="contact-card">
-            <div class="contact-role">Groom</div>
-            <div class="contact-name">Daniel Root</div>
-          </div>
+              <div class="contact-actions">
+                <a href="tel:+1-000-000-0000" class="contact-btn primary">
+                  <span class="contact-btn-icon">📞</span>
+                  <span>Call</span>
+                </a>
+                <a href="sms:+1-000-000-0000" class="contact-btn secondary">
+                  <span class="contact-btn-icon">💬</span>
+                  <span>Message</span>
+                </a>
+              </div>
 
-          <div class="contact-card">
-            <div class="contact-role">Bride</div>
-            <div class="contact-name">Dahee Sung</div>
+              <div class="contact-parents">
+                <div class="contact-parent-row">
+                  <span class="contact-parent-label">Father</span>
+                  <span class="contact-parent-value">Gary Root</span>
+                </div>
+                <div class="contact-parent-row">
+                  <span class="contact-parent-label">Mother</span>
+                  <span class="contact-parent-value">Melita Root</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="contact-card">
+              <div class="contact-role">Bride</div>
+              <div class="contact-name">Dahee Sung</div>
+
+              <div class="contact-actions">
+                <a href="tel:+82-00-0000-0000" class="contact-btn primary">
+                  <span class="contact-btn-icon">📞</span>
+                  <span>Call</span>
+                </a>
+                <a href="sms:+82-00-0000-0000" class="contact-btn secondary">
+                  <span class="contact-btn-icon">💬</span>
+                  <span>Message</span>
+                </a>
+              </div>
+
+              <div class="contact-parents">
+                <div class="contact-parent-row">
+                  <span class="contact-parent-label">Father</span>
+                  <span class="contact-parent-value">Suyoung Sung</span>
+                </div>
+                <div class="contact-parent-row">
+                  <span class="contact-parent-label">Mother</span>
+                  <span class="contact-parent-value">Hyelin Jang</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
+      <!-- FOOTER -->
       <footer class="footer">
+        <div class="footer-heart">♡</div>
         <div>Thank you for celebrating with us</div>
         <div class="footer-names">Daniel &amp; Diana</div>
       </footer>
-
     </main>
   </div>
 
@@ -675,31 +1047,173 @@
     </div>
   </div>
 
+  <!-- Supabase & Countdown -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    // Copy Address 버튼
+    // Countdown – 2026-06-06 13:00 KST
     (function () {
-      const copyBtn = document.getElementById("copy-address-btn");
-      if (!copyBtn) return;
+      const weddingDateKST = new Date("2026-06-06T13:00:00+09:00");
 
+      function updateCountdown() {
+        const now = new Date();
+        const diff = weddingDateKST.getTime() - now.getTime();
+
+        if (diff <= 0) {
+          document.getElementById("count-days").textContent = "0";
+          document.getElementById("count-hours").textContent = "0";
+          document.getElementById("count-mins").textContent = "0";
+          document.getElementById("count-secs").textContent = "0";
+          return;
+        }
+
+        const totalSeconds = Math.floor(diff / 1000);
+        const days = Math.floor(totalSeconds / (60 * 60 * 24));
+        const hours = Math.floor((totalSeconds % (60 * 60 * 24)) / (60 * 60));
+        const minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
+        const seconds = totalSeconds % 60;
+
+        document.getElementById("count-days").textContent = String(days);
+        document.getElementById("count-hours").textContent = String(hours);
+        document.getElementById("count-mins").textContent = String(minutes);
+        document.getElementById("count-secs").textContent = String(seconds);
+      }
+
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+    })();
+
+    // Copy Address 버튼
+    const copyBtn = document.getElementById("copy-address-btn");
+    if (copyBtn) {
       copyBtn.addEventListener("click", async () => {
         const textEl = document.getElementById("location-address-text");
-        if (!textEl) return;
-
         const text = textEl.innerText.replace(/\s+/g, " ").trim();
         try {
           await navigator.clipboard.writeText(text);
-          const labelSpan = copyBtn.querySelector("span:last-child");
-          if (labelSpan) {
-            labelSpan.textContent = "Copied!";
-            setTimeout(() => {
-              labelSpan.textContent = "Copy Address";
-            }, 1500);
-          }
+          copyBtn.querySelector("span:last-child").textContent = "Copied!";
+          setTimeout(() => {
+            copyBtn.querySelector("span:last-child").textContent = "Copy Address";
+          }, 1500);
         } catch (e) {
           console.error(e);
         }
       });
-    })();
+    }
+
+    // Supabase Guest Book (옵션 – 값 넣으면 동작)
+    const SUPABASE_URL = "https://YOUR_PROJECT_ID.supabase.co";
+    const SUPABASE_ANON_KEY = "YOUR_PUBLIC_ANON_KEY";
+
+    let supabaseClient = null;
+    if (!SUPABASE_URL.startsWith("https://YOUR_") && SUPABASE_ANON_KEY !== "YOUR_PUBLIC_ANON_KEY") {
+      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      loadGuestMessages().catch(console.error);
+    }
+
+    async function loadGuestMessages() {
+      if (!supabaseClient) return;
+      const listEl = document.getElementById("guest-list");
+      listEl.innerHTML = "";
+
+      const { data, error } = await supabaseClient
+        .from("guestbook")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(50);
+
+      if (error) {
+        console.error(error);
+        document.getElementById("guest-status").textContent = "메시지를 불러오지 못했습니다.";
+        return;
+      }
+
+      data.forEach(row => {
+        const item = document.createElement("div");
+        item.className = "guest-item";
+
+        const header = document.createElement("div");
+        header.className = "guest-item-header";
+
+        const nameSpan = document.createElement("span");
+        nameSpan.className = "guest-item-name";
+        nameSpan.textContent = row.name || "Anonymous";
+
+        const dateSpan = document.createElement("span");
+        dateSpan.className = "guest-item-date";
+        const d = row.created_at ? new Date(row.created_at) : null;
+        dateSpan.textContent = d ? d.toISOString().slice(0, 10) : "";
+
+        header.appendChild(nameSpan);
+        header.appendChild(dateSpan);
+
+        const msg = document.createElement("div");
+        msg.className = "guest-item-msg";
+        msg.textContent = row.message || "";
+
+        item.appendChild(header);
+        item.appendChild(msg);
+        listEl.appendChild(item);
+      });
+    }
+
+    const guestForm = document.getElementById("guest-form");
+    guestForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = document.getElementById("guest-name").value.trim();
+      const message = document.getElementById("guest-message").value.trim();
+      const statusEl = document.getElementById("guest-status");
+
+      if (!message) return;
+
+      if (!supabaseClient) {
+        statusEl.textContent = "Supabase 설정 후 메시지를 저장할 수 있습니다.";
+        return;
+      }
+
+      statusEl.textContent = "Sending...";
+      const { data, error } = await supabaseClient
+        .from("guestbook")
+        .insert({ name: name || null, message })
+        .select()
+        .single();
+
+      if (error) {
+        console.error(error);
+        statusEl.textContent = "저장 중 오류가 발생했습니다.";
+        return;
+      }
+
+      guestForm.reset();
+      statusEl.textContent = "Thank you for your message!";
+
+      const listEl = document.getElementById("guest-list");
+      const item = document.createElement("div");
+      item.className = "guest-item";
+
+      const header = document.createElement("div");
+      header.className = "guest-item-header";
+
+      const nameSpan = document.createElement("span");
+      nameSpan.className = "guest-item-name";
+      nameSpan.textContent = data.name || "Anonymous";
+
+      const dateSpan = document.createElement("span");
+      dateSpan.className = "guest-item-date";
+      const d = data.created_at ? new Date(data.created_at) : new Date();
+      dateSpan.textContent = d.toISOString().slice(0, 10);
+
+      header.appendChild(nameSpan);
+      header.appendChild(dateSpan);
+
+      const msg = document.createElement("div");
+      msg.className = "guest-item-msg";
+      msg.textContent = data.message || "";
+
+      item.appendChild(header);
+      item.appendChild(msg);
+
+      listEl.prepend(item);
+    });
 
     // Gallery 이미지 클릭 → 모달
     (function () {
@@ -740,26 +1254,6 @@
         if (e.key === "Escape" && modal.classList.contains("open")) {
           closeModal();
         }
-      });
-    })();
-
-    // Guest book 폼 기본 처리 (새로고침 방지 + 메시지 표시)
-    (function () {
-      const form = document.getElementById("guest-form");
-      const statusEl = document.getElementById("guest-status");
-
-      if (!form) return;
-
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const message = document.getElementById("guest-message")?.value.trim();
-
-        if (!message) return;
-
-        if (statusEl) {
-          statusEl.textContent = "Thank you for your message!";
-        }
-        form.reset();
       });
     })();
   </script>
