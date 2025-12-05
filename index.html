@@ -1080,7 +1080,13 @@
     })();
   </script>
 <script type="module">
-  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/esm/supabase.js";
+  import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+  const SUPABASE_URL = "https://_______ .supabase.co";
+  const SUPABASE_ANON_KEY = "여기 anon 키";
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
 
   // 🔹 여기에 너 Supabase 프로젝트 값 넣기
   const SUPABASE_URL = "https://khddckyznivjoluwtvxo.supabase.co";      // 수정 필요
