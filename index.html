@@ -484,6 +484,49 @@
       cursor: pointer;
     }
 
+        /* GETTING THERE */
+    .getting-card {
+      padding-top: 20px;
+      padding-bottom: 18px;
+    }
+
+    .getting-title {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 14px;
+    }
+
+    .getting-item {
+      font-size: 11px;
+      line-height: 1.7;
+      margin-bottom: 10px;
+    }
+
+    .getting-item-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 2px;
+    }
+
+    .getting-item-icon {
+      font-size: 16px;
+      margin-right: 6px;
+    }
+
+    .getting-item-label {
+      font-weight: 600;
+    }
+
+    .getting-item-body {
+      margin-left: 22px;  /* 아이콘+제목보다 살짝 들여쓰기 */
+    }
+
+    .getting-divider {
+      height: 1px;
+      background: #f0dfd0;
+      margin: 8px 0 10px;
+    }
+
     /* GALLERY */
     .gallery-card {
       padding-top: 18px;
@@ -934,6 +977,53 @@
             >
               Naver Map
             </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- GETTING THERE -->
+      <section class="section">
+        <div class="card getting-card">
+          <div class="getting-title">Getting There</div>
+
+          <!-- By Car -->
+          <div class="getting-item">
+            <div class="getting-item-header">
+              <span class="getting-item-icon">🚗</span>
+              <span class="getting-item-label">By Car</span>
+            </div>
+            <div class="getting-item-body">
+              Parking is available in the building. On-site staff will guide you to the
+              wedding hall floor.
+            </div>
+          </div>
+
+          <div class="getting-divider"></div>
+
+          <!-- By Bus -->
+          <div class="getting-item">
+            <div class="getting-item-header">
+              <span class="getting-item-icon">🚌</span>
+              <span class="getting-item-label">By Bus</span>
+            </div>
+            <div class="getting-item-body">
+              Nearby stops: Centum City area bus stops. Please check Google Maps or
+              Naver Map for the best route on the day.
+            </div>
+          </div>
+
+          <div class="getting-divider"></div>
+
+          <!-- By Subway -->
+          <div class="getting-item">
+            <div class="getting-item-header">
+              <span class="getting-item-icon">🚇</span>
+              <span class="getting-item-label">By Subway</span>
+            </div>
+            <div class="getting-item-body">
+              Take Line 2 to Centum City Station. Use Exit 6 and walk about
+              5 minutes toward Grand Blanc Wedding Hall.
+            </div>
           </div>
         </div>
       </section>
