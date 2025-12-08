@@ -128,6 +128,10 @@
       margin-bottom: 45px;
     }
 
+    .section-location {
+      margin-bottom: 2px;  /* 숫자 줄일수록 두 박스가 더 붙어 보임 */
+    }
+
     .card {
       background: #ffffff;
       border-radius: var(--radius-card);
@@ -367,7 +371,7 @@
       transform: translate(-50%, -52%);
       font-size: 34px;    /* 하트 크기 – 더 키우려면 30px 정도로 변경 */
       color: #e25b4e;
-      font-weight: 300;  
+      font-weight: 200;  
     }
 
     .calendar-note {
@@ -415,7 +419,7 @@
 
     /* LOCATION */
     .location-main-card {
-      margin-bottom: 16px;
+      margin-bottom: 4px;
     }
 
     .location-header-row {
@@ -488,6 +492,7 @@
     .getting-card {
       padding-top: 20px;
       padding-bottom: 18px;
+      margin-top: -30px; /* ← 이 줄 추가 */
     }
 
     .getting-title {
@@ -809,7 +814,7 @@
     <main>
 
       <!-- TOP INFO -->
-      <section class="section">
+      <section class="section section-location">
         <div class="top-info-card">
           <div class="top-divider-wrap">
             <div class="orn" aria-hidden="true">
