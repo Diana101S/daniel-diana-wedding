@@ -759,6 +759,85 @@
     color: var(--text-muted);
     }
 
+    /* GIFTS */
+    .gifts-card {
+      padding-top: 18px;
+      padding-bottom: 16px;
+    }
+
+    .gifts-intro {
+      font-size: 12px;
+      line-height: 1.8;
+      text-align: center;
+      color: var(--text-main);
+      margin-bottom: 10px;
+    }
+
+    .gifts-note {
+      font-size: 11px;
+      line-height: 1.6;
+      text-align: center;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .gifts-method-list {
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .gifts-method {
+      border-radius: 16px;
+      border: 1px solid var(--border-soft);
+      background: #fff7f0;
+      padding: 10px 12px;
+      font-size: 11px;
+    }
+
+    .gifts-method-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    .gifts-method-icon {
+      font-size: 15px;
+    }
+
+    .gifts-method-label {
+      font-weight: 600;
+    }
+
+    .gifts-method-body {
+      line-height: 1.7;
+    }
+
+    .gifts-method-main {
+      font-weight: 600;
+    }
+
+    .gifts-method-detail {
+      margin-top: 2px;
+      color: var(--text-muted);
+    }
+
+    .btn-venmo {
+    display: block;
+    text-align: center;
+    background: var(--accent);      /* #c9744f */
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 12px;
+    margin-top: 12px;
+    font-weight: 500;
+    border: 1px solid var(--accent-soft); /* 살짝 부드러운 테두리 */
+    }
+
     /* GUESTBOOK 리스트 */
     .guest-list {
       margin-top: 12px;
@@ -1223,6 +1302,71 @@
             <img src="images/8.jpg" alt="Daniel and Diana photo 8" />
             <img src="images/9.jpg" alt="Daniel and Diana photo 9" />
           </div>
+        </div>
+      </section>
+
+      <!-- GIFTS -->
+      <section class="section">
+        <h2 class="section-title">Gifts</h2>
+
+        <div class="card gifts-card">
+          <p class="gifts-intro">
+            Your presence is the greatest gift of all.  
+            If you would like to send a monetary gift, here are some simple options:
+          </p>
+
+          <div class="gifts-method-list">
+
+            <!-- Venmo -->
+            <div class="gifts-method">
+            <div class="gifts-method-header">
+                <span class="gifts-method-icon">💌</span>
+                <span>Venmo (US)</span>
+            </div>
+
+            <div class="gifts-method-body">
+                <strong>@yourVenmoID</strong><br />
+                <span class="gifts-method-sub">
+                Or use the link: https://venmo.com/u/yourVenmoID
+                </span>
+
+                <div class="gifts-qr-row">
+                <span class="gifts-method-sub">
+                    Scan the QR to send directly via Venmo
+                </span>
+                <img src="images/venmo-qr.png" class="gifts-qr-img">
+                </div>
+
+                <!-- ⭐ 여기! 버튼을 이 위치에 넣으면 됨 -->
+                <a href="venmo://paycharge?txn=pay&recipients=yourID"
+                onclick="window.location='https://venmo.com/u/yourID';"
+                class="btn-venmo">
+                Send via Venmo
+                </a>
+            </div>
+            </div>
+
+
+            <!-- Zelle -->
+            <div class="gifts-method">
+              <div class="gifts-method-header">
+                <span class="gifts-method-icon">🏦</span>
+                <span class="gifts-method-label">Zelle (Bank Transfer)</span>
+              </div>
+              <div class="gifts-method-body">
+                <div class="gifts-method-main">
+                  your-email@example.com
+                </div>
+                <div class="gifts-method-detail">
+                  Please send via Zelle using this email and include your name in the note.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="gifts-note">
+            We are so grateful for your love, support, and for celebrating this day with us.
+          </p>
         </div>
       </section>
 
