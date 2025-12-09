@@ -490,6 +490,30 @@
     }
 
         /* GETTING THERE */
+    .getting-intro {
+      font-size: 11px;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .getting-bullets {
+      margin-top: 6px;
+      margin-left: 22px;   /* 아이콘/헤더보다 살짝 안쪽 */
+      padding-left: 14px;
+      font-size: 11px;
+      line-height: 1.7;
+    }
+
+    .getting-bullets li + li {
+      margin-top: 4px;
+    }
+
+    .getting-step-divider {
+      height: 1px;
+      background: #f0dfd0;
+      margin: 18px 0 16px;  /* Step1과 Step2 사이 여백 */
+    }
+
     .getting-card {
       padding-top: 20px;
       padding-bottom: 18px;
@@ -699,7 +723,7 @@
     }
 
     .rsvp-choice {
-    flex: 1;
+    flex: 0 0 calc(50% - 4px);  /* 2개 + gap 8px */
     display: flex;
     align-items: center;
     gap: 6px;
@@ -710,6 +734,11 @@
     cursor: pointer;
     }
 
+        /* 문장이 줄 바뀌지 않도록 */
+    .rsvp-choice span {
+    white-space: nowrap;
+    }
+    
     .rsvp-choice input[type="radio"] {
     accent-color: var(--accent);
     }
@@ -1084,7 +1113,36 @@
       <!-- GETTING THERE -->
       <section class="section">
         <div class="card getting-card">
-          <div class="getting-title">Getting There</div>
+          <!-- STEP 1 -->
+          <div class="getting-title">Step 1: Getting to Busan</div>
+
+          <p class="getting-intro">
+            We would be truly honored to have you with us in Busan as we celebrate and pledge our love and commitment on this special day!
+          </p>
+
+          <div class="getting-item">
+            <div class="getting-item-header">
+              <span class="getting-item-icon">✈️</span>
+              <span class="getting-item-label">From Incheon (ICN) to Busan</span>
+            </div>
+            <div class="getting-item-body">
+              Most international flights land at Incheon International Airport (ICN), about an hour from central Seoul. From there, you can reach Busan by:
+              <ul class="getting-bullets">
+                <li>a short 1 hour flight to Busan Gimhae (PUS)</li>
+                <li>the KTX bullet train (about 2 hours 15 to 40 minutes from Seoul Station)</li>
+                <li>a direct airport limousine bus (about 5 to 5.5 hours)</li>
+              </ul>
+              <p class="getting-intro" style="margin-top:8px;">
+                If you have time, we recommend the KTX train — it’s fast, relaxing, and you can see a bit of the countryside.
+              </p>
+            </div>
+          </div>
+
+          <!-- STEP 1 / STEP 2 사이 구분선 -->
+          <div class="getting-step-divider"></div>
+
+          <!-- STEP 2 -->
+          <div class="getting-title">Step 2: Getting to the Venue</div>
           
           <!-- By Taxi-->
           <div class="getting-item">
@@ -1093,7 +1151,7 @@
               <span class="getting-item-label">By Taxi</span>
             </div>
             <div class="getting-item-body">
-              If you’re visiting the area for the first time, a taxi is often the easiest and most comfortable option.
+              If you’re visiting the area for the first time, a taxi is often the easiest and most comfortable option. Uber also works here, making it easy to request a ride directly from the app.
             </div>
           </div>
 
@@ -1127,8 +1185,8 @@
 
           <div class="getting-divider"></div>
 
-        <!-- By Car -->
-        <div class="getting-item">
+          <!-- By Car -->
+          <div class="getting-item">
             <div class="getting-item-header">
               <span class="getting-item-icon">🚗</span>
               <span class="getting-item-label">By Car</span>
