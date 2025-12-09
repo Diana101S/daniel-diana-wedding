@@ -587,46 +587,52 @@
     height: 32px;
     border-radius: 50%;
     border: none;
-    background: #ffffffdd;
+    background: #ffffffcc;
     color: #333;
-    font-size: 20px;
+    font-size: 18px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    z-index: 2;   /* 이미지보다 위 */
     }
 
+    /* 🔽 여기가 핵심: 음수 말고, 프레임 안쪽으로 */
     .image-modal-prev {
-    left: -18px;   /* 필요하면 숫자 조절해서 위치 맞추기 */
+    left: 12px;   /* 필요하면 8~16px 사이로 조절 */
     }
 
     .image-modal-next {
-    right: -18px;
-    } 
+    right: 12px;
+    }
 
     .image-modal-img {
-      max-width: 100%;
-      max-height: 100%;
-      border-radius: 16px;
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
-      background: #000;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 16px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+    background: #000;
+
+    position: relative;  /* 버튼이 이 프레임을 기준으로 올라오도록 */
+    z-index: 1;          /* 화살표/X 버튼보다 한 단계 아래 */
     }
 
     .image-modal-close {
-      position: absolute;
-      top: -14px;
-      right: -14px;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      border: none;
-      background: #ffffff;
-      color: #333;
-      font-size: 18px;
-      line-height: 1;
-      cursor: pointer;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    position: absolute;
+    top: 12px;          /* 프레임 안쪽으로 */
+    right: 12px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: none;
+    background: #ffffffcc;
+    color: #333;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    z-index: 2;
     }
 
     /* GUESTBOOK */
@@ -1213,14 +1219,13 @@
   <div class="image-modal" id="image-modal" aria-hidden="true">
     <div class="image-modal-inner">
       <!-- 이전 버튼 -->
-      <button type="button" class="image-modal-nav image-modal-prev" id="image-modal-prev" aria-label="Previous image">‹</button>
+      <button type="button" class="image-modal-nav image-modal-prev" id="image-modal-prev" aria-label="Previous image">◀</button>
 
       <img id="image-modal-img" class="image-modal-img" src="" alt="Expanded gallery image" />
 
-      <!-- 다음 버튼 -->
-      <button type="button" class="image-modal-nav image-modal-next" id="image-modal-next" aria-label="Next image">›</button>
+      <button type="button" class="image-modal-nav image-modal-next" id="image-modal-next" aria-label="Next image">▶</button>
 
-      <button type="button" class="image-modal-close" id="image-modal-close" aria-label="Close image">×</button>
+      <button type="button" class="image-modal-close" id="image-modal-close" aria-label="Close image">✕</button>
     </div>
   </div>
 
