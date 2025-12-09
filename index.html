@@ -680,6 +680,47 @@
       color: var(--text-muted);
     }
 
+    /* RSVP */
+    .rsvp-card {
+    padding-top: 18px;
+    padding-bottom: 16px;
+    }
+
+    .rsvp-form {
+    margin-bottom: 4px;
+    }
+
+    /* yes / no 라인 */
+    .rsvp-choice-row {
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+    font-size: 11px;
+    }
+
+    .rsvp-choice {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 10px;
+    border-radius: 12px;
+    border: 1px solid #edd8c6;
+    background: #fff7f0;
+    cursor: pointer;
+    }
+
+    .rsvp-choice input[type="radio"] {
+    accent-color: var(--accent);
+    }
+
+    .rsvp-status {
+    margin-top: 4px;
+    font-size: 11px;
+    text-align: center;
+    color: var(--text-muted);
+    }
+
     /* GUESTBOOK 리스트 */
     .guest-list {
       margin-top: 12px;
@@ -1118,6 +1159,73 @@
         </div>
       </section>
 
+      <!-- RSVP -->
+      <section class="section">
+        <h2 class="section-title">RSVP</h2>
+
+        <div class="card rsvp-card">
+            <form class="rsvp-form" id="rsvp-form">
+            <div class="field">
+                <input
+                type="text"
+                id="rsvp-name"
+                placeholder="Name"
+                required
+                />
+            </div>
+
+            <div class="field">
+                <input
+                type="email"
+                id="rsvp-email"
+                placeholder="Email (optional)"
+                />
+            </div>
+
+            <div class="field rsvp-choice-row">
+                <label class="rsvp-choice">
+                <input
+                    type="radio"
+                    name="rsvp-attending"
+                    value="yes"
+                    required
+                />
+                <span>Happily attending</span>
+                </label>
+                <label class="rsvp-choice">
+                <input
+                    type="radio"
+                    name="rsvp-attending"
+                    value="no"
+                />
+                <span>Send love from afar</span>
+                </label>
+            </div>
+
+            <div class="field">
+                <input
+                type="number"
+                id="rsvp-guests"
+                min="1"
+                max="10"
+                placeholder="Number of guests (including you)"
+                />
+            </div>
+
+            <div class="field">
+                <textarea
+                id="rsvp-notes"
+                rows="3"
+                placeholder="Dietary needs or notes (optional)"
+                ></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">Submit RSVP</button>
+            <div class="rsvp-status" id="rsvp-status"></div>
+            </form>
+        </div>
+      </section>
+
       <!-- GUEST BOOK -->
       <section class="section">
         <h2 class="section-title">Guest Book</h2>
@@ -1534,6 +1642,89 @@
 
   // 🔹 페이지 처음 로드될 때 기존 방명록 불러오기
   loadGuests();
+
+   // 🔹 RSVP 폼 요소
+  const rsvpForm = document.getElementById("rsvp-form");
+  const rsvpNameInput = document.getElementById("rsvp-name");
+  const rsvpEmailInput = document.getElementById("rsvp-email");
+  const rsvpGuestsInput = document.getElementById("rsvp-guests");
+  const rsvpNotesInput = document.getElementById("rsvp-notes");
+  const rsvpStatusEl = document.getElementById("rsvp-status");
+
+  if (rsvpForm) {
+    rsvpForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const name = rsvpNameInput?.value.trim() || "";
+      const email = rsvpEmailInput?.value.trim() || null;
+      const attendingInput = rsvpForm.querySelector(
+        'input[name="rsvp-attending"]:checked'
+      );
+      const attendingValue = attendingInput ? attendingInput.value : null;
+      // 테이블의 attending은 boolean 이니까 true/false로 변환
+      const attending =
+        attendingValue === "yes" ? true : attendingValue === "no" ? false : null;
+
+      const guestsRaw = rsvpGuestsInput?.value.trim() || "";
+      const partySize =
+        guestsRaw === "" ? null : Number(guestsRaw); // party_size(int4)와 매칭
+
+      const notes = rsvpNotesInput?.value.trim() || null;
+
+      if (!name || attending === null) {
+        if (rsvpStatusEl) {
+          rsvpStatusEl.textContent =
+            "Please enter your name and select an RSVP option.";
+        }
+        return;
+      }
+
+      if (rsvpStatusEl) rsvpStatusEl.textContent = "Saving your RSVP...";
+
+      const { data, error } = await supabase
+        .from("rsvp")   // 🔹 이미 만들어둔 rsvp 테이블
+        .insert([
+          {
+            name,
+            email,
+            attending,     // boolean (TRUE/FALSE)
+            party_size: partySize,
+            notes,
+          },
+        ])
+        .select();
+
+      console.log("📤 rsvp insert result:", { data, error });
+
+      if (error) {
+        console.error(error);
+        if (rsvpStatusEl) {
+          rsvpStatusEl.textContent =
+            "Something went wrong. Please try again.";
+        }
+        return;
+      }
+
+      if (rsvpStatusEl) {
+        rsvpStatusEl.textContent = "Thank you for your RSVP!";
+      }
+
+      // 폼 비우기
+      if (rsvpNameInput) rsvpNameInput.value = "";
+      if (rsvpEmailInput) rsvpEmailInput.value = "";
+      if (rsvpGuestsInput) rsvpGuestsInput.value = "";
+      if (rsvpNotesInput) rsvpNotesInput.value = "";
+      const checked = rsvpForm.querySelector(
+        'input[name="rsvp-attending"]:checked'
+      );
+      if (checked) checked.checked = false;
+
+      setTimeout(() => {
+        if (rsvpStatusEl) rsvpStatusEl.textContent = "";
+      }, 2000);
+    });
+  }
+
 </script>
 </body>
 </html>
