@@ -685,6 +685,13 @@
       min-height: 38px;
     }
 
+    @media (max-width: 480px) {
+    .field input,
+    .field textarea {
+        font-size: 16px;   /* 16px 이상이면 iOS가 확대 안 함 */
+    }
+    }
+
     .btn-submit {
       width: 100%;
       border: none;
@@ -740,6 +747,9 @@
 
     .rsvp-choice input[type="radio"] {
     accent-color: var(--accent);
+    transform: scale(0.6);   /* 🔻 크기 줄이기 (0.8~0.9 사이에서 조절) */
+    margin: 0;
+    flex-shrink: 0;          /* 줄어들면서 찌그러지지 않게 */
     }
 
     .rsvp-status {
