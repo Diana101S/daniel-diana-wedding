@@ -731,17 +731,27 @@
       justify-content: center;   /* 내용 가운데 정렬 */
       gap: 6px;
       padding: 4px 10px;
-      width: 90px;               /* ✅ 버튼 가로 길이 고정 */
+      width: 72px;               /* ✅ 버튼 가로 길이 고정 */
       border-radius: 999px;
       border: 1px solid #edd8c6;
       background: #fff7f0;
-      font-size: 11px;
+      font-size: 10px;
       color: var(--text-main);
       cursor: pointer;
     }
 
+    /* Call 버튼: 조금 더 작게 */
+    .contact-btn-call {
+    width: 70px;   /* 숫자 줄이면 더 작아짐 */
+    }
+
+    /* Message 버튼: 조금 더 가로로 넓게 */
+    .contact-btn-msg {
+    width: 100px;  /* 필요하면 96~104px 정도로 조절 */
+    }
+
     .contact-btn-icon {
-      font-size: 12px;
+      font-size: 11px;
     }
 
     .contact-divider {
@@ -1085,11 +1095,11 @@
             <div class="contact-name">Daniel Root</div>
 
             <div class="contact-actions">
-              <a href="tel:+13607181133" class="contact-btn">
+              <a href="tel:+13607181133" class="contact-btn contact-btn-call">
                 <span class="contact-btn-icon">📞</span>
                 <span>Call</span>
               </a>
-              <a href="sms:+13607181133" class="contact-btn">
+              <a href="sms:+13607181133" class="contact-btn contact-btn-msg">
                 <span class="contact-btn-icon">💬</span>
                 <span>Message</span>
               </a>
@@ -1115,11 +1125,11 @@
             <div class="contact-name">Dahee Sung</div>
 
             <div class="contact-actions">
-              <a href="tel:+821052879321" class="contact-btn">
+              <a href="tel:+821052879321" class="contact-btn contact-btn-call">
                 <span class="contact-btn-icon">📞</span>
                 <span>Call</span>
               </a>
-              <a href="sms:+821052879321" class="contact-btn">
+              <a href="sms:+821052879321" class="contact-btn contact-btn-msg">
                 <span class="contact-btn-icon">💬</span>
                 <span>Message</span>
               </a>
