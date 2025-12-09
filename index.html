@@ -1709,7 +1709,7 @@
       if (rsvpStatusEl) rsvpStatusEl.textContent = "Saving your RSVP...";
 
       const { data, error } = await supabase
-        .from("rsvp")   // 🔹 이미 만들어둔 rsvp 테이블
+        .from("rsvps")   // 🔹 이미 만들어둔 rsvp 테이블
         .insert([
           {
             name,
