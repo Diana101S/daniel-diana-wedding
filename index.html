@@ -587,7 +587,7 @@
     height: 32px;
     border-radius: 50%;
     border: none;
-    background: #ffffffcc;
+    background: rgba(255, 255, 255, 0.4);
     color: #333;
     font-size: 18px;
     cursor: pointer;
@@ -626,7 +626,7 @@
     height: 28px;
     border-radius: 50%;
     border: none;
-    background: #ffffffcc;
+    background: rgba(255, 255, 255, 0.4); 
     color: #333;
     font-size: 18px;
     line-height: 1;
@@ -1323,17 +1323,44 @@
     </main>
   </div>
 
-  <!-- IMAGE MODAL -->
+    <!-- IMAGE MODAL -->
   <div class="image-modal" id="image-modal" aria-hidden="true">
     <div class="image-modal-inner">
-      <!-- 이전 버튼 -->
-      <button type="button" class="image-modal-nav image-modal-prev" id="image-modal-prev" aria-label="Previous image">◀</button>
+        <!-- 이전 / 다음 버튼 -->
+        <button
+        type="button"
+        class="image-modal-nav image-modal-prev"
+        id="image-modal-prev"
+        aria-label="Previous image"
+        >
+        &lt;
+        </button>
 
-      <img id="image-modal-img" class="image-modal-img" src="" alt="Expanded gallery image" />
+        <img
+        id="image-modal-img"
+        class="image-modal-img"
+        src=""
+        alt="Expanded gallery image"
+        />
 
-      <button type="button" class="image-modal-nav image-modal-next" id="image-modal-next" aria-label="Next image">▶</button>
+        <button
+        type="button"
+        class="image-modal-nav image-modal-next"
+        id="image-modal-next"
+        aria-label="Next image"
+        >
+        &gt;
+        </button>
 
-      <button type="button" class="image-modal-close" id="image-modal-close" aria-label="Close image">✕</button>
+        <!-- 닫기 버튼 -->
+        <button
+        type="button"
+        class="image-modal-close"
+        id="image-modal-close"
+        aria-label="Close image"
+        >
+        ×
+        </button>
     </div>
   </div>
 
