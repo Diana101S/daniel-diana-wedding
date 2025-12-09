@@ -1575,14 +1575,14 @@
       .join("");
   }
 
+
   // 🔹 Supabase에서 방명록 가져오기
   async function loadGuests() {
     if (!listEl) return;
     listEl.innerHTML = `<p style="font-size:12px; color:#9a7a67;">Loading messages...</p>`;
 
-    // ⚠️ 여기 "guestbook"은 네 테이블 이름으로 바꿔야 함
     const { data, error } = await supabase
-      .from("guestbook") // ← 여기 테이블 이름
+      .from("guestbook")
       .select("id, name, message, created_at")
       .order("created_at", { ascending: false });
 
@@ -1595,7 +1595,7 @@
     renderGuests(data);
   }
 
-  // 🔹 폼 제출 → Supabase에 저장
+  // 🔹 폼 제출 → Supabase에 저장 (GUESTBOOK)
   if (form) {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -1618,12 +1618,11 @@
             name: name || null,
             message,
             pin_hash: crypto.randomUUID(),
-            // created_at: new Date().toISOString(),   // ✅ 직접 넣어주기
           },
         ])
-        .select();  // 결과도 받아서 확인
+        .select();
 
-      console.log("📤 insert result:", { data, error });
+      console.log("📤 insert result (guestbook):", { data, error });
 
       if (error) {
         console.error(error);
@@ -1633,44 +1632,42 @@
 
       if (statusEl) statusEl.textContent = "Thank you for your message!";
 
-      // 폼 비우기
       if (nameInput) nameInput.value = "";
       messageInput.value = "";
 
-      // 리스트 다시 로딩
       await loadGuests();
 
-      // 상태 메시지 잠시 후 지우기
       setTimeout(() => {
         if (statusEl) statusEl.textContent = "";
       }, 1500);
     });
   }
 
-    // Hero cherry blossom petals (단순 버전)
-    (function makePetals(){
-    const container = document.getElementById('petal-layer');
+  // Hero cherry blossom petals (단순 버전)
+  (function makePetals() {
+    const container = document.getElementById("petal-layer");
     if (!container) return;
 
     const COUNT = 10;
 
     for (let i = 0; i < COUNT; i++) {
-        const p = document.createElement('div');
-        p.className = 'petal';
+      const p = document.createElement("div");
+      p.className = "petal";
 
-        p.style.left = (Math.random() * 100) + '%';
-        p.style.animationDuration = (Math.random() * 8 + 6) + 's';
-        p.style.animationDelay = (Math.random() * -14) + 's';
+      p.style.left = Math.random() * 100 + "%";
+      p.style.animationDuration = Math.random() * 8 + 6 + "s";
+      p.style.animationDelay = Math.random() * -14 + "s";
 
-        container.appendChild(p);
+      container.appendChild(p);
     }
-    })();
-
+  })();
 
   // 🔹 페이지 처음 로드될 때 기존 방명록 불러오기
   loadGuests();
 
-   // 🔹 RSVP 폼 요소
+  // ==========================
+  //        RSVP FORM
+  // ==========================
   const rsvpForm = document.getElementById("rsvp-form");
   const rsvpNameInput = document.getElementById("rsvp-name");
   const rsvpEmailInput = document.getElementById("rsvp-email");
@@ -1684,17 +1681,20 @@
 
       const name = rsvpNameInput?.value.trim() || "";
       const email = rsvpEmailInput?.value.trim() || null;
+
       const attendingInput = rsvpForm.querySelector(
         'input[name="rsvp-attending"]:checked'
       );
       const attendingValue = attendingInput ? attendingInput.value : null;
-      // 테이블의 attending은 boolean 이니까 true/false로 변환
       const attending =
-        attendingValue === "yes" ? true : attendingValue === "no" ? false : null;
+        attendingValue === "yes"
+          ? true
+          : attendingValue === "no"
+          ? false
+          : null;
 
       const guestsRaw = rsvpGuestsInput?.value.trim() || "";
-      const partySize =
-        guestsRaw === "" ? null : Number(guestsRaw); // party_size(int4)와 매칭
+      const partySize = guestsRaw === "" ? null : Number(guestsRaw);
 
       const notes = rsvpNotesInput?.value.trim() || null;
 
@@ -1708,50 +1708,55 @@
 
       if (rsvpStatusEl) rsvpStatusEl.textContent = "Saving your RSVP...";
 
-      const { data, error } = await supabase
-        .from("rsvps")   // 🔹 이미 만들어둔 rsvp 테이블
-        .insert([
-          {
-            name,
-            email,
-            attending,     // boolean (TRUE/FALSE)
-            party_size,
-            notes,
-          },
-        ])
-        .select();
+      try {
+        const { data, error } = await supabase
+          .from("rsvps") // ✅ 테이블 이름: rsvps
+          .insert([
+            {
+              name,
+              email,
+              attending,          // boolean
+              party_size: partySize, // int4 컬럼명과 동일해야 함
+              notes,
+            },
+          ])
+          .select();
 
-      console.log("📤 rsvp insert result:", { data, error });
+        console.log("📤 rsvps insert result:", { data, error });
 
-      if (error) {
-        console.error(error);
-        if (rsvpStatusEl) {
-          rsvpStatusEl.textContent =
-            "Something went wrong. Please try again.";
+        if (error) {
+          console.error("RSVP insert error:", error);
+          if (rsvpStatusEl) {
+            rsvpStatusEl.textContent =
+              error.message || "Something went wrong. Please try again.";
+          }
+          return;
         }
-        return;
+
+        if (rsvpStatusEl) {
+          rsvpStatusEl.textContent = "Thank you for your RSVP!";
+        }
+
+        if (rsvpNameInput) rsvpNameInput.value = "";
+        if (rsvpEmailInput) rsvpEmailInput.value = "";
+        if (rsvpGuestsInput) rsvpGuestsInput.value = "";
+        if (rsvpNotesInput) rsvpNotesInput.value = "";
+        const checked = rsvpForm.querySelector(
+          'input[name="rsvp-attending"]:checked'
+        );
+        if (checked) checked.checked = false;
+
+        setTimeout(() => {
+          if (rsvpStatusEl) rsvpStatusEl.textContent = "";
+        }, 2000);
+      } catch (err) {
+        console.error("RSVP unexpected error:", err);
+        if (rsvpStatusEl) {
+          rsvpStatusEl.textContent = "Something went wrong (JS error).";
+        }
       }
-
-      if (rsvpStatusEl) {
-        rsvpStatusEl.textContent = "Thank you for your RSVP!";
-      }
-
-      // 폼 비우기
-      if (rsvpNameInput) rsvpNameInput.value = "";
-      if (rsvpEmailInput) rsvpEmailInput.value = "";
-      if (rsvpGuestsInput) rsvpGuestsInput.value = "";
-      if (rsvpNotesInput) rsvpNotesInput.value = "";
-      const checked = rsvpForm.querySelector(
-        'input[name="rsvp-attending"]:checked'
-      );
-      if (checked) checked.checked = false;
-
-      setTimeout(() => {
-        if (rsvpStatusEl) rsvpStatusEl.textContent = "";
-      }, 2000);
     });
   }
-
 </script>
 </body>
 </html>
