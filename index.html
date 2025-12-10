@@ -256,7 +256,13 @@
     }
 
     .info-pill-text {
-      display: inline-block;
+    display: flex;
+    flex-direction: column;   /* 위/아래로 쌓이게 */
+    line-height: 1.6;         /* 기본 줄 간격 */
+    }
+
+    .info-pill-sub {
+    margin-top: 4px;          /* 두 줄 사이 간격 (원하면 6~8px로 늘려도 됨) */
     }
 
     /* INVITATION CARD */
@@ -1086,15 +1092,15 @@
           <div class="top-names">Daniel &amp; Diana</div>
           <div class="top-tagline">Join Us in Celebration</div>
 
-          <div class="info-pill-row">
-            <div class="info-pill">
-              <div class="info-pill-icon">📅</div>
-              <span class="info-pill-text">June 6, 2026, in Busan, South Korea
-                <div>
-                At 1:00 PM KST</div>
-              </span>
+        <div class="info-pill-row">
+        <div class="info-pill">
+            <div class="info-pill-icon">📅</div>
+            <div class="info-pill-text">
+            <div>June 6, 2026, in Busan, South Korea</div>
+            <div class="info-pill-sub">At 1:00 PM KST</div>
             </div>
-          </div>
+        </div>
+        </div>
 
           <div class="top-divider-wrap" style="margin-top: 14px;">
             <div class="orn" aria-hidden="true">
