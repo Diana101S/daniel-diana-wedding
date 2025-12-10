@@ -494,6 +494,7 @@
       font-size: 11px;
       line-height: 1.7;
       margin-bottom: 20px;
+      color: var(--text-muted);
     }
 
     .getting-bullets {
@@ -747,12 +748,12 @@
 
     .rsvp-choice input[type="radio"] {
     accent-color: var(--accent);
-    transform: scale(0.6);
+    transform: scale(0.45);
     margin: 0 0 2px 0;   /* 위/옆 여백 없애고, 아래만 살짝 */
     flex-shrink: 0;
     display: block;      /* 블록으로 만들어서 진짜 중앙에 오게 */
     }
-    
+
     .rsvp-status {
     margin-top: 4px;
     font-size: 11px;
@@ -884,11 +885,18 @@
       gap: 0;                         /* 계산 오차 없애기 위해 gap 제거 */
     }
     
+    .contact-signal-note {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-align: center;
+    margin: 4px 0 10px;
+    }   
+
     .contact-card {
       width: 48%;
       background: var(--bg-card);
       border-radius: 26px;
-      padding: 24px 18px 24px;  /* 위아래 여백 ↑ */
+      padding: 24px 18px 22px;  /* 위아래 여백 ↑ */
       min-height: 190px;        /* 박스 기본 높이 지정 */
       box-shadow: var(--shadow-soft);
       text-align: left;
@@ -1022,6 +1030,12 @@
     .gifts-method-sub {
     display: block;        /* 줄을 혼자 쓰게 만들고 */
     margin-bottom: 6px;    /* 밑에 여백 추가 */
+    color: var(--text-muted);
+    }
+
+    .gifts-qr-row {
+    text-align: center;
+    color:#1a100a
     }
 
   </style>
@@ -1340,7 +1354,7 @@
             <div class="gifts-method-body">
                 <strong>@Daniel-Root-3</strong><br />
                 <span class="gifts-method-sub">
-                Or use the link: https://venmo.com/u/Daniel-Root-3
+                If you’d like to send a gift, you can use the link or QR code below.
                 </span>
 
                 <div class="gifts-qr-row">
@@ -1440,7 +1454,7 @@
                 <textarea
                 id="rsvp-notes"
                 rows="3"
-                placeholder="Dietary needs or notes (optional)"
+                placeholder="notes (optional)"
                 ></textarea>
             </div>
 
@@ -1510,42 +1524,39 @@
             <div class="contact-name">Dahee Sung</div>
 
             <div class="contact-actions">
-              <a href="tel:+821052879321" class="contact-btn contact-btn-call">
-                <span class="contact-btn-icon">📞</span>
-                <span>Call</span>
-              </a>
-              <a href="sms:+821052879321" class="contact-btn contact-btn-msg">
-                <span class="contact-btn-icon">💬</span>
-                <span>Message</span>
-              </a>
+                <!-- 📧 Email 버튼 -->
+                <a href="mailto:sdh961026@gmail.com" class="contact-btn contact-btn-call">
+                <span class="contact-btn-icon">✉️</span>
+                <span>Email</span>
+                </a>
+
+                <!-- 📱 Signal 안내 버튼 (디자인용) -->
+                <div class="contact-btn contact-btn-msg">
+                <span class="contact-btn-icon">📱</span>
+                <span>Signal</span>
+                </div>
             </div>
+
+            <!-- Signal 번호 텍스트로 명확히 표기 -->
+            <p class="contact-signal-note">
+                Signal number: +82-10-5287-9321
+            </p>
 
             <div class="contact-divider"></div>
 
             <dl class="contact-parents">
-              <div class="contact-parent-row">
+                <div class="contact-parent-row">
                 <dt>Father</dt>
                 <dd>Suyoung Sung</dd>
-              </div>
-              <div class="contact-parent-row">
+                </div>
+                <div class="contact-parent-row">
                 <dt>Mother</dt>
                 <dd>Hyejin Jang</dd>
-              </div>
+                </div>
             </dl>
           </div>
-        </div>
-      </section>
 
-      <footer class="footer">
-        <div class="footer-heart">
-          <div class="footer-heart-inner">♡</div>
-        </div>
-        <div>Thank you for celebrating with us</div>
-        <div class="footer-names">Daniel &amp; Diana</div>
-      </footer>
 
-    </main>
-  </div>
 
     <!-- IMAGE MODAL -->
   <div class="image-modal" id="image-modal" aria-hidden="true">
