@@ -68,6 +68,67 @@
     margin:0 auto;      /* 🔹 가운데 정렬 유지 */
     }
 
+        /* HERO 위 텍스트 위치 */
+    .hero-title-wrap{
+    position:absolute;
+    top: 18%;              /* ← 글자 세로 위치 (조금 위/아래로 조절 가능) */
+    left:50%;
+    transform:translateX(-50%);
+    z-index:3;
+    pointer-events:none;   /* 클릭 막지 않도록 */
+    }
+
+    /* “We’re getting / married” 타이핑 애니메이션 */
+    .hero-title{
+    display:inline-block;
+    font-family: "Playfair Display", serif;
+    font-weight: 700;
+    font-style: italic;
+    font-size: 32px;           /* 필요하면 30~34px 사이로 조절 */
+    color:#ffffff;
+    text-align:center;
+    text-shadow:0 3px 12px rgba(0,0,0,0.55);
+
+    overflow:hidden;
+    white-space: pre-line;     /* 줄바꿈 유지 (br 포함) */
+
+    /* 타이핑 효과용 */
+    width:0;
+    border-right:2px solid rgba(255,255,255,0.9);
+
+    animation:
+        typing 3s steps(20, end) 0.6s forwards,
+        blink-caret 0.8s step-end infinite;
+    }
+
+    /* 글자 하나씩 써지는 듯한 효과 */
+    @keyframes typing{
+    from{ width:0; }
+    to{   width:18ch; }  /* 문장 길이에 맞게: 부족하면 19~20ch 정도로 늘려줘 */
+    }
+
+    /* 커서 깜빡이는 효과 */
+    @keyframes blink-caret{
+    from, to { border-color:transparent; }
+    50%      { border-color:rgba(255,255,255,0.9); }
+    }
+
+    /* 모바일에서 조금 작게 */
+    @media (max-width:480px){
+    .hero-title{
+        font-size:24px;
+    }
+    }
+
+    .badge{
+    position:absolute;right:16px;bottom:16px;
+    background:#ffffffdd;color:var(--ink);
+    padding:8px 12px;border-radius:999px;
+    font-weight:600;font-size:14px;
+    backdrop-filter:saturate(180%) blur(6px);
+    z-index:3;
+    }
+
     /* Hero cherry blossom petals (HERO 안에서만) */
     .hero-petal-layer{
     position:absolute;
@@ -75,6 +136,26 @@
     pointer-events:none;
     overflow:hidden;
     z-index:2;
+    }
+
+        /* 글씨 stroke + fill 제어 (hero-words.svg 안의 path들) */
+    .hero-words-wrap path{
+    fill: transparent;       /* 처음에는 채움 없음 */
+    stroke: #ffffff;         /* 선 색 – 히어로 사진 상에서 잘 보이는 색 */
+    stroke-width: 2.2;       /* 선 두께 – 글씨 크기에 따라 조절 필요 */
+    stroke-linecap: round;
+    stroke-linejoin: round;
+
+    /* 애니메이션 준비용 – 실제 값은 JS에서 세팅 */
+    stroke-dasharray: 0;
+    stroke-dashoffset: 0;
+    }
+
+    /* 애니메이션이 끝난 후 최종 상태 (채움 색 나타나게) */
+    .hero-words-finished path{
+    transition: fill 0.8s ease;
+    fill: #ffffff;          /* 최종 글자 색 (원본 색이 있다면 거기에 맞게 변경) */
+    stroke: transparent;    /* 선은 자연스럽게 사라지게 */
     }
 
     /* 떨어지는 벚꽃 잎 모양 */
@@ -1100,11 +1181,17 @@
 <body>
   <div class="wrapper">
 
-<!-- HERO -->
-<header class="hero">
-  <div class="hero-petal-layer" id="petal-layer" aria-hidden="true"></div>
-  <img src="images/thumbnail.png" alt="Daniel and Diana together" />
-</header>
+    <!-- HERO -->
+    <header class="hero">
+        <div class="hero-petal-layer" id="petal-layer" aria-hidden="true"></div>
+      <img src="images/thumbnail.png" alt="Daniel and Diana together" />
+        <div class="hero-title-wrap">
+        <div class="hero-title">
+        We’re getting<br />married
+        </div>
+    </div>
+    </header>
+
     <main>
 
       <!-- TOP INFO -->
@@ -1664,90 +1751,46 @@
 
   <script>
 
-    (function animateHeroWordsHandwriting() {
-    const wrap = document.querySelector(".hero-words-wrap");
-    if (!wrap) return;
+  // ✍️ hero-words SVG의 path를 "쓰듯이" 그려주는 애니메이션
+    (function animateHeroWords(){
+        const wrap = document.querySelector(".hero-words-wrap");
+        if (!wrap) return;
 
-    const svg = wrap.querySelector("svg.hero-words-svg");
-    if (!svg) return;
+        // SVG 내부의 모든 path 선택
+        const paths = wrap.querySelectorAll("path");
+        if (!paths.length) return;
 
-    const ns = "http://www.w3.org/2000/svg";
+        let totalDuration = 3000; // 전체 애니메이션 시간(ms) – 3초
+        // path 개수에 따라 각 path에 분배
+        const perPath = totalDuration / paths.length;
 
-    // 모든 path 가져오기 (역순으로 배열 = 아래부터 위 순서)
-    const originalPaths = Array.from(svg.querySelectorAll("path")).reverse();
-    if (!originalPaths.length) return;
+        paths.forEach((path, index) => {
+        const length = path.getTotalLength();
 
-    // -----------------------------
-    // 1) <defs> + <mask> 생성
-    // -----------------------------
-    let defs = svg.querySelector("defs");
-    if (!defs) {
-        defs = document.createElementNS(ns, "defs");
-        svg.insertBefore(defs, svg.firstChild);
-    }
+        // 초기 dash 세팅: 전부 감춰둠
+        path.style.strokeDasharray  = length;
+        path.style.strokeDashoffset = length;
 
-    const mask = document.createElementNS(ns, "mask");
-    mask.setAttribute("id", "hero-words-mask");
-    mask.setAttribute("maskUnits", "userSpaceOnUse");
+        // 애니메이션 지연시간 (앞 글자부터 순서대로)
+        const delay = index * (perPath * 0.7); // 살짝 겹치게 하려면 0.7, 완전 순차는 1.0
 
-    const bg = document.createElementNS(ns, "rect");
-    bg.setAttribute("x", "0");
-    bg.setAttribute("y", "0");
-    bg.setAttribute("width", "100%");
-    bg.setAttribute("height", "100%");
-    bg.setAttribute("fill", "black");
-    mask.appendChild(bg);
+        path.style.transition = `
+            stroke-dashoffset ${perPath}ms ease-out ${delay}ms
+        `;
 
-    const strokeGroup = document.createElementNS(ns, "g");
-    mask.appendChild(strokeGroup);
-    defs.appendChild(mask);
+        // 브라우저가 초기값을 인식할 수 있게 강제 리플로우
+        // (간단하지만 약간 트릭 같은 방식 – 표준적인 패턴이긴 하나 구현 방식은 브라우저마다 최적화가 달라서 디테일은 확실하지 않음)
+        void path.getBoundingClientRect();
 
-    // -----------------------------
-    // 2) Fill 그룹 생성 (최종 글자)
-    // -----------------------------
-    const fillGroup = document.createElementNS(ns, "g");
-    fillGroup.setAttribute("id", "hero-words-fill");
-    fillGroup.setAttribute("fill", "#ffffff");
-    fillGroup.setAttribute("stroke", "none");
-
-    originalPaths.forEach((p) => {
-        fillGroup.appendChild(p);
-    });
-
-    svg.appendChild(fillGroup);
-    fillGroup.setAttribute("mask", "url(#hero-words-mask)");
-
-    // -----------------------------
-    // 3) 각 path를 순서대로 쓰는 애니메이션
-    // -----------------------------
-    const letterDuration = 400;  // 각 글자 쓰는데 걸리는 시간(ms)
-    const letterGap = 150;       // 글자 사이 간격(ms)
-
-    originalPaths.forEach((orig, index) => {
-        const p = orig.cloneNode(true);
-        p.removeAttribute("fill");
-        p.setAttribute("stroke", "white");
-        p.setAttribute("stroke-width", "5");
-        p.setAttribute("stroke-linecap", "round");
-        p.setAttribute("stroke-linejoin", "round");
-
-        strokeGroup.appendChild(p);
-
-        const length = p.getTotalLength();
-        p.style.strokeDasharray = length;
-        p.style.strokeDashoffset = length;
-
-        // 각 글자마다 순차적 delay
-        const delay = index * (letterDuration + letterGap);
-
-        p.style.transition = `stroke-dashoffset ${letterDuration}ms ease-in-out ${delay}ms`;
-
-        requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-            p.style.strokeDashoffset = "0";
+        // 실제로 선을 그려줌 (offset 0까지)
+        path.style.strokeDashoffset = "0";
         });
-        });
-    });
+
+        // 전체 애니메이션이 끝난 뒤 fill을 살짝 늦게 켜 주기
+        const finishDelay = totalDuration + 400;
+        setTimeout(() => {
+        wrap.classList.add("hero-words-finished");
+        }, finishDelay);
     })();
 
     // Copy Address 버튼
