@@ -86,77 +86,71 @@
     z-index:2;
     }
 
- /* 떨어지는 벚꽃 잎 모양 */
-.petal{
-  position:absolute;
-  top:-12vh;
+    /* 떨어지는 벚꽃 잎 모양 */
+    .petal{
+    position:absolute;
+    top:-12vh;
 
-  /* ✅ 크기 5/4 배 정도로 키우기 (22×28 → 28×35) */
-  width:28px;
-  height:35px;
+    /* 기본 잎 크기 (전체는 scale로 랜덤 조절) */
+    width:22px;
+    height:28px;
 
-  background: radial-gradient(
-      circle at 30% 20%,
-      var(--petal-light, #ffe9f2) 0%,
-      var(--petal-mid,   #ffc4d8) 45%,
-      var(--petal-dark,  #ff9cbc) 100%
-  );
+    /* 여러 톤의 핑크를 쓸 수 있도록 CSS 변수 사용 */
+    background: radial-gradient(
+        circle at 30% 20%,
+        var(--petal-light, #ffe9f2) 0%,
+        var(--petal-mid,   #ffc4d8) 45%,
+        var(--petal-dark,  #ff9cbc) 100%
+    );
 
-  border-radius: 60% 65% 75% 55%;
+    /* 길쭉한 꽃잎 + 살짝 둥근 끝 */
+    border-radius: 60% 65% 70% 55%;
 
-  /* ✅ 아래가 일자 대신, 가운데가 살짝 더 내려와 있는 꽃잎 모양 */
-  clip-path: polygon(
-    18% 0%,   50% 6%,   82% 0%,   /* 윗부분 */
-    100% 38%,                      /* 오른쪽 중간 */
-    78% 88%,                       /* 오른쪽 아래 */
-    50% 100%,                      /* 가운데 끝(가장 아래, 뾰족) */
-    22% 88%,                       /* 왼쪽 아래 */
-    0% 38%                         /* 왼쪽 중간 */
-  );
+    /* 윗부분에 살짝 ‘이빨’ 들어간 느낌 */
+    clip-path: polygon(
+        18% 0%,  50% 6%,  82% 0%,
+        100% 35%, 75% 100%,
+        25% 100%, 0% 35%
+    );
 
-  opacity: 0.85;
-  filter: drop-shadow(0 0 6px rgba(255,180,210,0.65));
-  animation: petal-fall linear infinite;
-  transform-origin:center;
-}
+    opacity: 0.85;
+    filter: drop-shadow(0 0 6px rgba(255,180,210,0.65));
+    animation: petal-fall linear infinite;
+    transform-origin:center;
+    }
+
+    /* 떨어지는 애니메이션 */
+    @keyframes petal-fall{
+    0%{
+        transform:
+        translate3d(0,-10vh,0)
+        rotateZ(var(--petal-rot, 0deg))
+        scale(var(--petal-scale, 1));
+        opacity:0;
+    }
+    15%{
+        opacity:0.9;
+    }
+    50%{
+        transform:
+        translate3d(10px,50vh,0)
+        rotateZ(calc(var(--petal-rot, 0deg) + 140deg))
+        scale(var(--petal-scale, 1));
+    }
+    100%{
+        transform:
+        translate3d(-10px,110vh,0)
+        rotateZ(calc(var(--petal-rot, 0deg) + 320deg))
+        scale(var(--petal-scale, 1));
+        opacity:0;
+    }
+    }
 
 
     .hero-overlay {
       position: absolute;
       inset: 0;
       display: none; /* 이름 제거용 */
-    }
-
-    /* HERO 안에 올라가는 손글씨 SVG */
-    .hero-words-svg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 2;              /* 이미지 위에 표시 (petal-layer보다 뒤에 두고 싶으면 1로 낮춰도 됨) */
-    }
-
-    /* 실제 글자 스타일 + 선으로 그려지는 효과 */
-    .hero-words {
-    font-family: "Playfair Display", serif;  /* 원하면 손글씨 폰트로 바꿔도 됨 */
-    font-size: 34px;
-    fill: none;              /* 채우기 없이 외곽선만 */
-    stroke: #ffffff;         /* 글씨 색 (사진 위에서 잘 보이는 색으로 조정 가능) */
-    stroke-width: 1.6;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-
-    stroke-dasharray: 1000;
-    stroke-dashoffset: 1000;
-    animation: handwriting 4s ease forwards;
-    }
-
-    /* 손으로 한 줄을 쓱 써 내려가는 느낌 */
-    @keyframes handwriting {
-    to {
-        stroke-dashoffset: 0;
-    }
     }
 
     /* SECTION BASE */
@@ -1118,25 +1112,8 @@
 
     <!-- HERO -->
     <header class="hero">
-    <div class="hero-petal-layer" id="petal-layer" aria-hidden="true"></div>
-    <img src="images/thumbnail.png" alt="Daniel and Diana together" />
-
-    <!-- 손글씨처럼 써지는 "we're getting married" -->
-    <svg
-        class="hero-words-svg"
-        viewBox="0 0 800 200"
-        aria-hidden="true"
-    >
-        <text
-        x="50%"
-        y="65%"              <!-- 글자 위치 (위로 올리고 싶으면 55%, 더 내리고 싶으면 70% 정도로 조절) -->
-        text-anchor="middle"
-        dominant-baseline="middle"
-        class="hero-words"
-        >
-        we're getting married
-        </text>
-    </svg>
+        <div class="hero-petal-layer" id="petal-layer" aria-hidden="true"></div>
+      <img src="images/thumbnail.png" alt="Daniel and Diana together" />
     </header>
 
     <main>
@@ -1974,6 +1951,7 @@
     });
   }
 
+    // Hero cherry blossom petals
     // Hero cherry blossom petals – 여러 크기/색 랜덤
     (function makePetals() {
     const container = document.getElementById("petal-layer");
@@ -1998,6 +1976,10 @@
         // 시작 회전 각도 랜덤
         const rot = Math.random() * 360;
         p.style.setProperty("--petal-rot", rot + "deg");
+
+        // 크기 랜덤 (아주 작은 잎 ~ 큰 잎)
+        const scale = 0.4 + Math.random() * 1.1;  // 0.4 ~ 1.5
+        p.style.setProperty("--petal-scale", scale.toString());
 
         // 떨어지는 속도/딜레이 랜덤
         const duration = 7 + Math.random() * 8;   // 7~15초
