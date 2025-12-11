@@ -138,26 +138,6 @@
     z-index:2;
     }
 
-        /* 글씨 stroke + fill 제어 (hero-words.svg 안의 path들) */
-    .hero-words-wrap path{
-    fill: transparent;       /* 처음에는 채움 없음 */
-    stroke: #ffffff;         /* 선 색 – 히어로 사진 상에서 잘 보이는 색 */
-    stroke-width: 2.2;       /* 선 두께 – 글씨 크기에 따라 조절 필요 */
-    stroke-linecap: round;
-    stroke-linejoin: round;
-
-    /* 애니메이션 준비용 – 실제 값은 JS에서 세팅 */
-    stroke-dasharray: 0;
-    stroke-dashoffset: 0;
-    }
-
-    /* 애니메이션이 끝난 후 최종 상태 (채움 색 나타나게) */
-    .hero-words-finished path{
-    transition: fill 0.8s ease;
-    fill: #ffffff;          /* 최종 글자 색 (원본 색이 있다면 거기에 맞게 변경) */
-    stroke: transparent;    /* 선은 자연스럽게 사라지게 */
-    }
-
     /* 떨어지는 벚꽃 잎 모양 */
     .petal{
     position:absolute;
@@ -1750,49 +1730,6 @@
 
 
   <script>
-
-  // ✍️ hero-words SVG의 path를 "쓰듯이" 그려주는 애니메이션
-    (function animateHeroWords(){
-        const wrap = document.querySelector(".hero-words-wrap");
-        if (!wrap) return;
-
-        // SVG 내부의 모든 path 선택
-        const paths = wrap.querySelectorAll("path");
-        if (!paths.length) return;
-
-        let totalDuration = 3000; // 전체 애니메이션 시간(ms) – 3초
-        // path 개수에 따라 각 path에 분배
-        const perPath = totalDuration / paths.length;
-
-        paths.forEach((path, index) => {
-        const length = path.getTotalLength();
-
-        // 초기 dash 세팅: 전부 감춰둠
-        path.style.strokeDasharray  = length;
-        path.style.strokeDashoffset = length;
-
-        // 애니메이션 지연시간 (앞 글자부터 순서대로)
-        const delay = index * (perPath * 0.7); // 살짝 겹치게 하려면 0.7, 완전 순차는 1.0
-
-        path.style.transition = `
-            stroke-dashoffset ${perPath}ms ease-out ${delay}ms
-        `;
-
-        // 브라우저가 초기값을 인식할 수 있게 강제 리플로우
-        // (간단하지만 약간 트릭 같은 방식 – 표준적인 패턴이긴 하나 구현 방식은 브라우저마다 최적화가 달라서 디테일은 확실하지 않음)
-        void path.getBoundingClientRect();
-
-        // 실제로 선을 그려줌 (offset 0까지)
-        path.style.strokeDashoffset = "0";
-        });
-
-        // 전체 애니메이션이 끝난 뒤 fill을 살짝 늦게 켜 주기
-        const finishDelay = totalDuration + 400;
-        setTimeout(() => {
-        wrap.classList.add("hero-words-finished");
-        }, finishDelay);
-    })();
-
     // Copy Address 버튼
     (function () {
       const copyBtn = document.getElementById("copy-address-btn");
