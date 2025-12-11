@@ -1930,24 +1930,32 @@
     });
   }
 
-  // Hero cherry blossom petals (단순 버전)
-  (function makePetals() {
+    // Hero cherry blossom petals
+    (function makePetals() {
     const container = document.getElementById("petal-layer");
     if (!container) return;
 
-    const COUNT = 10;
+    const COUNT = 12;  // 원래 10 → 12 정도로 살짝 늘려도 예쁨
 
     for (let i = 0; i < COUNT; i++) {
-      const p = document.createElement("div");
-      p.className = "petal";
+        const p = document.createElement("div");
+        p.className = "petal";
 
-      p.style.left = Math.random() * 100 + "%";
-      p.style.animationDuration = Math.random() * 8 + 6 + "s";
-      p.style.animationDelay = Math.random() * -14 + "s";
+        // 가로 위치
+        p.style.left = Math.random() * 100 + "%";
 
-      container.appendChild(p);
+        // 크기 살짝씩 랜덤 (기본 14x10에서 ±20% 정도)
+        const scale = 0.8 + Math.random() * 0.4; // 0.8 ~ 1.2
+        p.style.transform = `scale(${scale})`;
+
+        // 떨어지는 속도 / 딜레이
+        p.style.animationDuration = 6 + Math.random() * 8 + "s";
+        p.style.animationDelay = Math.random() * -14 + "s";
+
+        container.appendChild(p);
     }
-  })();
+    })();
+
 
   // 🔹 페이지 처음 로드될 때 기존 방명록 불러오기
   loadGuests();
