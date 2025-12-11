@@ -1780,48 +1780,100 @@
 
 
   <script>
+  // ✍️ hero-words 글씨를 "쓰면서 채워지는" 효과로 보여주는 코드
+  (function animateHeroWordsWithMask() {
+    const wrap = document.querySelector(".hero-words-wrap");
+    if (!wrap) return;
 
-  // ✍️ hero-words SVG의 path를 "쓰듯이" 그려주는 애니메이션
-    (function animateHeroWords(){
-        const wrap = document.querySelector(".hero-words-wrap");
-        if (!wrap) return;
+    const svg = wrap.querySelector("svg.hero-words-svg");
+    if (!svg) return;
 
-        // SVG 내부의 모든 path 선택
-        const paths = wrap.querySelectorAll("path");
-        if (!paths.length) return;
+    const ns = "http://www.w3.org/2000/svg";
 
-        let totalDuration = 3000; // 전체 애니메이션 시간(ms) – 3초
-        // path 개수에 따라 각 path에 분배
-        const perPath = totalDuration / paths.length;
+    // 현재 SVG 안에 있는 모든 path (채워진 글씨용 원본)
+    const originalPaths = Array.from(svg.querySelectorAll("path"));
+    if (!originalPaths.length) return;
 
-        paths.forEach((path, index) => {
-        const length = path.getTotalLength();
+    // -----------------------------
+    // 1) <defs> + <mask> + stroke 그룹 만들기
+    // -----------------------------
+    let defs = svg.querySelector("defs");
+    if (!defs) {
+      defs = document.createElementNS(ns, "defs");
+      svg.insertBefore(defs, svg.firstChild);
+    }
 
-        // 초기 dash 세팅: 전부 감춰둠
-        path.style.strokeDasharray  = length;
-        path.style.strokeDashoffset = length;
+    const mask = document.createElementNS(ns, "mask");
+    mask.setAttribute("id", "hero-words-mask");
+    mask.setAttribute("maskUnits", "userSpaceOnUse");
 
-        // 애니메이션 지연시간 (앞 글자부터 순서대로)
-        const delay = index * (perPath * 0.7); // 살짝 겹치게 하려면 0.7, 완전 순차는 1.0
+    // 마스크 배경은 검정(= 안 보이는 영역)
+    const bg = document.createElementNS(ns, "rect");
+    bg.setAttribute("x", "0");
+    bg.setAttribute("y", "0");
+    bg.setAttribute("width", "100%");
+    bg.setAttribute("height", "100%");
+    bg.setAttribute("fill", "black");
+    mask.appendChild(bg);
 
-        path.style.transition = `
-            stroke-dashoffset ${perPath}ms ease-out ${delay}ms
-        `;
+    // 실제로 "쓰는 선"이 들어갈 그룹
+    const strokeGroup = document.createElementNS(ns, "g");
+    mask.appendChild(strokeGroup);
 
-        // 브라우저가 초기값을 인식할 수 있게 강제 리플로우
-        // (간단하지만 약간 트릭 같은 방식 – 표준적인 패턴이긴 하나 구현 방식은 브라우저마다 최적화가 달라서 디테일은 확실하지 않음)
-        void path.getBoundingClientRect();
+    defs.appendChild(mask);
 
-        // 실제로 선을 그려줌 (offset 0까지)
-        path.style.strokeDashoffset = "0";
+    // -----------------------------
+    // 2) 기존 path들을 하나의 fill 그룹으로 묶고, 마스크 적용
+    // -----------------------------
+    const fillGroup = document.createElementNS(ns, "g");
+    fillGroup.setAttribute("id", "hero-words-fill");
+    fillGroup.setAttribute("fill", "#ffffff");
+    fillGroup.setAttribute("stroke", "none");
+
+    originalPaths.forEach((p) => {
+      fillGroup.appendChild(p); // 기존 path들을 새 그룹으로 이동
+    });
+
+    svg.appendChild(fillGroup);
+    fillGroup.setAttribute("mask", "url(#hero-words-mask)");
+
+    // -----------------------------
+    // 3) stroke 애니메이션용 path 복제 + dash 애니메이션
+    // -----------------------------
+    const totalDuration = 3000;              // 전체 애니메이션 시간(ms) – 3초
+    const perPath = totalDuration / originalPaths.length;
+
+    originalPaths.forEach((orig, index) => {
+      // 원본 path 복제해서 마스크용 스트로크로 사용
+      const p = orig.cloneNode(true);
+      p.removeAttribute("fill");
+      p.setAttribute("stroke", "white");     // 마스크 내부는 흰색 = 보이는 부분
+      p.setAttribute("stroke-width", "6");   // 글씨 두께에 맞게 조절 (5~7 사이에서 조정 가능)
+      p.setAttribute("stroke-linecap", "round");
+      p.setAttribute("stroke-linejoin", "round");
+
+      strokeGroup.appendChild(p);
+
+      const length = p.getTotalLength();
+
+      p.style.strokeDasharray  = length;
+      p.style.strokeDashoffset = length;
+
+      const delay = index * (perPath * 0.7); // 앞 글자부터 순차/겹침 정도
+
+      p.style.transition = `
+        stroke-dashoffset ${perPath}ms ease-out ${delay}ms
+      `;
+
+      // 브라우저가 초기값을 인식하게 한 뒤 애니메이션 시작
+      requestAnimationFrame(() => {
+        // 한 번 더 frame 넘겨주면 더 안정적
+        requestAnimationFrame(() => {
+          p.style.strokeDashoffset = "0";
         });
-
-        // 전체 애니메이션이 끝난 뒤 fill을 살짝 늦게 켜 주기
-        const finishDelay = totalDuration + 400;
-        setTimeout(() => {
-        wrap.classList.add("hero-words-finished");
-        }, finishDelay);
-    })();
+      });
+    });
+  })();
 
     // Copy Address 버튼
     (function () {
