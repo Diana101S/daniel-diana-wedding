@@ -127,6 +127,38 @@
       display: none; /* 이름 제거용 */
     }
 
+    /* HERO 안에 올라가는 손글씨 SVG */
+    .hero-words-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;              /* 이미지 위에 표시 (petal-layer보다 뒤에 두고 싶으면 1로 낮춰도 됨) */
+    }
+
+    /* 실제 글자 스타일 + 선으로 그려지는 효과 */
+    .hero-words {
+    font-family: "Playfair Display", serif;  /* 원하면 손글씨 폰트로 바꿔도 됨 */
+    font-size: 34px;
+    fill: none;              /* 채우기 없이 외곽선만 */
+    stroke: #ffffff;         /* 글씨 색 (사진 위에서 잘 보이는 색으로 조정 가능) */
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: handwriting 4s ease forwards;
+    }
+
+    /* 손으로 한 줄을 쓱 써 내려가는 느낌 */
+    @keyframes handwriting {
+    to {
+        stroke-dashoffset: 0;
+    }
+    }
+
     /* SECTION BASE */
     main {
       padding: 0 0 36px; /* 메인 사진 바로 밑에 흰 박스 붙도록 */
@@ -1086,8 +1118,25 @@
 
     <!-- HERO -->
     <header class="hero">
-        <div class="hero-petal-layer" id="petal-layer" aria-hidden="true"></div>
-      <img src="images/thumbnail.png" alt="Daniel and Diana together" />
+    <div class="hero-petal-layer" id="petal-layer" aria-hidden="true"></div>
+    <img src="images/thumbnail.png" alt="Daniel and Diana together" />
+
+    <!-- 손글씨처럼 써지는 "we're getting married" -->
+    <svg
+        class="hero-words-svg"
+        viewBox="0 0 800 200"
+        aria-hidden="true"
+    >
+        <text
+        x="50%"
+        y="65%"              <!-- 글자 위치 (위로 올리고 싶으면 55%, 더 내리고 싶으면 70% 정도로 조절) -->
+        text-anchor="middle"
+        dominant-baseline="middle"
+        class="hero-words"
+        >
+        we're getting married
+        </text>
+    </svg>
     </header>
 
     <main>
