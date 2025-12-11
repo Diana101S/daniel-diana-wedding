@@ -85,75 +85,67 @@
     overflow:hidden;
     z-index:2;
     }
-    
-    /* 벚꽃 꽃모양으로 수정 */
+
+    /* 떨어지는 벚꽃 잎 모양 */
     .petal{
     position:absolute;
     top:-12vh;
-    left:0;
 
-    /* 기본 꽃 크기 (너무 크면 14~16으로 줄여도 됨) */
-    width:10px;
-    height:10px;
+    /* 기본 잎 크기 (전체는 scale로 랜덤 조절) */
+    width:22px;
+    height:28px;
 
-    /* 한 장의 꽃잎(원) */
+    /* 여러 톤의 핑크를 쓸 수 있도록 CSS 변수 사용 */
     background: radial-gradient(
-        circle at 30% 30%,
-        #ffeaf3 0%,
-        #ffc1da 55%,
-        #ff8fb7 100%
+        circle at 30% 20%,
+        var(--petal-light, #ffe9f2) 0%,
+        var(--petal-mid,   #ffc4d8) 45%,
+        var(--petal-dark,  #ff9cbc) 100%
     );
-    border-radius:50%;
 
-    /* 나머지 꽃잎을 box-shadow로 복제 → 4장짜리 벚꽃 */
-    box-shadow:
-        8px 0   0 0 rgba(255,193,218,0.95),
-        4px 7px 0 0 rgba(255,193,218,0.95),
-        -4px 7px 0 0 rgba(255,193,218,0.95);
+    /* 길쭉한 꽃잎 + 살짝 둥근 끝 */
+    border-radius: 60% 65% 70% 55%;
 
-    /* 가운데 작은 꽃술 */
-    opacity:0.9;
-    box-sizing:content-box;
-    animation:petal-fall linear infinite;
+    /* 윗부분에 살짝 ‘이빨’ 들어간 느낌 */
+    clip-path: polygon(
+        18% 0%,  50% 6%,  82% 0%,
+        100% 35%, 75% 100%,
+        25% 100%, 0% 35%
+    );
+
+    opacity: 0.85;
+    filter: drop-shadow(0 0 6px rgba(255,180,210,0.65));
+    animation: petal-fall linear infinite;
     transform-origin:center;
     }
 
-    .petal::after{
-    content:"";
-    position:absolute;
-    left:50%;
-    top:50%;
-    transform:translate(-50%, -50%);
-    width:4px;
-    height:4px;
-    border-radius:50%;
-    background:rgba(238,140,170,0.95);
-    }
-
-    /* 떨어지는 모션 */
+    /* 떨어지는 애니메이션 */
     @keyframes petal-fall{
     0%{
         transform:
         translate3d(0,-10vh,0)
-        rotate(var(--petal-rot, 0deg));
+        rotateZ(var(--petal-rot, 0deg))
+        scale(var(--petal-scale, 1));
         opacity:0;
     }
     15%{
         opacity:0.9;
     }
     50%{
-        /* 중간에 살짝 좌우로 흔들리게 */
         transform:
-        translate3d(10px,40vh,0)
-        rotate(calc(var(--petal-rot, 0deg) + 140deg));
+        translate3d(10px,50vh,0)
+        rotateZ(calc(var(--petal-rot, 0deg) + 140deg))
+        scale(var(--petal-scale, 1));
     }
     100%{
         transform:
         translate3d(-10px,110vh,0)
-        rotate(calc(var(--petal-rot, 0deg) + 320deg));
+        rotateZ(calc(var(--petal-rot, 0deg) + 320deg))
+        scale(var(--petal-scale, 1));
         opacity:0;
     }
     }
+
 
     .hero-overlay {
       position: absolute;
@@ -1959,12 +1951,19 @@
     });
   }
 
-    // Hero cherry blossom petals
+    // Hero cherry blossom petals – 여러 크기/색 랜덤
     (function makePetals() {
     const container = document.getElementById("petal-layer");
     if (!container) return;
 
-    const COUNT = 14;  // 개수는 취향대로 10~18 사이에서 조절
+    const COUNT = 22;  // 잎 수 (많이 날리려면 26~30 정도까지)
+
+    // 여러 가지 핑크 톤 세트
+    const colors = [
+        ["#ffe9f2", "#ffc4d8", "#ff9cbc"],
+        ["#ffeef7", "#ffd3e4", "#ffb3cf"],
+        ["#fff3f8", "#ffd9e8", "#ffbfdc"]
+    ];
 
     for (let i = 0; i < COUNT; i++) {
         const p = document.createElement("div");
@@ -1973,16 +1972,24 @@
         // 가로 위치 랜덤
         p.style.left = Math.random() * 100 + "%";
 
-        // 각도 랜덤 (꽃 자체가 서로 다른 방향으로 보이게)
+        // 시작 회전 각도 랜덤
         const rot = Math.random() * 360;
         p.style.setProperty("--petal-rot", rot + "deg");
 
-        // 떨어지는 속도/시작 타이밍 랜덤
-        p.style.animationDuration = 7 + Math.random() * 7 + "s"; // 7~14초
-        p.style.animationDelay = Math.random() * -14 + "s";
+        // 크기 랜덤 (아주 작은 잎 ~ 큰 잎)
+        const scale = 0.4 + Math.random() * 1.1;  // 0.4 ~ 1.5
+        p.style.setProperty("--petal-scale", scale.toString());
 
-        // 살짝씩 밝기 차이
-        p.style.opacity = 0.6 + Math.random() * 0.4;
+        // 떨어지는 속도/딜레이 랜덤
+        const duration = 7 + Math.random() * 8;   // 7~15초
+        p.style.animationDuration = duration + "s";
+        p.style.animationDelay = Math.random() * -duration + "s";
+
+        // 색 세트 랜덤 적용
+        const [light, mid, dark] = colors[Math.floor(Math.random() * colors.length)];
+        p.style.setProperty("--petal-light", light);
+        p.style.setProperty("--petal-mid", mid);
+        p.style.setProperty("--petal-dark", dark);
 
         container.appendChild(p);
     }
