@@ -85,43 +85,72 @@
     overflow:hidden;
     z-index:2;
     }
-    /* 벚꽃잎 느낌으로 수정 */
+    
+    /* 벚꽃 꽃모양으로 수정 */
     .petal{
     position:absolute;
-    top:-10vh;
+    top:-12vh;
+    left:0;
 
-    /* 🔹 기존 12 x 16 에서 살짝 더 작고, 가로가 조금 더 넓게 */
-    width:14px;
+    /* 기본 꽃 크기 (너무 크면 14~16으로 줄여도 됨) */
+    width:10px;
     height:10px;
 
-    /* 🔹 거의 전부 핑크톤으로 (하얀색 비중 줄이기) */
+    /* 한 장의 꽃잎(원) */
     background: radial-gradient(
         circle at 30% 30%,
-        #ffeaf3 0%,   /* 연핑크 하이라이트 */
-        #ffc1da 45%,  /* 중간 핑크 */
-        #ff8fb7 100%  /* 진한 핑크 */
+        #ffeaf3 0%,
+        #ffc1da 55%,
+        #ff8fb7 100%
     );
+    border-radius:50%;
 
-    /* 🔹 위는 둥글고 아래는 살짝 뾰족한 잎 모양 */
-    border-radius: 70% 55% 75% 45%;
+    /* 나머지 꽃잎을 box-shadow로 복제 → 4장짜리 벚꽃 */
+    box-shadow:
+        8px 0   0 0 rgba(255,193,218,0.95),
+        4px 7px 0 0 rgba(255,193,218,0.95),
+        -4px 7px 0 0 rgba(255,193,218,0.95);
 
-    opacity: 0.9;
-    box-shadow: 0 0 6px rgba(255, 180, 210, 0.8);
-
-    animation: petal-fall linear infinite;
-    transform-origin: center;
+    /* 가운데 작은 꽃술 */
+    opacity:0.9;
+    box-sizing:content-box;
+    animation:petal-fall linear infinite;
+    transform-origin:center;
     }
 
+    .petal::after{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%, -50%);
+    width:4px;
+    height:4px;
+    border-radius:50%;
+    background:rgba(238,140,170,0.95);
+    }
+
+    /* 떨어지는 모션 */
     @keyframes petal-fall{
     0%{
-        transform: translate3d(0,-10vh,0) rotate(0deg);
+        transform:
+        translate3d(0,-10vh,0)
+        rotate(var(--petal-rot, 0deg));
         opacity:0;
     }
     15%{
         opacity:0.9;
     }
+    50%{
+        /* 중간에 살짝 좌우로 흔들리게 */
+        transform:
+        translate3d(10px,40vh,0)
+        rotate(calc(var(--petal-rot, 0deg) + 140deg));
+    }
     100%{
-        transform: translate3d(0,110vh,0) rotate(280deg);
+        transform:
+        translate3d(-10px,110vh,0)
+        rotate(calc(var(--petal-rot, 0deg) + 320deg));
         opacity:0;
     }
     }
@@ -1935,22 +1964,25 @@
     const container = document.getElementById("petal-layer");
     if (!container) return;
 
-    const COUNT = 12;  // 원래 10 → 12 정도로 살짝 늘려도 예쁨
+    const COUNT = 14;  // 개수는 취향대로 10~18 사이에서 조절
 
     for (let i = 0; i < COUNT; i++) {
         const p = document.createElement("div");
         p.className = "petal";
 
-        // 가로 위치
+        // 가로 위치 랜덤
         p.style.left = Math.random() * 100 + "%";
 
-        // 크기 살짝씩 랜덤 (기본 14x10에서 ±20% 정도)
-        const scale = 0.8 + Math.random() * 0.4; // 0.8 ~ 1.2
-        p.style.transform = `scale(${scale})`;
+        // 각도 랜덤 (꽃 자체가 서로 다른 방향으로 보이게)
+        const rot = Math.random() * 360;
+        p.style.setProperty("--petal-rot", rot + "deg");
 
-        // 떨어지는 속도 / 딜레이
-        p.style.animationDuration = 6 + Math.random() * 8 + "s";
+        // 떨어지는 속도/시작 타이밍 랜덤
+        p.style.animationDuration = 7 + Math.random() * 7 + "s"; // 7~14초
         p.style.animationDelay = Math.random() * -14 + "s";
+
+        // 살짝씩 밝기 차이
+        p.style.opacity = 0.6 + Math.random() * 0.4;
 
         container.appendChild(p);
     }
