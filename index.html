@@ -85,29 +85,43 @@
     overflow:hidden;
     z-index:2;
     }
-    /* 눈 + 벚꽃 중간 느낌 */
+    /* 벚꽃잎 느낌으로 수정 */
     .petal{
     position:absolute;
-    top:-8vh;
-    width:12px;
-    height:16px;
-    background:radial-gradient(circle at 30% 30%, #ffffff, #ffeef7 60%, #ffd7e5 100%);
-    border-radius:55% 45% 60% 40%;
-    opacity:0.7;
-    box-shadow:0 0 4px rgba(255,220,235,0.6);
-    animation:petal-fall linear infinite;
-    transform-origin:center;
+    top:-10vh;
+
+    /* 🔹 기존 12 x 16 에서 살짝 더 작고, 가로가 조금 더 넓게 */
+    width:14px;
+    height:10px;
+
+    /* 🔹 거의 전부 핑크톤으로 (하얀색 비중 줄이기) */
+    background: radial-gradient(
+        circle at 30% 30%,
+        #ffeaf3 0%,   /* 연핑크 하이라이트 */
+        #ffc1da 45%,  /* 중간 핑크 */
+        #ff8fb7 100%  /* 진한 핑크 */
+    );
+
+    /* 🔹 위는 둥글고 아래는 살짝 뾰족한 잎 모양 */
+    border-radius: 70% 55% 75% 45%;
+
+    opacity: 0.9;
+    box-shadow: 0 0 6px rgba(255, 180, 210, 0.8);
+
+    animation: petal-fall linear infinite;
+    transform-origin: center;
     }
+
     @keyframes petal-fall{
     0%{
-        transform:translate3d(0,-10vh,0) rotate(0deg);
+        transform: translate3d(0,-10vh,0) rotate(0deg);
         opacity:0;
     }
     15%{
-        opacity:0.8;
+        opacity:0.9;
     }
     100%{
-        transform:translate3d(0,110vh,0) rotate(280deg);
+        transform: translate3d(0,110vh,0) rotate(280deg);
         opacity:0;
     }
     }
@@ -234,25 +248,28 @@
     }
 
     .info-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 0;
-      font-size: 12px;
-      color: var(--text-muted);
+    display: inline-flex;
+    align-items: flex-start;   /* ← center 에서 flex-start 로 변경 */
+    gap: 6px;
+    padding: 6px 0;
+    font-size: 12px;
+    color: var(--text-muted);
     }
 
     /* 상단 캘린더 아이콘: 이모티콘만, 테두리 없음 */
     .info-pill-icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: auto;
-      height: auto;
-      border: none;
-      border-radius: 0;
-      font-size: 14px;
-      color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: auto;
+    border: none;
+    border-radius: 0;
+    font-size: 14px;
+    color: var(--accent);
+
+    position: relative;
+    top: -1.8px;   /* -3px, -4px 로 조금씩 조절해도 됨 */
     }
 
     .info-pill-text {
@@ -746,19 +763,19 @@
     }
 
     .rsvp-choice {
-    flex: 1;                         /* 두 박스가 1:1로 나눠 가지게 */
+    flex: 1;
     display: flex;
-    flex-direction: column;          /* 동그라미 위, 텍스트 아래 */
+    flex-direction: column;   /* 위에 동그라미, 아래 텍스트 유지 */
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    padding: 10px 8px;
-    border-radius: 12px;
+    gap: 2px;                 /* 6px → 2px : 안쪽 간격 줄이기 */
+    padding: 3px 5px;         /* 10px 8px → 3px 4px : 패딩 확 줄이기 */
+    border-radius: 10px;
     border: 1px solid #edd8c6;
     background: #fff7f0;
     cursor: pointer;
-    text-align: center;              /* 텍스트 가운데 정렬 */
-    min-height: 72px;                /* 너무 납작해지지 않도록 */
+    text-align: center;
+    min-height: 0;            /* 72px → 0 : 강제 높이 없애기 */
     }
 
     /* 동그라미를 진짜 정중앙으로 */
@@ -770,7 +787,7 @@
 
     .rsvp-choice input[type="radio"] {
     accent-color: var(--accent);
-    transform: scale(0.8);
+    transform: scale(0.9);
     margin: 0 0 2px 0;   /* 위/옆 여백 없애고, 아래만 살짝 */
     flex-shrink: 0;
     }
