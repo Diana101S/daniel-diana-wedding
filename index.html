@@ -68,59 +68,6 @@
     margin:0 auto;      /* 🔹 가운데 정렬 유지 */
     }
 
-    /* HERO 텍스트 오버레이 */
-.hero-title-wrap{
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:flex-end;   /* 아래쪽에 붙게 */
-  justify-content:center; /* 가로 가운데 */
-  padding-bottom: 22px;   /* 사진 아래에서 살짝 위로 띄우기 */
-  z-index: 3;             /* 이미지/벚꽃 위에 올라오게 */
-  pointer-events:none;    /* 텍스트가 클릭 막지 않도록 */
-}
-
-.hero-title{
-  font-family: "Playfair Display", serif;
-  font-size: 22px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #ffffff;
-  text-shadow: 0 3px 12px rgba(0,0,0,0.45);
-
-  white-space: nowrap;
-  overflow: hidden;
-
-  /* 커서 느낌 */
-  border-right: 2px solid rgba(255,255,255,0.9);
-
-  /* 처음에는 폭 0 → 글자수만큼 늘어나도록 */
-  width: 0;
-  animation:
-    typing 3s steps(22, end) 0.5s forwards,
-    blink-caret 0.75s step-end infinite;
-}
-
-    /* 글자 하나씩 찍히는 효과 */
-    @keyframes typing {
-    from { width: 0; }
-    to   { width: 21ch; }  /* 문장 길이에 맞게 조정 (대략 21글자) */
-    }
-
-    /* 커서 깜빡임 */
-    @keyframes blink-caret {
-    from, to { border-color: transparent; }
-    50%      { border-color: rgba(255,255,255,0.9); }
-    }
-
-    /* 모바일에서 글자 조금만 줄이기 */
-    @media (max-width: 480px) {
-    .hero-title{
-        font-size: 18px;
-        letter-spacing: 0.10em;
-    }
-    }
-
     .badge{
     position:absolute;right:16px;bottom:16px;
     background:#ffffffdd;color:var(--ink);
@@ -1166,13 +1113,6 @@
     <header class="hero">
         <div class="hero-petal-layer" id="petal-layer" aria-hidden="true"></div>
       <img src="images/thumbnail.png" alt="Daniel and Diana together" />
-        <!-- ✅ 타이핑 애니메이션 텍스트 -->
-            <div class="hero-title-wrap">
-                <div class="hero-title">
-                We’re getting married
-                </div>
-            </div>
-      <div class="hero-overlay"></div>  
     </header>
 
     <main>
