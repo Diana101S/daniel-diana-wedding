@@ -68,58 +68,6 @@
     margin:0 auto;      /* 🔹 가운데 정렬 유지 */
     }
 
-        /* HERO 위 텍스트 위치 */
-    .hero-title-wrap{
-    position:absolute;
-    top: 18%;              /* ← 글자 세로 위치 (조금 위/아래로 조절 가능) */
-    left:50%;
-    transform:translateX(-50%);
-    z-index:3;
-    pointer-events:none;   /* 클릭 막지 않도록 */
-    }
-
-    /* “We’re getting / married” 타이핑 애니메이션 */
-    .hero-title{
-    display:inline-block;
-    font-family: "Playfair Display", serif;
-    font-weight: 700;
-    font-style: italic;
-    font-size: 32px;           /* 필요하면 30~34px 사이로 조절 */
-    color:#ffffff;
-    text-align:center;
-    text-shadow:0 3px 12px rgba(0,0,0,0.55);
-
-    overflow:hidden;
-    white-space: pre-line;     /* 줄바꿈 유지 (br 포함) */
-
-    /* 타이핑 효과용 */
-    width:0;
-    border-right:2px solid rgba(255,255,255,0.9);
-
-    animation:
-        typing 3s steps(20, end) 0.6s forwards,
-        blink-caret 0.8s step-end infinite;
-    }
-
-    /* 글자 하나씩 써지는 듯한 효과 */
-    @keyframes typing{
-    from{ width:0; }
-    to{   width:18ch; }  /* 문장 길이에 맞게: 부족하면 19~20ch 정도로 늘려줘 */
-    }
-
-    /* 커서 깜빡이는 효과 */
-    @keyframes blink-caret{
-    from, to { border-color:transparent; }
-    50%      { border-color:rgba(255,255,255,0.9); }
-    }
-
-    /* 모바일에서 조금 작게 */
-    @media (max-width:480px){
-    .hero-title{
-        font-size:24px;
-    }
-    }
-
     .badge{
     position:absolute;right:16px;bottom:16px;
     background:#ffffffdd;color:var(--ink);
@@ -1165,11 +1113,11 @@
     <header class="hero">
         <div class="hero-petal-layer" id="petal-layer" aria-hidden="true"></div>
       <img src="images/thumbnail.png" alt="Daniel and Diana together" />
-        <div class="hero-title-wrap">
-        <div class="hero-title">
-        We’re getting<br />married
-        </div>
+      <div class="hero-title-wrap">
+    <div class="hero-title">
+      We’re getting<br />married
     </div>
+  </div>
     </header>
 
     <main>
