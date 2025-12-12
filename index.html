@@ -90,9 +90,8 @@
     position: absolute;
     top: -12vh;
 
-    /* 하트가 조금 더 넓게 보이도록 비율 조정 */
     width: 22px;
-    height: 20px;
+    height: 22px;
 
     background: radial-gradient(
         circle at 30% 20%,
@@ -101,40 +100,46 @@
         var(--petal-dark,  #ff9cbc) 100%
     );
 
-    /* 🌸 → ❤️ 보다 ‘전형적인’ 하트 실루엣 */
+    /* ❤️ 이모지에 가장 가까운 하트 실루엣 */
     clip-path: polygon(
-        50% 5%,   /* 위 가운데 살짝 아래 */
-        60% 0%,
-        70% 2%,
-        78% 8%,
-        84% 16%,
-        88% 26%,
-        90% 36%,
-        90% 46%,
-        87% 56%,
-        82% 66%,
-        74% 76%,
-        64% 84%,
-        52% 92%,  /* 아래 뾰족한 끝 */
-        48% 92%,
-        36% 84%,
-        26% 76%,
-        18% 66%,
-        13% 56%,
-        10% 46%,
-        10% 36%,
+        50% 78%,
+        42% 70%,
+        34% 62%,
+        27% 55%,
+        21% 48%,
+        16% 40%,
+        13% 33%,
         12% 26%,
-        16% 16%,
-        22% 8%,
-        30% 2%,
-        40% 0%
+        13% 20%,
+        16% 15%,
+        21% 11%,
+        27% 9%,
+        33% 9%,
+        38% 10%,
+        43% 13%,
+        46% 16%,
+        50% 20%,
+        54% 16%,
+        57% 13%,
+        62% 10%,
+        67% 9%,
+        73% 9%,
+        79% 11%,
+        84% 15%,
+        87% 20%,
+        88% 26%,
+        87% 33%,
+        84% 40%,
+        79% 48%,
+        73% 55%,
+        66% 62%,
+        58% 70%,
+        50% 78%
     );
 
     opacity: 0.9;
-    filter: drop-shadow(0 0 4px rgba(255,180,210,0.65));
-    animation-name: petal-fall;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
+    filter: drop-shadow(0 0 4px rgba(255, 180, 210, 0.65));
+    animation: petal-fall var(--duration, 10s) linear infinite;
     transform-origin: center;
     }
 
