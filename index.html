@@ -86,16 +86,14 @@
     z-index:2;
     }
 
-    /* 떨어지는 벚꽃(장미) 잎 모양 */
-    .petal{
+    /* 벚꽃처럼 한쪽이 들어간 잎 모양 */
+    .petal {
     position:absolute;
     top:-12vh;
 
-    /* 👉 기본 잎 크기 더 작게 */
     width:18px;
     height:22px;
 
-    /* 부드러운 장미 잎 그라디언트 */
     background: radial-gradient(
         circle at 30% 20%,
         var(--petal-light, #ffe9f2) 0%,
@@ -103,18 +101,22 @@
         var(--petal-dark,  #ff9cbc) 100%
     );
 
-    /* 물방울 + 끝이 조금 뾰족한 모양 */
-    border-radius: 65% 70% 80% 70% / 75% 75% 95% 90%;
+    /* 👉 둥근 장미 느낌 유지하면서 한쪽 살짝 파이도록 */
+    clip-path: polygon(
+        20% 0%,   /* 왼쪽 위 */
+        50% 6%,   /* 중간 위 */
+        80% 0%,   /* 오른쪽 위 */
+        100% 40%, /* 오른쪽 중간 */
+        75% 100%, /* 오른쪽 아래 */
+        50% 85%,  /* 아래 약간 올라온 부분 */
+        25% 100%, /* 왼쪽 아래 */
+        0% 40%    /* 왼쪽 중간 — 여기 약간 파여 보임 */
+    );
 
-    /* 살짝 비틀린 느낌 (각 꽃잎마다 JS에서 회전값 다르게 줌) */
-    transform-origin:center;
-
-    /* 가장자리 부드럽게 */
     opacity: 0.9;
-    filter: blur(0.3px) drop-shadow(0 0 4px rgba(255,180,210,0.65));
-
-    /* 떨어지는 애니메이션 공통 */
+    filter: drop-shadow(0 0 4px rgba(255,180,210,0.65));
     animation: petal-fall linear infinite;
+    transform-origin: center;
     }
 
     /* 떨어지는 애니메이션 */
@@ -1955,7 +1957,7 @@
     const container = document.getElementById("petal-layer");
     if (!container) return;
 
-    const COUNT = 22;  // 잎 수 (많이 날리려면 26~30 정도까지)
+    const COUNT = 18;  // 잎 수 (많이 날리려면 26~30 정도까지)
 
     // 여러 가지 핑크 톤 세트
     const colors = [
@@ -1975,7 +1977,7 @@
         const rot = Math.random() * 360;
         p.style.setProperty("--petal-rot", rot + "deg");
 
-        // 👉 더 작게: 0.3 ~ 0.9 배
+        // 벚꽃 크기
         const scale = 0.9;
         p.style.setProperty("--petal-scale", scale.toString());
 
