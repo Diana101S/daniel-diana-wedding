@@ -680,6 +680,11 @@
       justify-content: center;
     }
 
+    body.modal-open {
+    overflow: hidden;     /* 뒷배경 스크롤 잠금 */
+    touch-action: none;   /* 모바일에서 터치 스크롤/줌 줄이기 (브라우저별로 동작은 조금 다를 수 있음 – 확실하지 않음) */
+    }
+    
     /* 좌우 네비게이션 버튼 */
     .image-modal-nav {
     position: absolute;
@@ -1744,16 +1749,22 @@
     }
 
     function openModal(index) {
-        currentIndex = index;
-        showImage(currentIndex);
-        modal.classList.add("open");
-        modal.setAttribute("aria-hidden", "false");
+    currentIndex = index;
+    showImage(currentIndex);
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
+
+    // 🔒 뒷배경 스크롤 잠금
+    document.body.classList.add("modal-open");
     }
 
     function closeModal() {
-        modal.classList.remove("open");
-        modal.setAttribute("aria-hidden", "true");
-        modalImg.src = "";
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+    modalImg.src = "";
+
+    // 🔓 뒷배경 스크롤 다시 허용
+    document.body.classList.remove("modal-open");
     }
 
     function showNext() {
