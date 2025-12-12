@@ -86,13 +86,12 @@
     z-index:2;
     }
 
-    /* 🌸 벚꽃 잎 공통 스타일 */
     .petal {
-    position: absolute;
-    top: -12vh;
+    position:absolute;
+    top:-12vh;
 
-    width: 18px;
-    height: 22px;
+    width:18px;
+    height:22px;
 
     background: radial-gradient(
         circle at 30% 20%,
@@ -101,33 +100,31 @@
         var(--petal-dark,  #ff9cbc) 100%
     );
 
-    /* 👉 위 가운데 살짝 들어가고, 아래 뾰족 + 좌우 거의 대칭 */
+    /* 🌸 옆 라인 더 부드럽게 정리한 버전 */
     clip-path: polygon(
-        31% 5%,    /* 왼쪽 윗 가장자리 */
-        41% 0%,    /* 왼쪽 봉우리 */
+        32% 6%,    /* 왼쪽 윗 가장자리 (조금 안쪽) */
+        42% 0%,    /* 왼쪽 봉우리 */
         50% 11%,   /* 위 중앙 패인 부분 */
-        59% 0%,    /* 오른쪽 봉우리 */
-        69% 5%,    /* 오른쪽 윗 가장자리 */
+        58% 0%,    /* 오른쪽 봉우리 */
+        68% 6%,    /* 오른쪽 윗 가장자리 */
 
-        84% 40%,   /* 오른쪽 옆 */
-        73% 76%,   /* 오른쪽 아래 곡선 */
+        80% 38%,   /* 오른쪽 옆 – 전보다 안쪽으로 */
+        70% 72%,   /* 오른쪽 아래 곡선 */
 
         50% 96%,   /* 아래 뾰족한 끝 */
 
-        27% 76%,   /* 왼쪽 아래 곡선 */
-        16% 40%    /* 왼쪽 옆 */
+        30% 72%,   /* 왼쪽 아래 곡선 */
+        20% 38%    /* 왼쪽 옆 – 오른쪽과 거의 대칭 */
     );
 
     opacity: 0.9;
-    filter: drop-shadow(0 0 4px rgba(255, 180, 210, 0.65));
-
-    /* 🔹 애니메이션은 이름만 지정 – duration 등은 JS에서 세팅 */
+    filter: drop-shadow(0 0 4px rgba(255,180,210,0.65));
     animation-name: petal-fall;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
-
-    transform-origin: center;
+    transform-origin:center;
     }
+
 
     /* 🌸 떨어지는 애니메이션 */
     @keyframes petal-fall {
