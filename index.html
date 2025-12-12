@@ -86,75 +86,76 @@
     z-index:2;
     }
 
-    /* 🌸 벚꽃 잎 공통 스타일 */
-    .petal {
-    position: absolute;
-    top: -12vh;
+/* 🌸 벚꽃 잎 공통 스타일 */
+.petal {
+  position: absolute;
+  top: -12vh;
 
-    width: 18px;
-    height: 22px;
+  width: 18px;
+  height: 22px;
 
-    background: radial-gradient(
-        circle at 30% 20%,
-        var(--petal-light, #ffe9f2) 0%,
-        var(--petal-mid,   #ffc4d8) 45%,
-        var(--petal-dark,  #ff9cbc) 100%
-    );
+  background: radial-gradient(
+      circle at 30% 20%,
+      var(--petal-light, #ffe9f2) 0%,
+      var(--petal-mid,   #ffc4d8) 45%,
+      var(--petal-dark,  #ff9cbc) 100%
+  );
 
-    /* 👉 위 가운데 살짝 들어가고, 아래 뾰족 + 좌우 거의 대칭 */
-    clip-path: polygon(
-        31% 5%,    /* 왼쪽 윗 가장자리 */
-        41% 0%,    /* 왼쪽 봉우리 */
-        50% 11%,   /* 위 중앙 패인 부분 */
-        59% 0%,    /* 오른쪽 봉우리 */
-        69% 5%,    /* 오른쪽 윗 가장자리 */
+  /* 👉 위 가운데 살짝 들어가고, 아래 뾰족 + 좌우 거의 대칭 */
+  clip-path: polygon(
+    31% 5%,    /* 왼쪽 윗 가장자리 */
+    41% 0%,    /* 왼쪽 봉우리 */
+    50% 11%,   /* 위 중앙 패인 부분 */
+    59% 0%,    /* 오른쪽 봉우리 */
+    69% 5%,    /* 오른쪽 윗 가장자리 */
 
-        84% 40%,   /* 오른쪽 옆 */
-        73% 76%,   /* 오른쪽 아래 곡선 */
+    84% 40%,   /* 오른쪽 옆 */
+    73% 76%,   /* 오른쪽 아래 곡선 */
 
-        50% 96%,   /* 아래 뾰족한 끝 */
+    50% 96%,   /* 아래 뾰족한 끝 */
 
-        27% 76%,   /* 왼쪽 아래 곡선 */
-        16% 40%    /* 왼쪽 옆 */
-    );
+    27% 76%,   /* 왼쪽 아래 곡선 */
+    16% 40%    /* 왼쪽 옆 */
+  );
 
-    opacity: 0.9;
-    filter: drop-shadow(0 0 4px rgba(255, 180, 210, 0.65));
+  opacity: 0.9;
+  filter: drop-shadow(0 0 4px rgba(255, 180, 210, 0.65));
 
-    /* 🔹 애니메이션은 이름만 지정 – duration 등은 JS에서 세팅 */
-    animation-name: petal-fall;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
+  /* 🔹 애니메이션은 이름만 지정 – duration 등은 JS에서 세팅 */
+  animation-name: petal-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 
-    transform-origin: center;
-    }
+  transform-origin: center;
+}
 
-    /* 🌸 떨어지는 애니메이션 */
-    @keyframes petal-fall {
-    0% {
-        transform:
-        translate3d(0, -10vh, 0)
-        rotateZ(var(--petal-rot, 0deg))
-        scale(var(--petal-scale, 1));
-        opacity: 0;
-    }
-    15% {
-        opacity: 0.95;
-    }
-    50% {
-        transform:
-        translate3d(10px, 50vh, 0)
-        rotateZ(calc(var(--petal-rot, 0deg) + 140deg))
-        scale(var(--petal-scale, 1));
-    }
-    100% {
-        transform:
-        translate3d(-10px, 110vh, 0)
-        rotateZ(calc(var(--petal-rot, 0deg) + 320deg))
-        scale(var(--petal-scale, 1));
-        opacity: 0;
-    }
-    }
+/* 🌸 떨어지는 애니메이션 */
+@keyframes petal-fall {
+  0% {
+    transform:
+      translate3d(0, -10vh, 0)
+      rotateZ(var(--petal-rot, 0deg))
+      scale(var(--petal-scale, 1));
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.95;
+  }
+  50% {
+    transform:
+      translate3d(10px, 50vh, 0)
+      rotateZ(calc(var(--petal-rot, 0deg) + 140deg))
+      scale(var(--petal-scale, 1));
+  }
+  100% {
+    transform:
+      translate3d(-10px, 110vh, 0)
+      rotateZ(calc(var(--petal-rot, 0deg) + 320deg))
+      scale(var(--petal-scale, 1));
+    opacity: 0;
+  }
+}
+
 
     .hero-overlay {
       position: absolute;
@@ -1960,17 +1961,19 @@
     });
   }
 
-    // 🌸 Hero cherry blossom petals – 안정 버전
+    // Hero cherry blossom petals
+    // Hero cherry blossom petals – 여러 크기/색 랜덤
     (function makePetals() {
     const container = document.getElementById("petal-layer");
     if (!container) return;
 
-    const COUNT = 20;  // 👉 잎 개수 (원하면 12~30 선에서 조절)
+    const COUNT = 13;  // 잎 수 (많이 날리려면 26~30 정도까지)
 
+    // 여러 가지 핑크 톤 세트
     const colors = [
         ["#ffe9f2", "#ffc4d8", "#ff9cbc"],
         ["#ffeef7", "#ffd3e4", "#ffb3cf"],
-        ["#fff3f8", "#ffd9e8", "#ffbfdc"],
+        ["#fff3f8", "#ffd9e8", "#ffbfdc"]
     ];
 
     for (let i = 0; i < COUNT; i++) {
@@ -1980,25 +1983,20 @@
         // 가로 위치 랜덤
         p.style.left = Math.random() * 100 + "%";
 
-        // 회전 랜덤
+        // 시작 회전 각도 랜덤
         const rot = Math.random() * 360;
         p.style.setProperty("--petal-rot", rot + "deg");
 
-        // 크기 – 통통한 느낌 유지하면서 약간만 랜덤
-        const scale = 0.8 + Math.random() * 0.25; // 0.8 ~ 1.05
+        // 벚꽃 크기
+        const scale = 0.9;
         p.style.setProperty("--petal-scale", scale.toString());
 
-        // 🔹 duration / delay 를 한 번에 animation에 확실히 박아버리기
-        const duration = 9 + Math.random() * 5;   // 9 ~ 14초
-        const delay = Math.random() * duration;   // 0 ~ duration
-        // 과도한 음수 delay 대신, 시작 프레임 강제 트리거용 작은 음수만 사용
+        // 떨어지는 속도/딜레이 랜덤
+        const duration = 7 + Math.random() * 8;   // 7~15초
         p.style.animationDuration = duration + "s";
-        p.style.animationDelay = -delay + "s";    // -duration ~ 0 사이
-        // 혹시 브라우저가 animation-*를 무시하는 경우 대비해서 animation 전체 지정
-        p.style.animation = `petal-fall ${duration}s linear infinite`;
-        p.style.animationDelay = -delay + "s";
+        p.style.animationDelay = Math.random() * -duration + "s";
 
-        // 색상 랜덤
+        // 색 세트 랜덤 적용
         const [light, mid, dark] = colors[Math.floor(Math.random() * colors.length)];
         p.style.setProperty("--petal-light", light);
         p.style.setProperty("--petal-mid", mid);
