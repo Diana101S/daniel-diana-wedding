@@ -86,16 +86,16 @@
     z-index:2;
     }
 
-    /* 떨어지는 벚꽃 잎 모양 */
+    /* 떨어지는 벚꽃(장미) 잎 모양 */
     .petal{
     position:absolute;
     top:-12vh;
 
-    /* 기본 잎 크기 (전체는 scale로 랜덤 조절) */
-    width:22px;
-    height:28px;
+    /* 👉 기본 잎 크기 더 작게 */
+    width:18px;
+    height:22px;
 
-    /* 여러 톤의 핑크를 쓸 수 있도록 CSS 변수 사용 */
+    /* 부드러운 장미 잎 그라디언트 */
     background: radial-gradient(
         circle at 30% 20%,
         var(--petal-light, #ffe9f2) 0%,
@@ -103,20 +103,18 @@
         var(--petal-dark,  #ff9cbc) 100%
     );
 
-    /* 길쭉한 꽃잎 + 살짝 둥근 끝 */
-    border-radius: 60% 65% 70% 55%;
+    /* 물방울 + 끝이 조금 뾰족한 모양 */
+    border-radius: 65% 70% 80% 70% / 75% 75% 95% 90%;
 
-    /* 윗부분에 살짝 ‘이빨’ 들어간 느낌 */
-    clip-path: polygon(
-        18% 0%,  50% 6%,  82% 0%,
-        100% 35%, 75% 100%,
-        25% 100%, 0% 35%
-    );
-
-    opacity: 0.85;
-    filter: drop-shadow(0 0 6px rgba(255,180,210,0.65));
-    animation: petal-fall linear infinite;
+    /* 살짝 비틀린 느낌 (각 꽃잎마다 JS에서 회전값 다르게 줌) */
     transform-origin:center;
+
+    /* 가장자리 부드럽게 */
+    opacity: 0.9;
+    filter: blur(0.3px) drop-shadow(0 0 4px rgba(255,180,210,0.65));
+
+    /* 떨어지는 애니메이션 공통 */
+    animation: petal-fall linear infinite;
     }
 
     /* 떨어지는 애니메이션 */
@@ -1977,8 +1975,8 @@
         const rot = Math.random() * 360;
         p.style.setProperty("--petal-rot", rot + "deg");
 
-        // 크기 랜덤 (아주 작은 잎 ~ 큰 잎)
-        const scale = 0.4 + Math.random() * 1.1;  // 0.4 ~ 1.5
+        // 👉 더 작게: 0.3 ~ 0.9 배
+        const scale = 0.3 + Math.random() * 0.6;  // 0.3 ~ 0.9
         p.style.setProperty("--petal-scale", scale.toString());
 
         // 떨어지는 속도/딜레이 랜덤
