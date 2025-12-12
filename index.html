@@ -1805,6 +1805,7 @@
         } else if (e.key === "ArrowLeft") {
         showPrev();
         }
+    });
 
     // ==========================
     //   터치 스와이프(좌/우 이동)
@@ -1814,8 +1815,8 @@
     let touchLastX  = 0;
     let isTouching  = false;
 
-    // 하단 swipe는 이미지 위에서만 처리
-    modalImg.addEventListener(
+    // 👉 모달 전체에 붙여서, 이미지 주변 탭도 인식하게 함
+    modal.addEventListener(
         "touchstart",
         (e) => {
         if (e.touches.length > 1) return; // 두 손가락 이상은 무시
@@ -1827,7 +1828,7 @@
         { passive: true }
     );
 
-    modalImg.addEventListener(
+    modal.addEventListener(
         "touchmove",
         (e) => {
         if (!isTouching) return;
@@ -1837,7 +1838,7 @@
         const dx = x - touchStartX;
         const dy = y - touchStartY;
 
-        // 세로 스크롤이 더 크면 "스와이프 제스처"로 보지 않고 종료
+        // 세로로 더 많이 움직이면: 스와이프 제스처 취소 (스크롤로 간주)
         if (Math.abs(dy) > Math.abs(dx)) {
             isTouching = false;
             return;
@@ -1848,22 +1849,22 @@
         { passive: true }
     );
 
-    modalImg.addEventListener("touchend", () => {
+    modal.addEventListener("touchend", () => {
         if (!isTouching) return;
         const dx = touchLastX - touchStartX;
-        const THRESHOLD = 40; // 손가락이 이 값(px) 이상 움직여야 스와이프 인식
+        const THRESHOLD = 40; // 이 픽셀 이상 움직여야 스와이프 인식
 
         if (dx < -THRESHOLD) {
-        // 오른쪽 → 왼쪽으로 민 경우 → 다음 사진
+        // 오른쪽 → 왼쪽으로 민 경우: 다음 사진
         showNext();
         } else if (dx > THRESHOLD) {
-        // 왼쪽 → 오른쪽으로 민 경우 → 이전 사진
+        // 왼쪽 → 오른쪽으로 민 경우: 이전 사진
         showPrev();
         }
 
         isTouching = false;
     });
-    });
+
     })();
 
 
