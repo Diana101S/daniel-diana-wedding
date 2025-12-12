@@ -1805,6 +1805,64 @@
         } else if (e.key === "ArrowLeft") {
         showPrev();
         }
+
+    // ==========================
+    //   터치 스와이프(좌/우 이동)
+    // ==========================
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchLastX  = 0;
+    let isTouching  = false;
+
+    // 하단 swipe는 이미지 위에서만 처리
+    modalImg.addEventListener(
+        "touchstart",
+        (e) => {
+        if (e.touches.length > 1) return; // 두 손가락 이상은 무시
+        isTouching = true;
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        touchLastX  = touchStartX;
+        },
+        { passive: true }
+    );
+
+    modalImg.addEventListener(
+        "touchmove",
+        (e) => {
+        if (!isTouching) return;
+        const x = e.touches[0].clientX;
+        const y = e.touches[0].clientY;
+
+        const dx = x - touchStartX;
+        const dy = y - touchStartY;
+
+        // 세로 스크롤이 더 크면 "스와이프 제스처"로 보지 않고 종료
+        if (Math.abs(dy) > Math.abs(dx)) {
+            isTouching = false;
+            return;
+        }
+
+        touchLastX = x;
+        },
+        { passive: true }
+    );
+
+    modalImg.addEventListener("touchend", () => {
+        if (!isTouching) return;
+        const dx = touchLastX - touchStartX;
+        const THRESHOLD = 40; // 손가락이 이 값(px) 이상 움직여야 스와이프 인식
+
+        if (dx < -THRESHOLD) {
+        // 오른쪽 → 왼쪽으로 민 경우 → 다음 사진
+        showNext();
+        } else if (dx > THRESHOLD) {
+        // 왼쪽 → 오른쪽으로 민 경우 → 이전 사진
+        showPrev();
+        }
+
+        isTouching = false;
+    });
     });
     })();
 
