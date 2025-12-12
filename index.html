@@ -87,11 +87,12 @@
     }
 
     .petal {
-    position:absolute;
-    top:-12vh;
+    position: absolute;
+    top: -12vh;
 
-    width:18px;
-    height:22px;
+    /* 하트가 조금 더 넓게 보이도록 비율 조정 */
+    width: 22px;
+    height: 20px;
 
     background: radial-gradient(
         circle at 30% 20%,
@@ -100,28 +101,33 @@
         var(--petal-dark,  #ff9cbc) 100%
     );
 
-    /* 🌸 → ❤️ 하트 모양 클리핑 */
+    /* 🌸 → ❤️ 보다 ‘전형적인’ 하트 실루엣 */
     clip-path: polygon(
-        50% 5%,
-        61% 12%,
-        70% 20%,
-        76% 30%,
-        80% 40%,
-        82% 50%,
-        81% 60%,
-        77% 70%,
-        70% 80%,
-        60% 88%,
-        50% 94%,
-        40% 88%,
-        30% 80%,
-        23% 70%,
-        19% 60%,
-        18% 50%,
-        20% 40%,
-        24% 30%,
-        30% 20%,
-        39% 12%
+        50% 5%,   /* 위 가운데 살짝 아래 */
+        60% 0%,
+        70% 2%,
+        78% 8%,
+        84% 16%,
+        88% 26%,
+        90% 36%,
+        90% 46%,
+        87% 56%,
+        82% 66%,
+        74% 76%,
+        64% 84%,
+        52% 92%,  /* 아래 뾰족한 끝 */
+        48% 92%,
+        36% 84%,
+        26% 76%,
+        18% 66%,
+        13% 56%,
+        10% 46%,
+        10% 36%,
+        12% 26%,
+        16% 16%,
+        22% 8%,
+        30% 2%,
+        40% 0%
     );
 
     opacity: 0.9;
@@ -129,9 +135,8 @@
     animation-name: petal-fall;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
-    transform-origin:center;
+    transform-origin: center;
     }
-
 
 
     /* 🌸 떨어지는 애니메이션 */
