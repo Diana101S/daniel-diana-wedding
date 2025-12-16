@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="format-detection" content="telephone=no" />
   <title>Wedding of Daniel & Diana</title>
 
   <!-- OG -->
@@ -1168,6 +1169,15 @@
     .gifts-qr-row {
     text-align: center;
     color:#1a100a
+    }
+
+    /* 전화/문자 링크: 밑줄 제거 + 색상 원래대로 + 클릭 막기 */
+    a[href^="tel:"],
+    a[href^="sms:"] {
+      text-decoration: none !important;
+      color: inherit !important;
+      pointer-events: none;
+      cursor: default;
     }
 
   </style>
