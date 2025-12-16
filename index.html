@@ -488,6 +488,43 @@
     }
 
     /* LOCATION */
+    .location-subnote{
+      color: var(--text-muted);
+      margin-top: 6px;
+      font-size: 12.5px;
+      line-height: 1.45;
+      opacity: 0.85;
+    }
+    .location-meta-divider{
+      height: 1px;
+      background: rgba(0,0,0,0.08);
+      margin: 10px 0;
+    }
+    .location-meta-label{
+      color: var(--text-main);
+      font-size: 12.5px;
+      font-weight: 600;
+      opacity: 0.85;
+      margin-bottom: 4px;
+    }
+
+    .location-address-en{
+      color: var(--text-main);
+      font-weight: bold;
+      margin-top: 6px;
+      font-size: 12.5px;
+      line-height: 1.45;
+      opacity: 0.85;
+    }
+
+    .location-address-kr{
+      color: var(--text-main);
+      margin-top: 4px;
+      font-size: 12.5px;
+      line-height: 1.45;
+      opacity: 0.85;
+    }
+
     .location-main-card {
       margin-bottom: 4px;
     }
@@ -1280,48 +1317,68 @@
         </div>
       </section>
 
-      <!-- LOCATION -->
-      <section class="section">
-        <h2 class="section-title">Location &amp; Directions</h2>
+  <!-- LOCATION -->
+  <section class="section">
+    <h2 class="section-title">Location &amp; Directions</h2>
 
-        <div class="card location-main-card">
-          <div class="location-header-row">
-            <span class="location-pin">📍</span>
-            <div>
-              <div class="location-name">GRAND BLANC Wedding Hall, Mirabelle Garden (8th Floor)</div>
-            </div>
-          </div>
-
-          <div class="location-meta" id="location-address-text">
-            25 Centum 1-ro, Haeundae-gu, Busan 48060<br />
-            그랜드블랑 미라벨 가든 
-          </div>
-
-          <button class="location-copy-pill" id="copy-address-btn" type="button">
-            <span class="location-copy-icon">📋</span>
-            <span>Copy Address</span>
-          </button>
-
-          <div class="map-links-row">
-            <a
-              class="map-link-btn"
-              href="https://www.google.com/maps/search/?api=1&query=GRAND+BLANC+Wedding+Hall,+Mirabelle+Garden,+Busan"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Google Maps
-            </a>
-            <a
-              class="map-link-btn"
-              href="https://map.naver.com/p/entry/place/37293028?placePath=%2Fhome"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Naver Map
-            </a>
+    <div class="card location-main-card">
+      <div class="location-header-row">
+        <span class="location-pin">📍</span>
+        <div>
+          <div class="location-name">
+            GRAND BLANC Wedding Hall, Mirabelle Garden (8th Floor)
           </div>
         </div>
-      </section>
+      </div>
+
+      <div class="location-meta">
+        <!-- Copy 대상: 영문 주소만 -->
+        <div id="location-address-en" class="location-address-en">
+          25 Centum 1-ro, Haeundae-gu, Busan 48060
+        </div>
+
+       <div class="location-subnote location-elevator-note">
+            Once you arrive at the building, please take the elevator to the 8th floor for the wedding venue.
+       </div>
+
+        <div class="location-meta-divider"></div>
+
+        <!-- ✅ 요청한 Taxi 표기 -->
+        <div class="location-meta-label">Taxi</div>
+        <div id="location-address-kr" class="location-address-kr">
+          <strong>센텀 그랜드블랑</strong><br />
+          부산 해운대구 센텀1로 25, 센텀한샘빌딩 8층
+        </div>
+        <div class="location-subnote">
+          Show this to the taxi driver.
+        </div>
+      </div>
+
+      <button class="location-copy-pill" id="copy-address-btn" type="button">
+        <span class="location-copy-icon">📋</span>
+        <span id="copy-address-btn-text">Copy Address (Eng)</span>
+      </button>
+
+      <div class="map-links-row">
+        <a
+          class="map-link-btn"
+          href="https://www.google.com/maps/search/?api=1&query=GRAND+BLANC+Wedding+Hall,+Mirabelle+Garden,+Busan"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Google Maps
+        </a>
+        <a
+          class="map-link-btn"
+          href="https://map.naver.com/p/entry/place/37293028?placePath=%2Fhome"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Naver Map
+        </a>
+      </div>
+    </div>
+  </section>
 
         <!-- GETTING THERE -->
         <section class="section">
@@ -1703,26 +1760,49 @@
 
 
   <script>
-    // Copy Address 버튼
+    // Copy Address: 영문 주소만 복사
     (function () {
-      const copyBtn = document.getElementById("copy-address-btn");
-      if (!copyBtn) return;
+      const btn = document.getElementById("copy-address-btn");
+      const btnText = document.getElementById("copy-address-btn-text");
+      const enAddressEl = document.getElementById("location-address-en");
 
-      copyBtn.addEventListener("click", async () => {
-        const textEl = document.getElementById("location-address-text");
-        if (!textEl) return;
+      function setCopiedUI() {
+        const prev = btnText.textContent;
+        btnText.textContent = "Copied!";
+        btn.disabled = true;
+        setTimeout(() => {
+          btnText.textContent = prev;
+          btn.disabled = false;
+        }, 1200);
+      }
 
-        const text = textEl.innerText.replace(/\s+/g, " ").trim();
-        try {
+      async function copyText(text) {
+        // 최신 브라우저
+        if (navigator.clipboard && window.isSecureContext) {
           await navigator.clipboard.writeText(text);
-          const labelSpan = copyBtn.querySelector("span:last-child");
-          if (labelSpan) {
-            labelSpan.textContent = "Copied!";
-            setTimeout(() => {
-              labelSpan.textContent = "Copy Address";
-            }, 1500);
-          }
+          return;
+        }
+        // fallback
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "absolute";
+        ta.style.left = "-9999px";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+      }
+
+      btn.addEventListener("click", async () => {
+        const address = (enAddressEl?.textContent || "").trim();
+        if (!address) return;
+
+        try {
+          await copyText(address);
+          setCopiedUI();
         } catch (e) {
+          // 복사 실패 시에는 조용히 무시 (원하면 alert로 바꿔줄게)
           console.error(e);
         }
       });
