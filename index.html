@@ -146,31 +146,30 @@
 
     /* 🌸 떨어지는 애니메이션 */
     @keyframes petal-fall {
-    0% {
+      0% {
         transform:
-        translate3d(0, -10vh, 0)
-        rotateZ(var(--petal-rot, 0deg))
-        scale(var(--petal-scale, 1));
+          translate3d(0, -10vh, 0)
+          rotateZ(calc(var(--petal-rot, 0) * 1deg))
+          scale(var(--petal-scale, 1));
         opacity: 0;
-    }
-    15% {
-        opacity: 0.95;
-    }
-    50% {
+      }
+      15% { opacity: 0.95; }
+    
+      50% {
         transform:
-        translate3d(10px, 50vh, 0)
-        rotateZ(calc(var(--petal-rot, 0deg) + 140deg))
-        scale(var(--petal-scale, 1));
-    }
-    100% {
+          translate3d(10px, 50vh, 0)
+          rotateZ(calc(var(--petal-rot, 0) * 1deg + 140deg))
+          scale(var(--petal-scale, 1));
+      }
+    
+      100% {
         transform:
-        translate3d(-10px, 110vh, 0)
-        rotateZ(calc(var(--petal-rot, 0deg) + 320deg))
-        scale(var(--petal-scale, 1));
+          translate3d(-10px, 110vh, 0)
+          rotateZ(calc(var(--petal-rot, 0) * 1deg + 320deg))
+          scale(var(--petal-scale, 1));
         opacity: 0;
+      }
     }
-    }
-
 
     .hero-overlay {
       position: absolute;
@@ -2178,7 +2177,7 @@
 
         // 회전 랜덤
         const rot = Math.random() * 360;
-        p.style.setProperty("--petal-rot", rot + "deg");
+        p.style.setProperty("--petal-rot", rot.toFixed(2)); // ✅ 숫자만
 
         // 크기 – 통통한 느낌 유지하면서 약간만 랜덤
         const scale = 0.8 + Math.random() * 0.25; // 0.8 ~ 1.05
