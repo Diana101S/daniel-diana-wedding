@@ -1208,7 +1208,12 @@
       box-shadow: 0 12px 22px rgba(0,0,0,0.18) !important; /* 기본값으로 고정 */
       filter: none !important;
     }
-    
+
+    .location-divider {
+      height: 1px;
+      background: #f0dfd0;  /* getting there divider와 동일 */
+      margin: 12px 0 10px;  /* 필요하면 숫자만 조절 */
+    }
   </style>
 </head>
 
@@ -1380,7 +1385,7 @@
             Once you arrive at the building, please take the elevator to the 8th floor for the wedding venue.
        </div>
 
-        <div class="location-meta-divider"></div>
+        <div class="location-divider"></div>
 
         <!-- ✅ 요청한 Taxi 표기 -->
         <div class="location-meta-label">Taxi</div>
