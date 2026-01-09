@@ -29,6 +29,9 @@
       --shadow-soft: 0 14px 34px rgba(0,0,0,0.09);
       --radius-card: 22px;
       --rule:#E6D7BD;
+
+      /* ✅ 추가: var(--ink) 미정의로 인한 CSS 무효 방지 (색감 유지) */
+      --ink: var(--text-main);
     }
 
     * {
@@ -839,58 +842,69 @@
     }
 
     /* RSVP */
-    .rsvp-card {
-    padding-top: 18px;
-    padding-bottom: 16px;
-    }
-
-    .rsvp-form {
-    margin-bottom: 4px;
-    }
-
-    /* yes / no 라인 */
-    .rsvp-choice-row {
-    display: flex;
-    gap: 8px;
-    justify-content: space-between;
-    font-size: 11px;
-    }
-
-    .rsvp-choice {
-    flex: 1;
-    display: flex;
-    flex-direction: column;   /* 위에 동그라미, 아래 텍스트 유지 */
-    align-items: center;
-    justify-content: center;
-    gap: 2px;                 /* 6px → 2px : 안쪽 간격 줄이기 */
-    padding: 3px 5px;         /* 10px 8px → 3px 4px : 패딩 확 줄이기 */
-    border-radius: 10px;
-    border: 1px solid #edd8c6;
-    background: #fff7f0;
-    cursor: pointer;
+    .rsvp-cta-card{
+    background:#ffffff;
+    border-radius: 28px;
+    box-shadow: var(--shadow-soft);
+    padding: 26px 22px 22px;
     text-align: center;
-    min-height: 0;            /* 72px → 0 : 강제 높이 없애기 */
     }
 
-    /* 동그라미를 진짜 정중앙으로 */
-    .rsvp-choice-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    }
-
-    .rsvp-choice input[type="radio"] {
-    accent-color: var(--accent);
-    transform: scale(0.9);
-    margin: 0 0 2px 0;   /* 위/옆 여백 없애고, 아래만 살짝 */
-    flex-shrink: 0;
-    }
-
-    .rsvp-status {
-    margin-top: 4px;
-    font-size: 11px;
-    text-align: center;
+    .rsvp-cta-title{
+    margin: 0 0 18px;
+    font-size: 18px;
+    line-height: 1.35;
     color: var(--text-muted);
+    font-weight: 500;
+    }
+
+    .rsvp-cta-button{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    width: 100%;
+    max-width: 340px;
+
+    padding: 16px 18px;
+    border-radius: 999px;
+    text-decoration: none;
+
+    background: var(--accent); /* 기존 테마 컬러 사용 */
+    color: #ffffff;
+
+    font-size: 18px;
+    font-weight: 600;
+
+    box-shadow: 0 12px 22px rgba(0,0,0,0.18);
+    transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
+    -webkit-tap-highlight-color: transparent;
+    }
+
+    .rsvp-cta-button:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 16px 28px rgba(0,0,0,0.20);
+    filter: brightness(1.02);
+    }
+
+    .rsvp-cta-button:active{
+    transform: translateY(0px);
+    box-shadow: 0 10px 18px rgba(0,0,0,0.18);
+    }
+
+    .rsvp-cta-heart{
+    font-size: 22px;
+    line-height: 1;
+    transform: translateY(-1px);
+    display: inline-block;
+    }
+
+    .rsvp-cta-sub{
+    margin: 16px 0 0;
+    font-size: 14px;
+    color: var(--text-muted);
+    opacity: 0.9;
     }
 
     /* GIFTS */
@@ -900,7 +914,7 @@
     }
 
     .gifts-intro {
-      font-size: 12px;
+      font-size: 10px;
       line-height: 1.8;
       text-align: center;
       color: var(--text-main);
@@ -1174,7 +1188,7 @@
 
     .gifts-qr-row {
     text-align: center;
-    color:#1a100a
+    color:#1a100a;
     }
 
     /* 전화/문자 링크: 밑줄 제거 + 색상 원래대로 + 클릭 막기 */
@@ -1185,7 +1199,16 @@
       pointer-events: none;
       cursor: default;
     }
-
+  
+    /* RSVP 버튼: hover/active 효과 제거 (기존 스타일은 유지) */
+    .rsvp-cta-button:hover,
+    .rsvp-cta-button:active,
+    .rsvp-cta-button:focus-visible {
+      transform: none !important;
+      box-shadow: 0 12px 22px rgba(0,0,0,0.18) !important; /* 기본값으로 고정 */
+      filter: none !important;
+    }
+    
   </style>
 </head>
 
@@ -1533,7 +1556,8 @@
                 <span class="gifts-method-sub">
                     Scan the QR to send directly via Venmo
                 </span>
-                <img src="images/venmo-qr.jpg" class="gifts-qr-img">
+                <!-- ✅ alt 추가 + 닫는 태그 보완 -->
+                <img src="images/venmo-qr.jpg" class="gifts-qr-img" alt="Venmo QR code" />
                 </div>
 
                 <!-- ⭐ 여기! 버튼을 이 위치에 넣으면 됨 -->
@@ -1567,6 +1591,7 @@
             </div>
             </div>
 
+        </div>
           <p class="gifts-note">
             We are so grateful for your love, support, and for celebrating this day with us.
           </p>
@@ -1577,72 +1602,22 @@
       <section class="section">
         <h2 class="section-title">RSVP</h2>
 
-        <div class="card rsvp-card">
-            <form class="rsvp-form" id="rsvp-form">
-            <div class="field">
-                <input
-                type="text"
-                id="rsvp-name"
-                placeholder="Name"
-                required
-                />
-            </div>
+       <div class="card rsvp-cta-card">
+        <p class="rsvp-cta-title">Your presence would be<br />the greatest gift of all</p>
 
-            <div class="field">
-                <input
-                type="email"
-                id="rsvp-email"
-                placeholder="Email"
-                />
-            </div>
+        <a
+        class="rsvp-cta-button"
+        href="https://docs.google.com/forms/d/e/1FAIpQLSeCGh9QbEd9xcAQOgkylRnNl-rlWo6vi_v3M7M4E0SNBtZC8g/viewform?usp=publish-editor"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Open RSVP Google Form"
+        >
+        <span class="rsvp-cta-heart" aria-hidden="true">♡</span>
+        <span>Submit Your RSVP</span>
+        </a>
 
-            <div class="field rsvp-choice-row">
-            <label class="rsvp-choice">
-                <span class="rsvp-choice-icon">
-                <input
-                    type="radio"
-                    name="rsvp-attending"
-                    value="yes"
-                    required
-                />
-                </span>
-                <span class="rsvp-choice-text">Happily attending</span>
-            </label>
-
-            <label class="rsvp-choice">
-                <span class="rsvp-choice-icon">
-                <input
-                    type="radio"
-                    name="rsvp-attending"
-                    value="no"
-                />
-                </span>
-                <span class="rsvp-choice-text">Send love from afar</span>
-            </label>
-            </div>
-
-            <div class="field">
-                <input
-                type="number"
-                id="rsvp-guests"
-                min="1"
-                max="10"
-                placeholder="Number of guests (including you)"
-                />
-            </div>
-
-            <div class="field">
-                <textarea
-                id="rsvp-notes"
-                rows="3"
-                placeholder="notes (optional)"
-                ></textarea>
-            </div>
-
-            <button type="submit" class="btn-submit">Submit RSVP</button>
-            <div class="rsvp-status" id="rsvp-status"></div>
-            </form>
-        </div>
+        <p class="rsvp-cta-sub">Click to open Google Form</p>
+       </div>
       </section>
 
       <!-- GUEST BOOK -->
@@ -1730,577 +1705,490 @@
                 </div>
             </dl>
           </div>
+        </div>
+      </section>
 
-
+    </main>
 
     <!-- IMAGE MODAL -->
-  <div class="image-modal" id="image-modal" aria-hidden="true">
-    <div class="image-modal-inner">
-        <!-- 이전 / 다음 버튼 -->
-        <button
-        type="button"
-        class="image-modal-nav image-modal-prev"
-        id="image-modal-prev"
-        aria-label="Previous image"
-        >
-        &lt;
-        </button>
+    <div class="image-modal" id="image-modal" aria-hidden="true">
+      <div class="image-modal-inner">
+          <!-- 이전 / 다음 버튼 -->
+          <button
+          type="button"
+          class="image-modal-nav image-modal-prev"
+          id="image-modal-prev"
+          aria-label="Previous image"
+          >
+          &lt;
+          </button>
 
-        <img
-        id="image-modal-img"
-        class="image-modal-img"
-        src=""
-        alt="Expanded gallery image"
-        />
+          <img
+          id="image-modal-img"
+          class="image-modal-img"
+          src=""
+          alt="Expanded gallery image"
+          />
 
-        <button
-        type="button"
-        class="image-modal-nav image-modal-next"
-        id="image-modal-next"
-        aria-label="Next image"
-        >
-        &gt;
-        </button>
+          <button
+          type="button"
+          class="image-modal-nav image-modal-next"
+          id="image-modal-next"
+          aria-label="Next image"
+          >
+          &gt;
+          </button>
 
-        <!-- 닫기 버튼 -->
-        <button
-        type="button"
-        class="image-modal-close"
-        id="image-modal-close"
-        aria-label="Close image"
-        >
-        ×
-        </button>
+          <!-- 닫기 버튼 -->
+          <button
+          type="button"
+          class="image-modal-close"
+          id="image-modal-close"
+          aria-label="Close image"
+          >
+          ×
+          </button>
+      </div>
     </div>
-  </div>
 
 
-  <script>
-    // Copy Address: 영문 주소만 복사
-    (function () {
-      const btn = document.getElementById("copy-address-btn");
-      const btnText = document.getElementById("copy-address-btn-text");
-      const enAddressEl = document.getElementById("location-address-en");
+    <script>
+      // Copy Address: 영문 주소만 복사
+      (function () {
+        const btn = document.getElementById("copy-address-btn");
+        const btnText = document.getElementById("copy-address-btn-text");
+        const enAddressEl = document.getElementById("location-address-en");
 
-      function setCopiedUI() {
-        const prev = btnText.textContent;
-        btnText.textContent = "Copied!";
-        btn.disabled = true;
-        setTimeout(() => {
-          btnText.textContent = prev;
-          btn.disabled = false;
-        }, 1200);
-      }
-
-      async function copyText(text) {
-        // 최신 브라우저
-        if (navigator.clipboard && window.isSecureContext) {
-          await navigator.clipboard.writeText(text);
-          return;
+        function setCopiedUI() {
+          const prev = btnText.textContent;
+          btnText.textContent = "Copied!";
+          btn.disabled = true;
+          setTimeout(() => {
+            btnText.textContent = prev;
+            btn.disabled = false;
+          }, 1200);
         }
-        // fallback
-        const ta = document.createElement("textarea");
-        ta.value = text;
-        ta.setAttribute("readonly", "");
-        ta.style.position = "absolute";
-        ta.style.left = "-9999px";
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand("copy");
-        document.body.removeChild(ta);
-      }
 
-      btn.addEventListener("click", async () => {
-        const address = (enAddressEl?.textContent || "").trim();
-        if (!address) return;
-
-        try {
-          await copyText(address);
-          setCopiedUI();
-        } catch (e) {
-          // 복사 실패 시에는 조용히 무시 (원하면 alert로 바꿔줄게)
-          console.error(e);
-        }
-      });
-    })();
-
-    // Gallery 이미지 클릭 → 모달 + 슬라이드(prev/next)
-    (function () {
-    const modal      = document.getElementById("image-modal");
-    const modalImg   = document.getElementById("image-modal-img");
-    const modalClose = document.getElementById("image-modal-close");
-    const prevBtn    = document.getElementById("image-modal-prev");
-    const nextBtn    = document.getElementById("image-modal-next");
-
-    if (!modal || !modalImg || !modalClose || !prevBtn || !nextBtn) return;
-
-    const images = Array.from(document.querySelectorAll(".gallery-grid img"));
-    let currentIndex = 0;
-
-    function showImage(index) {
-        const img = images[index];
-        if (!img) return;
-        modalImg.src = img.src;
-        modalImg.alt = img.alt || "Expanded gallery image";
-    }
-
-    function openModal(index) {
-    currentIndex = index;
-    showImage(currentIndex);
-    modal.classList.add("open");
-    modal.setAttribute("aria-hidden", "false");
-
-    // 🔒 뒷배경 스크롤 잠금
-    document.body.classList.add("modal-open");
-    }
-
-    function closeModal() {
-    modal.classList.remove("open");
-    modal.setAttribute("aria-hidden", "true");
-    modalImg.src = "";
-
-    // 🔓 뒷배경 스크롤 다시 허용
-    document.body.classList.remove("modal-open");
-    }
-
-    function showNext() {
-        currentIndex = (currentIndex + 1) % images.length;  // 마지막 → 첫 번째로 순환
-        showImage(currentIndex);
-    }
-
-    function showPrev() {
-        currentIndex = (currentIndex - 1 + images.length) % images.length; // 첫 번째 → 마지막으로 순환
-        showImage(currentIndex);
-    }
-
-    // 썸네일 클릭 시: 해당 index로 모달 열기
-    images.forEach((img, idx) => {
-        img.addEventListener("click", () => {
-        openModal(idx);
-        });
-    });
-
-    // 버튼 클릭
-    nextBtn.addEventListener("click", (e) => {
-        e.stopPropagation(); // 바깥 클릭으로 닫히지 않게
-        showNext();
-    });
-
-    prevBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        showPrev();
-    });
-
-    // 닫기 버튼
-    modalClose.addEventListener("click", closeModal);
-
-    // 배경 클릭 시 닫기
-    modal.addEventListener("click", (e) => {
-        if (e.target === modal) {
-        closeModal();
-        }
-    });
-
-    // 키보드: ESC로 닫기, ← → 로 이동
-    window.addEventListener("keydown", (e) => {
-        if (!modal.classList.contains("open")) return;
-
-        if (e.key === "Escape") {
-        closeModal();
-        } else if (e.key === "ArrowRight") {
-        showNext();
-        } else if (e.key === "ArrowLeft") {
-        showPrev();
-        }
-    });
-
-    // ==========================
-    //   터치 스와이프(좌/우 이동)
-    // ==========================
-    let touchStartX = 0;
-    let touchStartY = 0;
-    let touchLastX  = 0;
-    let isTouching  = false;
-
-    // 👉 모달 전체에 붙여서, 이미지 주변 탭도 인식하게 함
-    modal.addEventListener(
-        "touchstart",
-        (e) => {
-        if (e.touches.length > 1) return; // 두 손가락 이상은 무시
-        isTouching = true;
-        touchStartX = e.touches[0].clientX;
-        touchStartY = e.touches[0].clientY;
-        touchLastX  = touchStartX;
-        },
-        { passive: true }
-    );
-
-    modal.addEventListener(
-        "touchmove",
-        (e) => {
-        if (!isTouching) return;
-        const x = e.touches[0].clientX;
-        const y = e.touches[0].clientY;
-
-        const dx = x - touchStartX;
-        const dy = y - touchStartY;
-
-        // 세로로 더 많이 움직이면: 스와이프 제스처 취소 (스크롤로 간주)
-        if (Math.abs(dy) > Math.abs(dx)) {
-            isTouching = false;
+        async function copyText(text) {
+          // 최신 브라우저
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(text);
             return;
+          }
+          // fallback
+          const ta = document.createElement("textarea");
+          ta.value = text;
+          ta.setAttribute("readonly", "");
+          ta.style.position = "absolute";
+          ta.style.left = "-9999px";
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand("copy");
+          document.body.removeChild(ta);
         }
 
-        touchLastX = x;
-        },
-        { passive: true }
-    );
+        btn.addEventListener("click", async () => {
+          const address = (enAddressEl?.textContent || "").trim();
+          if (!address) return;
 
-    modal.addEventListener("touchend", () => {
-        if (!isTouching) return;
-        const dx = touchLastX - touchStartX;
-        const THRESHOLD = 40; // 이 픽셀 이상 움직여야 스와이프 인식
+          try {
+            await copyText(address);
+            setCopiedUI();
+          } catch (e) {
+            // 복사 실패 시에는 조용히 무시 (원하면 alert로 바꿔줄게)
+            console.error(e);
+          }
+        });
+      })();
 
-        if (dx < -THRESHOLD) {
-        // 오른쪽 → 왼쪽으로 민 경우: 다음 사진
-        showNext();
-        } else if (dx > THRESHOLD) {
-        // 왼쪽 → 오른쪽으로 민 경우: 이전 사진
-        showPrev();
+      // Gallery 이미지 클릭 → 모달 + 슬라이드(prev/next)
+      (function () {
+      const modal      = document.getElementById("image-modal");
+      const modalImg   = document.getElementById("image-modal-img");
+      const modalClose = document.getElementById("image-modal-close");
+      const prevBtn    = document.getElementById("image-modal-prev");
+      const nextBtn    = document.getElementById("image-modal-next");
+
+      if (!modal || !modalImg || !modalClose || !prevBtn || !nextBtn) return;
+
+      const images = Array.from(document.querySelectorAll(".gallery-grid img"));
+      let currentIndex = 0;
+
+      function showImage(index) {
+          const img = images[index];
+          if (!img) return;
+          modalImg.src = img.src;
+          modalImg.alt = img.alt || "Expanded gallery image";
+      }
+
+      function openModal(index) {
+      currentIndex = index;
+      showImage(currentIndex);
+      modal.classList.add("open");
+      modal.setAttribute("aria-hidden", "false");
+
+      // 🔒 뒷배경 스크롤 잠금
+      document.body.classList.add("modal-open");
+      }
+
+      function closeModal() {
+      modal.classList.remove("open");
+      modal.setAttribute("aria-hidden", "true");
+      modalImg.src = "";
+
+      // 🔓 뒷배경 스크롤 다시 허용
+      document.body.classList.remove("modal-open");
+      }
+
+      function showNext() {
+          currentIndex = (currentIndex + 1) % images.length;  // 마지막 → 첫 번째로 순환
+          showImage(currentIndex);
+      }
+
+      function showPrev() {
+          currentIndex = (currentIndex - 1 + images.length) % images.length; // 첫 번째 → 마지막으로 순환
+          showImage(currentIndex);
+      }
+
+      // 썸네일 클릭 시: 해당 index로 모달 열기
+      images.forEach((img, idx) => {
+          img.addEventListener("click", () => {
+          openModal(idx);
+          });
+      });
+
+      // 버튼 클릭
+      nextBtn.addEventListener("click", (e) => {
+          e.stopPropagation(); // 바깥 클릭으로 닫히지 않게
+          showNext();
+      });
+
+      prevBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          showPrev();
+      });
+
+      // 닫기 버튼
+      modalClose.addEventListener("click", closeModal);
+
+      // 배경 클릭 시 닫기
+      modal.addEventListener("click", (e) => {
+          if (e.target === modal) {
+          closeModal();
+          }
+      });
+
+      // 키보드: ESC로 닫기, ← → 로 이동
+      window.addEventListener("keydown", (e) => {
+          if (!modal.classList.contains("open")) return;
+
+          if (e.key === "Escape") {
+          closeModal();
+          } else if (e.key === "ArrowRight") {
+          showNext();
+          } else if (e.key === "ArrowLeft") {
+          showPrev();
+          }
+      });
+
+      // ==========================
+      //   터치 스와이프(좌/우 이동)
+      // ==========================
+      let touchStartX = 0;
+      let touchStartY = 0;
+      let touchLastX  = 0;
+      let isTouching  = false;
+
+      // 👉 모달 전체에 붙여서, 이미지 주변 탭도 인식하게 함
+      modal.addEventListener(
+          "touchstart",
+          (e) => {
+          if (e.touches.length > 1) return; // 두 손가락 이상은 무시
+          isTouching = true;
+          touchStartX = e.touches[0].clientX;
+          touchStartY = e.touches[0].clientY;
+          touchLastX  = touchStartX;
+          },
+          { passive: true }
+      );
+
+      modal.addEventListener(
+          "touchmove",
+          (e) => {
+          if (!isTouching) return;
+          const x = e.touches[0].clientX;
+          const y = e.touches[0].clientY;
+
+          const dx = x - touchStartX;
+          const dy = y - touchStartY;
+
+          // 세로로 더 많이 움직이면: 스와이프 제스처 취소 (스크롤로 간주)
+          if (Math.abs(dy) > Math.abs(dx)) {
+              isTouching = false;
+              return;
+          }
+
+          touchLastX = x;
+          },
+          { passive: true }
+      );
+
+      modal.addEventListener("touchend", () => {
+          if (!isTouching) return;
+          const dx = touchLastX - touchStartX;
+          const THRESHOLD = 40; // 이 픽셀 이상 움직여야 스와이프 인식
+
+          if (dx < -THRESHOLD) {
+          // 오른쪽 → 왼쪽으로 민 경우: 다음 사진
+          showNext();
+          } else if (dx > THRESHOLD) {
+          // 왼쪽 → 오른쪽으로 민 경우: 이전 사진
+          showPrev();
+          }
+
+          isTouching = false;
+      });
+
+      // ==========================
+      //   더블탭 확대 방지
+      // ==========================
+      let lastTouchEndTime = 0;
+
+      modal.addEventListener(
+      "touchend",
+      (e) => {
+          const now = Date.now();
+          // 300ms 안에 두 번 터치되면 → 더블탭으로 판단
+          if (now - lastTouchEndTime <= 300) {
+          e.preventDefault(); // 브라우저 기본 동작(줌) 막기
+          }
+          lastTouchEndTime = now;
+      },
+      { passive: false } // ❗️이게 있어야 preventDefault가 먹음
+      );
+
+      })();
+
+      // Countdown – 2026-06-06 13:00 KST
+      (function () {
+        const target = new Date("2026-06-06T13:00:00+09:00");
+
+        const daysEl = document.getElementById("count-days");
+        const hoursEl = document.getElementById("count-hours");
+        const minsEl = document.getElementById("count-mins");
+        const secsEl = document.getElementById("count-secs");
+
+        if (!daysEl || !hoursEl || !minsEl || !secsEl) return;
+
+        function updateCountdown() {
+          const now = new Date();
+          const diff = target.getTime() - now.getTime();
+
+          if (diff <= 0) {
+            daysEl.textContent = "0";
+            hoursEl.textContent = "0";
+            minsEl.textContent = "0";
+            secsEl.textContent = "0";
+            return;
+          }
+
+          const totalSeconds = Math.floor(diff / 1000);
+          const days = Math.floor(totalSeconds / (60 * 60 * 24));
+          const hours = Math.floor((totalSeconds % (60 * 60 * 24)) / (60 * 60));
+          const minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
+          const seconds = totalSeconds % 60;
+
+          daysEl.textContent = String(days);
+          hoursEl.textContent = String(hours);
+          minsEl.textContent = String(minutes);
+          secsEl.textContent = String(seconds);
         }
 
-        isTouching = false;
-    });
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+      })();
+    </script>
 
-    // ==========================
-    //   더블탭 확대 방지
-    // ==========================
-    let lastTouchEndTime = 0;
+    <script type="module">
+      import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.50.3/+esm";
 
-    modal.addEventListener(
-    "touchend",
-    (e) => {
-        const now = Date.now();
-        // 300ms 안에 두 번 터치되면 → 더블탭으로 판단
-        if (now - lastTouchEndTime <= 300) {
-        e.preventDefault(); // 브라우저 기본 동작(줌) 막기
-        }
-        lastTouchEndTime = now;
-    },
-    { passive: false } // ❗️이게 있어야 preventDefault가 먹음
-    );
+      console.log("✅ guestbook script loaded");
 
-    })();
+      const SUPABASE_URL = "https://khddckyznivjoluwtvxo.supabase.co";
+      const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtoZGRja3l6bml2am9sdXd0dnhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI3MTk1NDYsImV4cCI6MjA3ODI5NTU0Nn0.zblwD4ETNzl1YlFBTfpqvxkvGPrE1RhawPLC9_iUxoE";
 
-    // Countdown – 2026-06-06 13:00 KST
-    (function () {
-      const target = new Date("2026-06-06T13:00:00+09:00");
+      console.log("SUPABASE_URL:", SUPABASE_URL);
 
-      const daysEl = document.getElementById("count-days");
-      const hoursEl = document.getElementById("count-hours");
-      const minsEl = document.getElementById("count-mins");
-      const secsEl = document.getElementById("count-secs");
+      const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-      if (!daysEl || !hoursEl || !minsEl || !secsEl) return;
+      const form = document.getElementById("guest-form");
+      const nameInput = document.getElementById("guest-name");
+      const messageInput = document.getElementById("guest-message");
+      const statusEl = document.getElementById("guest-status");
+      const listEl = document.getElementById("guest-list");
 
-      function updateCountdown() {
-        const now = new Date();
-        const diff = target.getTime() - now.getTime();
+      // 🔹 created_at 예쁘게 포맷
+      function formatDate(isoString) {
+        if (!isoString) return "";
+        const d = new Date(isoString);
+        // 한국 기준으로 YYYY.MM.DD HH:MM 정도
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, "0");
+        const day = String(d.getDate()).padStart(2, "0");
+        const hour = String(d.getHours()).padStart(2, "0");
+        const minute = String(d.getMinutes()).padStart(2, "0");
+        return `${year}.${month}.${day} ${hour}:${minute}`;
+      }
 
-        if (diff <= 0) {
-          daysEl.textContent = "0";
-          hoursEl.textContent = "0";
-          minsEl.textContent = "0";
-          secsEl.textContent = "0";
+      // 🔹 화면에 리스트 그리기
+      function renderGuests(guests) {
+        if (!listEl) return;
+
+        if (!guests || guests.length === 0) {
+          listEl.innerHTML = `  <p style="font-size:12px; color:#9a7a67; text-align:center;"> No messages yet. Be the first to leave a note 💌 </p>`;
           return;
         }
 
-        const totalSeconds = Math.floor(diff / 1000);
-        const days = Math.floor(totalSeconds / (60 * 60 * 24));
-        const hours = Math.floor((totalSeconds % (60 * 60 * 24)) / (60 * 60));
-        const minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
-        const seconds = totalSeconds % 60;
+        listEl.innerHTML = guests
+          .map((g) => {
+            const safeName = g.name && g.name.trim() !== "" ? g.name : "Anonymous";
+            const date = formatDate(g.created_at);
+            const msg = (g.message || "").replace(/\n/g, "<br/>");
 
-        daysEl.textContent = String(days);
-        hoursEl.textContent = String(hours);
-        minsEl.textContent = String(minutes);
-        secsEl.textContent = String(seconds);
+            return `
+              <div class="guest-item">
+                <div class="guest-item-header">
+                  <span class="guest-item-name">${safeName}</span>
+                  <span class="guest-item-date">${date}</span>
+                </div>
+                <div class="guest-item-message">${msg}</div>
+              </div>
+            `;
+          })
+          .join("");
       }
 
-      updateCountdown();
-      setInterval(updateCountdown, 1000);
-    })();
-  </script>
-<script type="module">
-  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.50.3/+esm";
 
-  console.log("✅ guestbook script loaded");
+      // 🔹 Supabase에서 방명록 가져오기
+      async function loadGuests() {
+        if (!listEl) return;
+        listEl.innerHTML = `<p style="font-size:12px; color:#9a7a67;">Loading messages...</p>`;
 
-  const SUPABASE_URL = "https://khddckyznivjoluwtvxo.supabase.co";
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtoZGRja3l6bml2am9sdXd0dnhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI3MTk1NDYsImV4cCI6MjA3ODI5NTU0Nn0.zblwD4ETNzl1YlFBTfpqvxkvGPrE1RhawPLC9_iUxoE";
-
-  console.log("SUPABASE_URL:", SUPABASE_URL);
-
-  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-  const form = document.getElementById("guest-form");
-  const nameInput = document.getElementById("guest-name");
-  const messageInput = document.getElementById("guest-message");
-  const statusEl = document.getElementById("guest-status");
-  const listEl = document.getElementById("guest-list");
-
-  // 🔹 created_at 예쁘게 포맷
-  function formatDate(isoString) {
-    if (!isoString) return "";
-    const d = new Date(isoString);
-    // 한국 기준으로 YYYY.MM.DD HH:MM 정도
-    const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, "0");
-    const day = String(d.getDate()).padStart(2, "0");
-    const hour = String(d.getHours()).padStart(2, "0");
-    const minute = String(d.getMinutes()).padStart(2, "0");
-    return `${year}.${month}.${day} ${hour}:${minute}`;
-  }
-
-  // 🔹 화면에 리스트 그리기
-  function renderGuests(guests) {
-    if (!listEl) return;
-
-    if (!guests || guests.length === 0) {
-      listEl.innerHTML = `  <p style="font-size:12px; color:#9a7a67; text-align:center;"> No messages yet. Be the first to leave a note 💌 </p>`;
-      return;
-    }
-
-    listEl.innerHTML = guests
-      .map((g) => {
-        const safeName = g.name && g.name.trim() !== "" ? g.name : "Anonymous";
-        const date = formatDate(g.created_at);
-        const msg = (g.message || "").replace(/\n/g, "<br/>");
-
-        return `
-          <div class="guest-item">
-            <div class="guest-item-header">
-              <span class="guest-item-name">${safeName}</span>
-              <span class="guest-item-date">${date}</span>
-            </div>
-            <div class="guest-item-message">${msg}</div>
-          </div>
-        `;
-      })
-      .join("");
-  }
-
-
-  // 🔹 Supabase에서 방명록 가져오기
-  async function loadGuests() {
-    if (!listEl) return;
-    listEl.innerHTML = `<p style="font-size:12px; color:#9a7a67;">Loading messages...</p>`;
-
-    const { data, error } = await supabase
-      .from("guestbook")
-      .select("id, name, message, created_at")
-      .order("created_at", { ascending: false });
-
-    if (error) {
-      console.error(error);
-      listEl.innerHTML = `<p style="font-size:12px; color:#9a7a67;">Failed to load messages.</p>`;
-      return;
-    }
-
-    renderGuests(data);
-  }
-
-  // 🔹 폼 제출 → Supabase에 저장 (GUESTBOOK)
-  if (form) {
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      if (!messageInput) return;
-
-      const name = nameInput?.value.trim() || "";
-      const message = messageInput.value.trim();
-
-      if (!message) {
-        if (statusEl) statusEl.textContent = "Please write a message.";
-        return;
-      }
-
-      if (statusEl) statusEl.textContent = "Saving...";
-
-      const { data, error } = await supabase
-        .from("guestbook")
-        .insert([
-          {
-            name: name || null,
-            message,
-            pin_hash: crypto.randomUUID(),
-          },
-        ])
-        .select();
-
-      console.log("📤 insert result (guestbook):", { data, error });
-
-      if (error) {
-        console.error(error);
-        if (statusEl) statusEl.textContent = "Something went wrong. Please try again.";
-        return;
-      }
-
-      if (statusEl) statusEl.textContent = "Thank you for your message!";
-
-      if (nameInput) nameInput.value = "";
-      messageInput.value = "";
-
-      await loadGuests();
-
-      setTimeout(() => {
-        if (statusEl) statusEl.textContent = "";
-      }, 1500);
-    });
-  }
-
-    // 🌸 Hero cherry blossom petals – 안정 버전
-    (function makePetals() {
-    const container = document.getElementById("petal-layer");
-    if (!container) return;
-
-    const COUNT = 13;  // 👉 잎 개수 (원하면 12~30 선에서 조절)
-
-    const colors = [
-        ["#ffe9f2", "#ffc4d8", "#ff9cbc"],
-        ["#ffeef7", "#ffd3e4", "#ffb3cf"],
-        ["#fff3f8", "#ffd9e8", "#ffbfdc"],
-    ];
-
-    for (let i = 0; i < COUNT; i++) {
-        const p = document.createElement("div");
-        p.className = "petal";
-
-        // 가로 위치 랜덤
-        p.style.left = Math.random() * 100 + "%";
-
-        // 회전 랜덤
-        const rot = Math.random() * 360;
-        p.style.setProperty("--petal-rot", rot.toFixed(2)); // ✅ 숫자만
-
-        // 크기 – 통통한 느낌 유지하면서 약간만 랜덤
-        const scale = 0.8 + Math.random() * 0.25; // 0.8 ~ 1.05
-        p.style.setProperty("--petal-scale", scale.toString());
-
-        // 🔹 duration / delay 를 한 번에 animation에 확실히 박아버리기
-        const duration = 9 + Math.random() * 5;   // 9 ~ 14초
-        const delay = Math.random() * duration;   // 0 ~ duration
-        // 과도한 음수 delay 대신, 시작 프레임 강제 트리거용 작은 음수만 사용
-        p.style.animationDuration = duration + "s";
-        p.style.animationDelay = -delay + "s";    // -duration ~ 0 사이
-        // 혹시 브라우저가 animation-*를 무시하는 경우 대비해서 animation 전체 지정
-        p.style.animation = `petal-fall ${duration}s linear infinite`;
-        p.style.animationDelay = -delay + "s";
-
-        // 색상 랜덤
-        const [light, mid, dark] = colors[Math.floor(Math.random() * colors.length)];
-        p.style.setProperty("--petal-light", light);
-        p.style.setProperty("--petal-mid", mid);
-        p.style.setProperty("--petal-dark", dark);
-
-        container.appendChild(p);
-    }
-    })();
-
-  // 🔹 페이지 처음 로드될 때 기존 방명록 불러오기
-  loadGuests();
-
-  // ==========================
-  //        RSVP FORM
-  // ==========================
-  const rsvpForm = document.getElementById("rsvp-form");
-  const rsvpNameInput = document.getElementById("rsvp-name");
-  const rsvpEmailInput = document.getElementById("rsvp-email");
-  const rsvpGuestsInput = document.getElementById("rsvp-guests");
-  const rsvpNotesInput = document.getElementById("rsvp-notes");
-  const rsvpStatusEl = document.getElementById("rsvp-status");
-
-  if (rsvpForm) {
-    rsvpForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const name = rsvpNameInput?.value.trim() || "";
-      const email = rsvpEmailInput?.value.trim() || null;
-
-      const attendingInput = rsvpForm.querySelector(
-        'input[name="rsvp-attending"]:checked'
-      );
-      const attendingValue = attendingInput ? attendingInput.value : null;
-      const attending =
-        attendingValue === "yes"
-          ? true
-          : attendingValue === "no"
-          ? false
-          : null;
-
-      const guestsRaw = rsvpGuestsInput?.value.trim() || "";
-      const partySize = guestsRaw === "" ? null : Number(guestsRaw);
-
-      const notes = rsvpNotesInput?.value.trim() || null;
-
-      if (!name || attending === null) {
-        if (rsvpStatusEl) {
-          rsvpStatusEl.textContent =
-            "Please enter your name and select an RSVP option.";
-        }
-        return;
-      }
-
-      if (rsvpStatusEl) rsvpStatusEl.textContent = "Saving your RSVP...";
-
-      try {
         const { data, error } = await supabase
-          .from("rsvps") // ✅ 테이블 이름: rsvps
-          .insert([
-            {
-              name,
-              email,
-              attending,          // boolean
-              party_size: partySize, // int4 컬럼명과 동일해야 함
-              notes,
-            },
-          ])
-          .select();
-
-        console.log("📤 rsvps insert result:", { data, error });
+          .from("guestbook")
+          .select("id, name, message, created_at")
+          .order("created_at", { ascending: false });
 
         if (error) {
-          console.error("RSVP insert error:", error);
-          if (rsvpStatusEl) {
-            rsvpStatusEl.textContent =
-              error.message || "Something went wrong. Please try again.";
-          }
+          console.error(error);
+          listEl.innerHTML = `<p style="font-size:12px; color:#9a7a67;">Failed to load messages.</p>`;
           return;
         }
 
-        if (rsvpStatusEl) {
-          rsvpStatusEl.textContent = "Thank you for your RSVP!";
-        }
-
-        if (rsvpNameInput) rsvpNameInput.value = "";
-        if (rsvpEmailInput) rsvpEmailInput.value = "";
-        if (rsvpGuestsInput) rsvpGuestsInput.value = "";
-        if (rsvpNotesInput) rsvpNotesInput.value = "";
-        const checked = rsvpForm.querySelector(
-          'input[name="rsvp-attending"]:checked'
-        );
-        if (checked) checked.checked = false;
-
-        setTimeout(() => {
-          if (rsvpStatusEl) rsvpStatusEl.textContent = "";
-        }, 2000);
-      } catch (err) {
-        console.error("RSVP unexpected error:", err);
-        if (rsvpStatusEl) {
-          rsvpStatusEl.textContent = "Something went wrong (JS error).";
-        }
+        renderGuests(data);
       }
-    });
-  }
-</script>
+
+      // 🔹 폼 제출 → Supabase에 저장 (GUESTBOOK)
+      if (form) {
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          if (!messageInput) return;
+
+          const name = nameInput?.value.trim() || "";
+          const message = messageInput.value.trim();
+
+          if (!message) {
+            if (statusEl) statusEl.textContent = "Please write a message.";
+            return;
+          }
+
+          if (statusEl) statusEl.textContent = "Saving...";
+
+          const { data, error } = await supabase
+            .from("guestbook")
+            .insert([
+              {
+                name: name || null,
+                message,
+                pin_hash: crypto.randomUUID(),
+              },
+            ])
+            .select();
+
+          console.log("📤 insert result (guestbook):", { data, error });
+
+          if (error) {
+            console.error(error);
+            if (statusEl) statusEl.textContent = "Something went wrong. Please try again.";
+            return;
+          }
+
+          if (statusEl) statusEl.textContent = "Thank you for your message!";
+
+          if (nameInput) nameInput.value = "";
+          messageInput.value = "";
+
+          await loadGuests();
+
+          setTimeout(() => {
+            if (statusEl) statusEl.textContent = "";
+          }, 1500);
+        });
+      }
+
+        // 🌸 Hero cherry blossom petals – 안정 버전
+        (function makePetals() {
+        const container = document.getElementById("petal-layer");
+        if (!container) return;
+
+        const COUNT = 13;  // 👉 잎 개수 (원하면 12~30 선에서 조절)
+
+        const colors = [
+            ["#ffe9f2", "#ffc4d8", "#ff9cbc"],
+            ["#ffeef7", "#ffd3e4", "#ffb3cf"],
+            ["#fff3f8", "#ffd9e8", "#ffbfdc"],
+        ];
+
+        for (let i = 0; i < COUNT; i++) {
+            const p = document.createElement("div");
+            p.className = "petal";
+
+            // 가로 위치 랜덤
+            p.style.left = Math.random() * 100 + "%";
+
+            // 회전 랜덤
+            const rot = Math.random() * 360;
+            p.style.setProperty("--petal-rot", rot.toFixed(2)); // ✅ 숫자만
+
+            // 크기 – 통통한 느낌 유지하면서 약간만 랜덤
+            const scale = 0.8 + Math.random() * 0.25; // 0.8 ~ 1.05
+            p.style.setProperty("--petal-scale", scale.toString());
+
+            // 🔹 duration / delay 를 한 번에 animation에 확실히 박아버리기
+            const duration = 9 + Math.random() * 5;   // 9 ~ 14초
+            const delay = Math.random() * duration;   // 0 ~ duration
+            // 과도한 음수 delay 대신, 시작 프레임 강제 트리거용 작은 음수만 사용
+            p.style.animationDuration = duration + "s";
+            p.style.animationDelay = -delay + "s";    // -duration ~ 0 사이
+            // 혹시 브라우저가 animation-*를 무시하는 경우 대비해서 animation 전체 지정
+            p.style.animation = `petal-fall ${duration}s linear infinite`;
+            p.style.animationDelay = -delay + "s";
+
+            // 색상 랜덤
+            const [light, mid, dark] = colors[Math.floor(Math.random() * colors.length)];
+            p.style.setProperty("--petal-light", light);
+            p.style.setProperty("--petal-mid", mid);
+            p.style.setProperty("--petal-dark", dark);
+
+            container.appendChild(p);
+        }
+        })();
+
+      // 🔹 페이지 처음 로드될 때 기존 방명록 불러오기
+      loadGuests();
+
+    </script>
+
+  </div>
 </body>
 </html>
