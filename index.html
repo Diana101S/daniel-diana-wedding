@@ -1994,6 +1994,48 @@
         setInterval(updateCountdown, 1000);
       })();
     </script>
+      <script>
+  // 🌸 Hero cherry blossom petals – Supabase 없이도 동작
+   (function makePetals() {
+    const container = document.getElementById("petal-layer");
+    if (!container) return;
+
+    const COUNT = 13;
+
+    const colors = [
+      ["#ffe9f2", "#ffc4d8", "#ff9cbc"],
+      ["#ffeef7", "#ffd3e4", "#ffb3cf"],
+      ["#fff3f8", "#ffd9e8", "#ffbfdc"],
+    ];
+
+    for (let i = 0; i < COUNT; i++) {
+      const p = document.createElement("div");
+      p.className = "petal";
+
+      p.style.left = Math.random() * 100 + "%";
+
+      const rot = Math.random() * 360;
+      p.style.setProperty("--petal-rot", rot.toFixed(2));
+
+      const scale = 0.8 + Math.random() * 0.25;
+      p.style.setProperty("--petal-scale", scale.toString());
+
+      const duration = 9 + Math.random() * 5;
+      const delay = Math.random() * duration;
+
+      p.style.animation = `petal-fall ${duration}s linear infinite`;
+      p.style.animationDelay = -delay + "s";
+
+      const [light, mid, dark] = colors[Math.floor(Math.random() * colors.length)];
+      p.style.setProperty("--petal-light", light);
+      p.style.setProperty("--petal-mid", mid);
+      p.style.setProperty("--petal-dark", dark);
+
+      container.appendChild(p);
+    }
+      })();
+    </script>
+  
   </div>
 </body>
 </html>
